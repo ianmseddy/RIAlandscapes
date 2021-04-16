@@ -15,7 +15,7 @@
 	url = https://github.com/PredictiveEcology/fireSense_EscapePredict
 [submodule "modules/fireSense_EscapeFit.git"]
 	path = modules/fireSense_EscapeFit.git
-	url = https://github.com/PredictiveEcology/fireSense_EscapeFit.git
+	url = https://github.com/PredictiveEcology/fireSense_EscapeFit
 [submodule "modules/fireSense_SpreadFit"]
 	path = modules/fireSense_SpreadFit
 	url = https://github.com/PredictiveEcology/fireSense_SpreadFit.git
