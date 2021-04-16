@@ -13,9 +13,6 @@
 [submodule "modules/fireSense_EscapePredict"]
 	path = modules/fireSense_EscapePredict
 	url = https://github.com/PredictiveEcology/fireSense_EscapePredict
-[submodule "modules/fireSense_EscapeFit.git"]
-	path = modules/fireSense_EscapeFit.git
-	url = https://github.com/PredictiveEcology/fireSense_EscapeFit
 [submodule "modules/fireSense_SpreadFit"]
 	path = modules/fireSense_SpreadFit
 	url = https://github.com/PredictiveEcology/fireSense_SpreadFit.git
@@ -40,3 +37,6 @@
 [submodule "modules/PSP_Clean"]
 	path = modules/PSP_Clean
 	url = https://github.com/ianmseddy/PSP_Clean
+[submodule "modules/fireSense_EscapeFit"]
+	path = modules/fireSense_EscapeFit
+	url = https://github.com/PredictiveEcology/fireSense_EscapeFit
