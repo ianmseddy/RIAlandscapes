@@ -37,3 +37,6 @@
 [submodule "modules/PSP_Clean"]
 	path = modules/PSP_Clean
 	url = https://github.com/ianmseddy/PSP_Clean
+[submodule "modules/fireSense_EscapeFit"]
+	path = modules/fireSense_EscapeFit
+	url = https://github.com/PredictiveEcology/fireSense_EscapeFit
