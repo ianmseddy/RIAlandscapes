@@ -19,9 +19,7 @@ if (FALSE) {
 }
 
 switch(Sys.info()[["user"]],
-       "username1" = Sys.setenv(R_CONFIG_ACTIVE = "user1"),
-       "username2" = Sys.setenv(R_CONFIG_ACTIVE = "user2"),
-       "username3" = Sys.setenv(R_CONFIG_ACTIVE = "user3"),
+       "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify

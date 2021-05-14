@@ -40,3 +40,6 @@
 [submodule "modules/fireSense_EscapeFit"]
 	path = modules/fireSense_EscapeFit
 	url = https://github.com/PredictiveEcology/fireSense_EscapeFit
+[submodule "modules/RIAlandscapes_studyArea"]
+	path = modules/RIAlandscapes_studyArea
+	url = git@github.com:ianmseddy/RIAlandscapes_studyArea.git
