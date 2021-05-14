@@ -1,4 +1,4 @@
-Require(c("data.table", "plyr", "pryr") ## ensure plyr loaded before dplyr or there will be problems
+Require(c("data.table", "plyr", "pryr")) ## ensure plyr loaded before dplyr or there will be problems
 
 Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.4)")
 Require(c("PredictiveEcology/SpaDES.core@development (>=1.0.6.9023)"),

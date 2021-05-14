@@ -11,7 +11,7 @@
 *_cache/
 /cache/
 cache/
-  
+
   # Temporary files created by R markdown
   *.utf8.md
 *.knit.md
@@ -20,3 +20,4 @@ cache/
 .Renviron
 /outputs
 inputs/
+packages/

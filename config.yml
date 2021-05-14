@@ -1,12 +1,21 @@
 default:
-  batchmode: false
   cachedb: "sqlite"
   googleuser: ""
+  plot: true
+  useprerun: false
+  slackchannel: ""
+  batchmode: false
+  cacheformat: "qs"
+  usecloud: false
+  codechecks: true
+  mapresfact: 1
+  messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
-    scratchdir: "/tmp/scratch"
-  plot: true
-  slackchannel: ""
+    scratchdir: "/tmp/scratch/RIAlandscapes"
+  reproduciblealgorithm: 1
+  usememoise: false
+  userequire: true
 
 production:
   batchmode: true
@@ -20,5 +29,6 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
+  studyarea: "BC" #Yukon
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'

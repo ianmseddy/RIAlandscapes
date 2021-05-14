@@ -6,9 +6,10 @@ newGoogleIDs <- gdriveSims[["simOutPreamble"]] == ""
 preambleObjects <- list()
 
 preambleParams <- list(
-  YOUR_MODULE_NAME = list( ## TODO: use your module name
+  "RIAlandscapes_studyArea" = list( ## TODO: use your module name
     ".useCache" = TRUE,
     "historicalFireYears" = 1991:2019,
+    "projectedFireYears" = 2011:2100,
     "studyAreaName" = studyAreaName
   )
 )
@@ -23,12 +24,12 @@ if (isTRUE(usePrerun)) {
   simOutPreamble <- Cache(simInitAndSpades,
                           times = list(start = 0, end = 1),
                           params = preambleParams,
-                          modules = c("YOUR_MODULE_NAME"), ## TODO: use your module name
+                          modules = c("RIAlandscapes_studyArea"), ## TODO: use your module name
                           objects = preambleObjects,
                           paths = preamblePaths,
                           #useCloud = useCloudCache,
                           #cloudFolderID = cloudCacheFolderID,
-                          userTags = c("YOUR_MODULE_NAME", studyAreaName) ## TODO: use your module name
+                          userTags = c("RIAlandscapes_studyArea", studyAreaName) ## TODO: use your module name
   )
   saveSimList(
     sim = simOutPreamble,
