@@ -6,3 +6,4 @@ Require(c("PredictiveEcology/SpaDES.core@development (>=1.0.6.9023)"),
 Require("PredictiveEcology/SpaDES.project", require = FALSE, which = c("Suggests", "Imports", "Depends"))
 
 Require("jimhester/archive", upgrade = FALSE)
+Require(c("RCurl", "fasterize", "gdalUtils", "raster", "sf", "data.table", "magrittr"), upgrade = FALSE)

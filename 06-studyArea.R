@@ -24,12 +24,12 @@ if (isTRUE(usePrerun)) {
   simOutPreamble <- Cache(simInitAndSpades,
                           times = list(start = 0, end = 1),
                           params = preambleParams,
-                          modules = c("RIAlandscapes_studyArea"), ## TODO: use your module name
+                          modules = c("RIAlandscapes_studyArea"),
                           objects = preambleObjects,
                           paths = preamblePaths,
                           #useCloud = useCloudCache,
                           #cloudFolderID = cloudCacheFolderID,
-                          userTags = c("RIAlandscapes_studyArea", studyAreaName) ## TODO: use your module name
+                          userTags = c("RIAlandscapes_studyArea", studyAreaName)
   )
   saveSimList(
     sim = simOutPreamble,
