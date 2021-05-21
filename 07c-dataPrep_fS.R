@@ -7,6 +7,9 @@ fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
     "fireYears" = 2001:2019, # this will be fixed to post kNN only
+    "missingLCCgroup" = "nonForest_highFlam",
+    "forestedLCC" = c(1:6), #temperate/subpolar/tropical conifer, temperate/tropical deciduous, mixed
+    "nonflammableLCC" = c(13, 16, 17, 18, 19),
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     ".useCache" = ".inputObjects",
@@ -14,11 +17,18 @@ fSdataPrepParams <- list(
   )
 )
 
-simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
+flammableMap <- LandR::defineFlammable(LandCoverClassifiedMap = simOutPreamble$rstLCC2010,
+                                       nonFlammClasses = c(13, 16, 17, 18, 19),
+                                       mask = simOutPreamble$rasterToMatchLarge)
+
+# simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
+  "flammableRTM" = flammableMap,
   "cohortData2001" = biomassMaps2001[["cohortData"]],
   "cohortData2011" = biomassMaps2011[["cohortData"]],
   "historicalClimateRasters" = simOutPreamble[["historicalClimateRasters"]],
+  "nonForestedLCCGroups" = list("nonForest_highFlam" = c(8, 10, 14),#shrubland, grassland, wetland
+                                "nonForest_lowFlam" = c(11, 12, 15)), #shrub-lichen-moss + cropland. 2 barren classes are nonflam
   "pixelGroupMap2001" = biomassMaps2001[["pixelGroupMap"]],
   "pixelGroupMap2011" = biomassMaps2011[["pixelGroupMap"]],
   "rasterToMatch" = simOutPreamble[["rasterToMatch"]], #this needs to be masked

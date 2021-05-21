@@ -27,8 +27,8 @@ if (isTRUE(usePrerun)) {
                           modules = c("RIAlandscapes_studyArea"),
                           objects = preambleObjects,
                           paths = preamblePaths,
-                          #useCloud = useCloudCache,
-                          #cloudFolderID = cloudCacheFolderID,
+                          useCloud = useCloudCache,
+                          cloudFolderID = cloudCacheFolderID,
                           userTags = c("RIAlandscapes_studyArea", studyAreaName)
   )
   saveSimList(

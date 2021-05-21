@@ -6,25 +6,35 @@ newGoogleIDs <- gdriveSims[["biomassMaps2001"]] == ""
 
 dataPrep <- list(
   subsetDataBiomassModel = 50,
-  pixelGroupAgeClass = 20,
+  pixelGroupAgeClass = 10,
   successionTimeStep = 10,
   useCache = TRUE
 )
 
+RIASppUpdate <- function(sT) {
+  sT[species == "Abie_las", longevity := 300]
+  sT[species == "Betu_pap", longevity := 150]
+  sT[, shadetolerance := as.numeric(shadetolerance)]
+  sT[species == 'Pice_eng', shadetolerance := 2.5]
+  sT[species == 'Pice_mar', shadetolerance := 2.5]
+  return(sT)
+}
+
+
 dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
-    # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
-                                        (logAge + cover | ecoregionGroup))),
-    "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
+                                     (logAge + cover | ecoregionGroup))),
     "exportModels" = "all",
-    "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
-    "LCCClassesToReplaceNN" = 34:35,
+    "forestedLCCClasses" = c(1:6, 99),
+    "LCCClassesToReplaceNN" =  c(99), #due to a bug, you need a dummy class, or at least did...
     "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
     "speciesUpdateFunction" = list(
       quote(LandR::speciesTableUpdate(sim$species, sim$speciesTable, sim$sppEquiv, P(sim)$sppEquivCol)),
-      quote(LandR::updateSpeciesTable(sim$species, sim$speciesParams))
+      quote(LandR::updateSpeciesTable(sim$species, sim$speciesParams)),
+      quote(RIASppUpdate(sT = sim$species))
     ),
+    "pixelGroupBiomassClass" = 500, #this is 5 Mg/ha
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
     "useCloudCacheForStats" = useCloudCache,
@@ -34,7 +44,46 @@ dataPrepParams2001 <- list(
   Biomass_speciesData = list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     ".studyAreaName" = paste0(studyAreaName, 2001)
-  )
+  ),
+  Biomass_speciesParameters = list(
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    " useHeight" = FALSE,
+    "GAMMknots" = list(
+      "Abie_las" = 3,
+      "Betu_pap" = 3,
+      "Pice_eng" = 4,
+      "Pice_gla" = 3,
+      "Pice_mar" = 4,
+      "Pinu_con" = 4,
+      "Popu_tre" = 4
+    ),
+    constrainGrowthCurve = list(
+      "Abie_las" = c(0.3, .7),
+      "Betu_pap" = c(0, 0.3),
+      "Pice_eng" = c(0.3, .7),
+      "Pice_gla" = c(0.3, .7),
+      "Pice_mar" = c(0.4, 1),
+      "Pinu_con" = c(0.3, .7),
+      "Popu_tre" = c(0.4, 1)
+    ),
+    constrainMortalityShape = list(
+      "Abie_las" = c(15, 25),
+      "Betu_pap" = c(15, 20),
+      "Pice_eng" = c(15, 25),
+      "Pice_gla" = c(15, 25),
+      "Pice_mar" = c(15, 25),
+      "Pinu_con" = c(15, 25),
+      "Popu_tre" = c(20, 25)
+    ),
+    quantileAgeSubset = list(
+      "Abie_las" = 95, #N = 250 ''
+      "Betu_pap" = 95, #N = 96
+      "Pice_eng" = 95, #N = 130
+      "Pice_gla" = 95, #N = 1849
+      "Pice_mar" = 95, #N = 785
+      "Pinu_con" = 97, # N = 3172
+      "Popu_tre" = 99 # N = 1997
+    ))
 )
 
 dataPrepOutputs2001 <- data.frame(
@@ -52,8 +101,10 @@ dataPrepOutputs2001 <- data.frame(
                   "rawBiomassMap2001_borealDataPrep.rds"))
 )
 
-dataPrepObjects <- list("rasterToMatch" = simOutPreamble$rasterToMatch,
+dataPrepObjects <- list("ecoregionRst" = simOutPreamble$ecoregionRst,
+                        "rasterToMatch" = simOutPreamble$rasterToMatch,
                         "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
+                        "rstLCC" = simOutPreamble$rstLCC2010,
                         "sppColorVect" = simOutPreamble$sppColorVect,
                         "sppEquiv" = simOutPreamble$sppEquiv,
                         "studyArea" = simOutPreamble$studyArea,
@@ -71,11 +122,13 @@ if (isTRUE(usePrerun)) {
     simInitAndSpades,
     times = list(start = 2001, end = 2001),
     params = dataPrepParams2001,
-    modules = list("Biomass_speciesData", "Biomass_borealDataPrep"), ## TODO: separate to use different caches
+    modules = list("PSP_Clean", "Biomass_speciesData",
+                   "Biomass_borealDataPrep", "Biomass_speciesParameters"), ## TODO: separate to use different caches
     objects = dataPrepObjects,
     paths = getPaths(),
-    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
-    # outputs = dataPrepOutputs2001,
+    loadOrder = c("PSP_Clean", "Biomass_speciesData",
+                     "Biomass_borealDataPrep", "Biomass_speciesParameters"),
+    outputs = dataPrepOutputs2001,
     .plots = NA,
     useCloud = useCloudCache,
     cloudFolderID = cloudCacheFolderID,
@@ -84,7 +137,7 @@ if (isTRUE(usePrerun)) {
   saveSimList(
     sim = biomassMaps2001,
     filename = fbiomassMaps2001,
-    #filebackedDir = dbiomassMaps2001,
+    # filebackedDir = dbiomassMaps2001,
     fileBackend = 2
   )
   if (isTRUE(newGoogleIDs)) {
