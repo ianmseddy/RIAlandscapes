@@ -44,6 +44,7 @@ if (isTRUE(usePrerun)) {
                      "Biomass_borealDataPrep", "Biomass_speciesParameters"),
     clearSimEnv = TRUE,
     # outputs = dataPrepOutputs2011,
+    useCache = 'overwrite',
     .plots = "png",
     useCloud = useCloudCache,
     cloudFolderID = cloudCacheFolderID,

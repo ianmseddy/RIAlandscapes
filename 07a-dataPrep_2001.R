@@ -17,6 +17,10 @@ RIASppUpdate <- function(sT) {
   sT[, shadetolerance := as.numeric(shadetolerance)]
   sT[species == 'Pice_eng', shadetolerance := 2.5]
   sT[species == 'Pice_mar', shadetolerance := 2.5]
+  sT[species == "Pice_mar", longevity := 200]
+  sT[species == "Pice_gla", longevity := 250]
+  sT[species == "Pinu_con", longevity := 300]
+  sT[species == "Pice_eng", longevity := 300 ]
   return(sT)
 }
 
@@ -26,8 +30,8 @@ dataPrepParams2001 <- list(
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
                                      (logAge + cover | ecoregionGroup))),
     "exportModels" = "all",
-    "forestedLCCClasses" = c(1:6, 99),
-    "LCCClassesToReplaceNN" =  c(99), #due to a bug, you need a dummy class, or at least did...
+    "forestedLCCClasses" = c(1:6),
+    "LCCClassesToReplaceNN" = numeric(0),
     "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
     "speciesUpdateFunction" = list(
       quote(LandR::speciesTableUpdate(sim$species, sim$speciesTable, sim$sppEquiv, P(sim)$sppEquivCol)),
@@ -57,23 +61,16 @@ dataPrepParams2001 <- list(
       "Pinu_con" = 4,
       "Popu_tre" = 4
     ),
-    constrainGrowthCurve = list(
-      "Abie_las" = c(0.3, .7),
-      "Betu_pap" = c(0, 0.3),
-      "Pice_eng" = c(0.3, .7),
-      "Pice_gla" = c(0.3, .7),
-      "Pice_mar" = c(0.4, 1),
-      "Pinu_con" = c(0.3, .7),
-      "Popu_tre" = c(0.4, 1)
-    ),
+    constrainMaxANPP = c(3.0, 4.0),
+    constrainGrowthCurve = c(0, 1),
     constrainMortalityShape = list(
-      "Abie_las" = c(15, 25),
-      "Betu_pap" = c(15, 20),
-      "Pice_eng" = c(15, 25),
-      "Pice_gla" = c(15, 25),
-      "Pice_mar" = c(15, 25),
-      "Pinu_con" = c(15, 25),
-      "Popu_tre" = c(20, 25)
+      "Abie_las" = c(13, 25),
+      "Betu_pap" = c(13, 25),
+      "Pice_eng" = c(13, 25),
+      "Pice_gla" = c(13, 25),
+      "Pice_mar" = c(13, 25),
+      "Pinu_con" = c(13, 25),
+      "Popu_tre" = c(13, 25) #changed from 20,25
     ),
     quantileAgeSubset = list(
       "Abie_las" = 95, #N = 250 ''
