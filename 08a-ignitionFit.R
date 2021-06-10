@@ -27,7 +27,8 @@ ignitionFitParams <- list(
 )
 
 ignitionFitObjects <- list(
-  fireSense_ignitionCovariates = fSsimDataPrep[["fireSense_ignitionCovariates"]]"
+  fireSense_ignitionCovariates = fSsimDataPrep[["fireSense_ignitionCovariates"]],
+  ignitionFitRTM = fSsimDataPrep[["ignitionFitRTM"]]
 )
 
 fignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
@@ -67,3 +68,4 @@ if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     channel = config::get("slackchannel"), preformatted = FALSE
   )
 }
+

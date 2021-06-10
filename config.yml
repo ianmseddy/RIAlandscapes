@@ -2,7 +2,7 @@ default:
   cachedb: "sqlite"
   googleuser: ""
   plot: true
-  useprerun: false
+  useprerun: true
   slackchannel: ""
   batchmode: false
   cacheformat: "qs"

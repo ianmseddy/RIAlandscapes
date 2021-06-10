@@ -15,7 +15,7 @@ gdriveSims <- switch(
     biomassMaps2001 = "",
     biomassMaps2011 = "",
     fSsimDataPrep = "",
-    ignitionOut = "",
+    ignitionOut = "1_SpyfSzTPd70phPlJhr1dclgg2qw4MWT",
     escapeOut = "",
     spreadOut = ""
   ),
