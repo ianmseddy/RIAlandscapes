@@ -3,6 +3,11 @@ do.call(setPaths, spreadFitPaths)
 source("05-google-ids.R")
 newGoogleIDs <- gdriveSims[["spreadOut"]] == ""
 
+fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]] <- as.data.table(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
+fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[2]] <- as.data.table(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[2]])
+fSsimDataPrep$fireSense_annualSpreadFitCovariates <- lapply(fSsimDataPrep$fireSense_annualSpreadFitCovariates, as.data.table)
+fSsimDataPrep$fireBufferedListDT <- lapply(fSsimDataPrep$fireBufferedListDT, as.data.table)
+
 extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
