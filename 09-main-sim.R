@@ -1,6 +1,6 @@
 do.call(setPaths, dynamicPaths)
 
-times <- list(start = 2011, end = 2061)
+times <- list(start = 2011, end = 2101)
 
 dynamicModules <- list("fireSense_dataPrepPredict",
                        "fireSense",
@@ -9,6 +9,15 @@ dynamicModules <- list("fireSense_dataPrepPredict",
                        "fireSense_SpreadPredict",
                        "Biomass_core",
                        "Biomass_regeneration")
+
+source("sourceClimateData.R")
+
+GCM <- "INM-CM4" #for now, this should come from config?
+RCP <- "RCP4.5" #for now, this should come from config?
+projectedMDC <- sourceClimDataWholeRIA(model = GCM, scenario = RCP, forFireSense = TRUE)
+
+#get LandRCS data
+climData <- sourceClimDataWhoelRIA(model = "")
 
 dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap,
@@ -23,14 +32,13 @@ dynamicObjects <- list(
   covMinMax_spread = spreadOut[["covMinMax_spread"]],
   covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   landcoverDT = fSsimDataPrep[["landcoverDT"]],
-  nonForest_timeSinceDisturbance2001 = fSsimDataPrep[["nonForest_timeSinceDisturbance2001"]],
+  nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
-  projectedClimateLayers = simOutPreamble[["projectedClimateRasters"]],
+  projectedClimateLayers = projectedMDC,
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
-  rescaleFactor = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2,
   species = as.data.table(biomassMaps2011[["species"]]),
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
