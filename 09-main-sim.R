@@ -82,7 +82,7 @@ dynamicParams <- list(
     gmcsGrowthLimits = c(33, 150),
     gmcsMortLimits = c(33, 300),
     plotOverstory = FALSE,
-    growthAndMortalityDriver = config::get('gmcsdriver'),
+    growthAndMortalityDrivers = config::get('gmcsdriver'),
     keepClimateCols = TRUE,
     minCohortBiomass = 5,
     .plotInitialTime = NA,

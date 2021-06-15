@@ -44,7 +44,7 @@ opts <- options(
   "spades.messagingNumCharsModule" = messagingNumCharsModule,
   "spades.moduleCodeChecks" = codeChecks,
   "spades.nThreads" = 4,
-  "spades.recoveryMode" = FALSE,
+  "spades.recoveryMode" = TRUE,
   "spades.restartR.restartDir" = defaultPaths[["outputPath"]],
   "spades.useRequire" = useRequire
 )
