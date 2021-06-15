@@ -1,25 +1,46 @@
 do.call(setPaths, dynamicPaths)
+runName <- paste0(config::get("studyarea"), config::get("replicate"))
 
 times <- list(start = 2011, end = 2101)
 
-dynamicModules <- list("fireSense_dataPrepPredict",
-                       "fireSense",
-                       "fireSense_IgnitionPredict",
-                       "fireSense_EscapePredict",
-                       "fireSense_SpreadPredict",
-                       "Biomass_core",
-                       "Biomass_regeneration")
+dynamicModules <- list(
+  "gmcsDataPrep",
+  "fireSense_dataPrepPredict",
+  "fireSense",
+  "fireSense_IgnitionPredict",
+  "fireSense_EscapePredict",
+  "fireSense_SpreadPredict",
+  "Biomass_core",
+  "Biomass_regeneration")
 
+
+#####get climate data#####
 source("sourceClimateData.R")
 
-GCM <- "INM-CM4" #for now, this should come from config?
-RCP <- "RCP4.5" #for now, this should come from config?
-projectedMDC <- sourceClimDataWholeRIA(model = GCM, scenario = RCP, forFireSense = TRUE)
+GCM <- config::get("gcm")
+RCP <- config::get("rcp")
+
+projectedMDC <- sourceClimDataWholeRIA(model = GCM,
+                                       scenario = RCP,
+                                       sa = simOutPreamble$studyArea,
+                                       rtm = simOutPreamble$rasterToMatch,
+                                       forFireSense = TRUE)
 
 #get LandRCS data
-climData <- sourceClimDataWhoelRIA(model = "")
+climData <- sourceClimDataWholeRIA(model = GCM,
+                                   scenario = RCP,
+                                   sa = simOutPreamble$studyArea,
+                                   rtm = simOutPreamble$rasterToMatch,
+                                   forFireSense = FALSE)
 
 dynamicObjects <- list(
+  studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
+  ATAstack = climData[["ATAstack"]],
+  CMIstack = climData[["CMIstack"]],
+  CMInormal = climData[["CMInormal"]],
+  PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
+  PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
+  PSPgis = biomassMaps2011[["PSPgis"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
   cohortData = fSsimDataPrep[["cohortData2011"]],
@@ -56,7 +77,15 @@ dynamicParams <- list(
   Biomass_core = list(
     'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
-    .plotInitialTime = NA
+    'sppEquivCol' = "RIA",
+    gmcsGrowthLimits = c(33, 150),
+    gmcsMortLimits = c(33, 300),
+    plotOverstory = FALSE,
+    growthAndMortalityDriver = config::get('gmcsdriver'),
+    keepClimateCols = TRUE,
+    minCohortBiomass = 5,
+    .plotInitialTime = NA,
+    .plotInterval = 10
   ),
   Biomass_regeneration = list(
     "fireInitialTime" = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
@@ -75,8 +104,26 @@ dynamicParams <- list(
     ".plotInterval" = NA,
     ".plotInitialTime" = NA,
     "plotIgnitions" = FALSE
+  ),
+  gmcsDataPrep = list(
+    useHeight = TRUE
   )
 )
+
+outputObjs = c('cohortData',
+               'pixelGroupMap',
+               'burnMap')
+saveTimes <- rep(seq(times$start, times$end, 10))
+dynamicOutputs = data.frame(objectName = rep(outputObjs, times = length(saveTimes)),
+                     saveTime = rep(saveTimes, each = length(outputObjs)),
+                     eventPriority = 10)
+#contains info on leading spp, only need once
+dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = c('summaryBySpecies'), saveTime = times$end, eventPriority = 10))
+#contains results by ecoregion (not that important with no BECs..)
+dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutput', saveTime = times$end, eventPriority = 10))
+
+
+
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 
@@ -98,7 +145,7 @@ saveSimList(
 )
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 
-resultsDir <- file.path("outputs", runName)
+resultsDir <- file.path(dynamicPaths$outputPath, runName)
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
 utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
 retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), as_id(gdriveSims[["results"]]), overwrite = TRUE)),

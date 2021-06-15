@@ -27,3 +27,11 @@ spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit")
 ## main (dynamic) simulation
 dynamicPaths <-  defaultPaths
 dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
+
+#will need to rethink how to set up nonLandR runs
+dynamicPaths$outputPath <- file.path("outputs", "sims",
+                                     config::get("studyarea"),
+                                     config::get("gcm"),
+                                     config::get("rcp"),
+                                     paste0(config::get("studyarea"), config::get("replicate")))
+#redundant study area so dir begins with letter

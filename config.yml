@@ -30,5 +30,9 @@ ian:
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
   studyarea: "BC" #Yukon
+  gcm: "INM-CM4"
+  rcp: "RCP4.5"
+  replicate: 1
+  gmcsdriver: "LandR.CS"
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
