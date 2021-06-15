@@ -43,8 +43,8 @@ dynamicObjects <- list(
   PSPgis = biomassMaps2011[["PSPgis"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
-  cohortData = fSsimDataPrep[["cohortData2011"]],
-  ecoregion = biomassMaps2011[["ecoregion"]],
+  cohortData = as.data.table(fSsimDataPrep[["cohortData2011"]]),
+  ecoregion = as.data.table(biomassMaps2011[["ecoregion"]]),
   ecoregionMap = biomassMaps2011[["ecoregionMap"]],
   flammableRTM = fSsimDataPrep[["flammableRTM"]],
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
@@ -52,7 +52,7 @@ dynamicObjects <- list(
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
   covMinMax_spread = spreadOut[["covMinMax_spread"]],
   covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
-  landcoverDT = fSsimDataPrep[["landcoverDT"]],
+  landcoverDT = as.data.table(fSsimDataPrep[["landcoverDT"]]),
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
@@ -63,13 +63,13 @@ dynamicObjects <- list(
   species = as.data.table(biomassMaps2011[["species"]]),
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
-  sppColorVect = biomassMaps2011[["sppColorVect"]],
-  sppEquiv = fSsimDataPrep[["sppEquiv"]], ## biomassMaps2011 needs bugfix to qs
+  sppColorVect = simOutPreamble[["sppColorVect"]],
+  sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## biomassMaps2011 needs bugfix to qs
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
-  studyAreaReporting = biomassMaps2011[["studyAreaReporting"]],
+  studyAreaReporting = biomassMaps2011[["studyArea"]],
   sufficientLight = as.data.frame(biomassMaps2011[["sufficientLight"]]), ## biomassMaps2011 needs bugfix to qs
-  terrainDT = fSsimDataPrep[["terrainDT"]],
+  terrainDT = as.data.table(fSsimDataPrep[["terrainDT"]]),
   vegComponentsToUse = fSsimDataPrep[["vegComponentsToUse"]]
 )
 

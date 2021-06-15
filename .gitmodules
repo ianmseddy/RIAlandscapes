@@ -43,3 +43,9 @@
 [submodule "modules/RIAlandscapes_studyArea"]
 	path = modules/RIAlandscapes_studyArea
 	url = git@github.com:ianmseddy/RIAlandscapes_studyArea.git
+[submodule "modules/fireSense"]
+	path = modules/fireSense
+	url = git@github.com:PredictiveEcology/fireSense.git
+[submodule "modules/fireSense_SpreadPredict"]
+	path = modules/fireSense_SpreadPredict
+	url = git@github.com:PredictiveEcology/fireSense_SpreadPredict.git
