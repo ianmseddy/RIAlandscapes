@@ -25,6 +25,7 @@ projectedMDC <- sourceClimDataWholeRIA(model = GCM,
                                        sa = simOutPreamble$studyArea,
                                        rtm = simOutPreamble$rasterToMatch,
                                        forFireSense = TRUE)
+names(projectedMDC) <- paste0("year", 2011:2100)
 
 #get LandRCS data
 climData <- sourceClimDataWholeRIA(model = GCM,
@@ -50,20 +51,20 @@ dynamicObjects <- list(
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
-  covMinMax_spread = spreadOut[["covMinMax_spread"]],
-  covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
+  covMinMax_spread = as.data.table(spreadOut[["covMinMax_spread"]]),
+  covMinMax_ignition = as.data.table(ignitionOut[["covMinMax_ignition"]]),
   landcoverDT = as.data.table(fSsimDataPrep[["landcoverDT"]]),
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
-  projectedClimateLayers = projectedMDC,
+  projectedClimateLayers = list("MDC" = projectedMDC),
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
   species = as.data.table(biomassMaps2011[["species"]]),
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
-  sppColorVect = simOutPreamble[["sppColorVect"]],
+  sppColorVect = simOutPreamble[["sppColors"]],
   sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## biomassMaps2011 needs bugfix to qs
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
