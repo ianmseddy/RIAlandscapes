@@ -49,21 +49,7 @@ sourceClimDataWholeRIA <- function(scenario, model = 'CCSM4', forFireSense = FAL
       }
 
     } else if (model == "INM-CM4") {
-      if (scenario == "RCP8.5") {
-        # ATAstack <- prepInputs(url = "https://drive.google.com/file/d/14ZtIzThyinEX-DayV_NQV3Q4TlVKtXU8/view?usp=sharing",
-        #                        targetFile = 'Yukon_1ArcMinute_CCSM4_RCP85_ATA2011-2100.grd',
-        #                        alsoExtract = 'Yukon_1ArcMinute_CCSM4_RCP85_ATA2011-2100.gri',
-        #                        destinationPath = path,
-        #                        filename2 = 'inputs/Yukon/Yukon_1ArcMinute_CCSM4_RCP85_ATA2011-2100.grd',
-        #                        fun = 'raster::brick')
-        # CMIstack <- prepInputs(url = 'https://drive.google.com/file/d/14ZtIzThyinEX-DayV_NQV3Q4TlVKtXU8/view?usp=sharing',
-        #                        targetFile = 'Yukon_1ArcMinute_CCSM4_RCP85_CMI2011-2100.grd',
-        #                        alsoExtract = 'Yukon_1ArcMinute_CCSM4_RCP85_CMI2011-2100.gri',
-        #                        destinationPath = path,
-        #                        filename2 = 'inputs/Yukon/Yukon_1ArcMinute_CCSM4_RCP85_CMI2011-2100.grd',
-        #                        fun = 'raster::brick') #get the high quality stuff
-
-      } else if (scenario == "RCP4.5") {
+     if (scenario == "RCP4.5") {
         ATAstack <- prepInputs(url = "https://drive.google.com/file/d/1bsevS1FHLXeLE6UrLDH5X1PqVY8S5Skz/view?usp=sharing",
                                targetFile = 'wholeRIA_1ArcMin_INM-CM4_RCP45_ATA2011-2100.grd',
                                alsoExtract = 'wholeRIA_1ArcMin_INM-CM4_RCP45_ATA2011-2100.gri',
@@ -78,8 +64,22 @@ sourceClimDataWholeRIA <- function(scenario, model = 'CCSM4', forFireSense = FAL
                                filename2 = 'inputs/wholeRIA_1ArcMin_INM-CM4_RCP45_CMI2011-2100.grd',
                                useCache = useCache,
                                fun = 'raster::stack') #get the high quality stuff
-      }
-
+     } else {
+       ATAstack <- prepInputs(url = "https://drive.google.com/file/d/14XcPQ6B0em-yKRbRkac15shKwKIGtkQU/view?usp=sharing",
+                              targetFile = 'wholeRIA_INM-CM4_RCP85_ATA2011-2100.grd',
+                              alsoExtract = 'wholeRIA_INM-CM4_RCP85_ATA2011-2100.gri',
+                              useCache = useCache,
+                              destinationPath = path,
+                              filename2 = 'inputs/wholeRIA_1ArcMin_INM-CM4_RCP85_ATA2011-2100.grd',
+                              fun = 'raster::stack')
+       CMIstack <- prepInputs(url = 'https://drive.google.com/file/d/14XcPQ6B0em-yKRbRkac15shKwKIGtkQU/view?usp=sharing',
+                              targetFile = 'wholeRIA_INM-CM4_RCP85_CMI2011-2100.grd',
+                              alsoExtract = 'wholeRIA_INM-CM4_RCP85_CMI2011-2100.gri',
+                              destinationPath = path,
+                              filename2 = 'inputs/wholeRIA_1ArcMin_INM-CM4_RCP85_CMI2011-2100.grd',
+                              useCache = useCache,
+                              fun = 'raster::stack') #get the high quality stuff
+     }
     } else if (model == 'CanESM2') {
 
       if (scenario == "RCP4.5") {
