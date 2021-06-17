@@ -13,32 +13,11 @@ dynamicModules <- list(
   "Biomass_core",
   "Biomass_regeneration")
 
-
-#####get climate data#####
-source("sourceClimateData.R")
-
-GCM <- config::get("gcm")
-RCP <- config::get("rcp")
-
-projectedMDC <- sourceClimDataWholeRIA(model = GCM,
-                                       scenario = RCP,
-                                       sa = simOutPreamble$studyArea,
-                                       rtm = simOutPreamble$rasterToMatch,
-                                       forFireSense = TRUE)
-names(projectedMDC) <- paste0("year", 2011:2100)
-
-#get LandRCS data
-climData <- sourceClimDataWholeRIA(model = GCM,
-                                   scenario = RCP,
-                                   sa = simOutPreamble$studyArea,
-                                   rtm = simOutPreamble$rasterToMatch,
-                                   forFireSense = FALSE)
-
 dynamicObjects <- list(
   studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
-  ATAstack = climData[["ATAstack"]],
-  CMIstack = climData[["CMIstack"]],
-  CMInormal = climData[["CMInormal"]],
+  ATAstack = simOutPreamble[["ATAstack"]],
+  CMIstack = simOutPreamble[["CMIstack"]],
+  CMInormal = simOutPreamble[["CMInormal"]],
   PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
   PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
   PSPgis = biomassMaps2011[["PSPgis"]],
@@ -58,7 +37,7 @@ dynamicObjects <- list(
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
-  projectedClimateLayers = list("MDC" = projectedMDC),
+  projectedClimateRasters = simOutPreamble[["projectedClimateRasters"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
   species = as.data.table(biomassMaps2011[["species"]]),
