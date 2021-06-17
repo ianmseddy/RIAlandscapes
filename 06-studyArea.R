@@ -10,36 +10,24 @@ preambleParams <- list(
     ".useCache" = TRUE,
     "historicalFireYears" = 1991:2019,
     "projectedFireYears" = 2011:2100,
-    "studyAreaName" = studyAreaName
+    "studyAreaName" = studyAreaName,
+    "GCM" = config::get("gcm"),
+    "RCP" = config::get("rcp")
   )
 )
 
 fsimOutPreamble <- file.path(Paths$outputPath, paste0("simOutPreamble_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
-  if (!file.exists(fsimOutPreamble)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["simOutPreamble"]]), path = fsimOutPreamble)
-  }
-  simOutPreamble <- loadSimList(fsimOutPreamble)
-} else {
-  simOutPreamble <- Cache(simInitAndSpades,
-                          times = list(start = 0, end = 1),
-                          params = preambleParams,
-                          modules = c("RIAlandscapes_studyArea"),
-                          objects = preambleObjects,
-                          paths = preamblePaths,
-                          useCloud = useCloudCache,
-                          cloudFolderID = cloudCacheFolderID,
-                          userTags = c("RIAlandscapes_studyArea", studyAreaName)
-  )
-  saveSimList(
-    sim = simOutPreamble,
-    filename = fsimOutPreamble,
-    #filebackedDir = dsimOutPreamble,
-    fileBackend = 2 ## 0 = no change; 1 = copy rasters to fileBackedDir; 2 = rasters to memory
-  )
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["simOutPreamble"]]), media = fsimOutPreamble)
-  }
-}
+
+simOutPreamble <- Cache(simInitAndSpades,
+                        times = list(start = 0, end = 1),
+                        params = preambleParams,
+                        modules = c("RIAlandscapes_studyArea"),
+                        objects = preambleObjects,
+                        paths = preamblePaths,
+                        useCache = 'overwrite',
+                        useCloud = useCloudCache,
+                        cloudFolderID = cloudCacheFolderID,
+                        userTags = c("RIAlandscapes_studyArea", studyAreaName)
+)
+
+#no point saving the simList when the climate runs will alll be different..
