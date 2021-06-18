@@ -1,6 +1,11 @@
 do.call(setPaths, dynamicPaths)
 runName <- paste0(config::get("studyarea"), config::get("replicate"))
 
+#clean up some problems
+names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
+names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
+names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
+
 times <- list(start = 2011, end = 2101)
 
 dynamicModules <- list(
@@ -37,7 +42,7 @@ dynamicObjects <- list(
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
-  projectedClimateRasters = simOutPreamble[["projectedClimateRasters"]],
+  projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
   species = as.data.table(biomassMaps2011[["species"]]),
