@@ -28,10 +28,16 @@ spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit")
 dynamicPaths <-  defaultPaths
 dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
 
-#will need to rethink how to set up nonLandR runs
+rcpNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("rcp"))
+
+#will need to rethink how to set up nonLandR runs -
+#this approach cannot rely on nested directories, because the tarball only gets the final name
 dynamicPaths$outputPath <- file.path("outputs", "sims",
                                      config::get("studyarea"),
                                      config::get("gcm"),
                                      config::get("rcp"),
-                                     paste0(config::get("studyarea"), config::get("replicate")))
+                                     paste(config::get("studyarea"),
+                                           config::get("gcm"),
+                                           rcpNoDots, #avoid dots with the tar
+                                           config::get("replicate"), sep = "_"))
 #redundant study area so dir begins with letter
