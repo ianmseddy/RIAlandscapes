@@ -30,14 +30,15 @@ dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
 
 rcpNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("rcp"))
 
+uniqueRunName <- paste(config::get("studyarea"),
+                       config::get("gcm"),
+                       rcpNoDots, #avoid dots with the tar
+                       config::get("replicate"), sep = "_")
 #will need to rethink how to set up nonLandR runs -
 #this approach cannot rely on nested directories, because the tarball only gets the final name
 dynamicPaths$outputPath <- file.path("outputs", "sims",
                                      config::get("studyarea"),
                                      config::get("gcm"),
                                      config::get("rcp"),
-                                     paste(config::get("studyarea"),
-                                           config::get("gcm"),
-                                           rcpNoDots, #avoid dots with the tar
-                                           config::get("replicate"), sep = "_"))
+                                     uniqueRunName)
 #redundant study area so dir begins with letter

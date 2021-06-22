@@ -17,7 +17,8 @@ gdriveSims <- switch(
     fSsimDataPrep = "14lvEmS7d4oipgLeRIA4UIA1nj-1PMr0f",
     ignitionOut = "1_SpyfSzTPd70phPlJhr1dclgg2qw4MWT",
     escapeOut = "1sX2PbmoY5ESkgs8BWZAR-niVuFyU2xB0",
-    spreadOut = "1ybSeXJfer8_4IVnDscW9U3O8dpyww6t9"
+    spreadOut = "1ybSeXJfer8_4IVnDscW9U3O8dpyww6t9",
+    results = "https://drive.google.com/drive/folders/1n5mfIzvqAEpCewiXntWyAJ149SDyX9lY?usp=sharing"
   ),
   YY = list(
     ## e.g., simOutPreamble = "yyyyyyyyyyyyyyyyyyyyy",  ## use ID only, not full URL
@@ -29,4 +30,8 @@ gdriveSims <- switch(
     escapeOut = "",
     spreadOut = ""
   )
+)
+
+gdriveResults <- list(
+  "BC_CSIRO-Mk3_RCP85_1" = "1HaR46ocCS3tJTW1vdRZ2KWlEzZb-oxSk"
 )

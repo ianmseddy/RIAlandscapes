@@ -1,5 +1,5 @@
 do.call(setPaths, dynamicPaths)
-runName <- paste0(config::get("studyarea"), config::get("replicate"))
+# runName <- paste0(config::get("studyarea"), config::get("replicate"))
 
 #clean up some problems
 names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
@@ -112,7 +112,7 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 
-fsim <- file.path(Paths$outputPath, paste0(runName, ".qs"))
+fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
@@ -130,10 +130,17 @@ saveSimList(
 )
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 
-resultsDir <- file.path(dynamicPaths$outputPath, runName)
+resultsDir <- dynamicPaths$outputPath
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
-utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
-retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), as_id(gdriveSims[["results"]]), overwrite = TRUE)),
+utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
+gdrivePath <- paste0("results/", uniqueRunName)
+
+retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
+                         path = (gdriveSims[["results"]]), name = uniqueRunName,
+                         overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
+
+# retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), path =  as_id(gdriveSims[["results"]]), overwrite = TRUE)),
+#       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
