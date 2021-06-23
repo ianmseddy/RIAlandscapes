@@ -97,7 +97,8 @@ dynamicParams <- list(
 
 outputObjs = c('cohortData',
                'pixelGroupMap',
-               'burnMap')
+               'burnMap',
+               'simulatedBiomassMap')
 saveTimes <- rep(seq(times$start, times$end, 10))
 dynamicOutputs = data.frame(objectName = rep(outputObjs, times = length(saveTimes)),
                      saveTime = rep(saveTimes, each = length(outputObjs)),

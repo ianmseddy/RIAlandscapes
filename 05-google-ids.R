@@ -34,6 +34,8 @@ gdriveSims <- switch(
 
 gdriveResults <- list(
   "BC_CSIRO-Mk3_RCP85_1" = "1HaR46ocCS3tJTW1vdRZ2KWlEzZb-oxSk",
-  "BC_Access1_RCP45_1" = "1HPgLw6BVnUDXBEJ09UBFa4rxPv1fKb-I"
+  "BC_Access1_RCP45_1" = "1HPgLw6BVnUDXBEJ09UBFa4rxPv1fKb-I",
+  "BC_Access1_RCP85_1" = "1qIkuLc45T_2a7lDK4ABp6gRialfIJcVZ" #ha burned: 3,609,369. mean biomass: 61.2 Mg/ha
+  "BC_INM_CM4_RCP45_1" = "1_HU_GHl0pC7F0b_UOvavUyXYWwdgdvWl"
 
 )
