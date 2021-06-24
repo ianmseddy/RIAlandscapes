@@ -38,8 +38,8 @@ gdriveResults <- list(
   "BC_Access1_RCP45_1" = "1HPgLw6BVnUDXBEJ09UBFa4rxPv1fKb-I", #ha burned: 3,176,050 mean biomass:  63.5 Mg/ha
   "BC_Access1_RCP85_1" = "1qIkuLc45T_2a7lDK4ABp6gRialfIJcVZ", #ha burned: 3,609,369. mean biomass: 61.2 Mg/ha
   "BC_INM_CM4_RCP45_1" = "1_HU_GHl0pC7F0b_UOvavUyXYWwdgdvWl", #ha burned: 2,152,356 mean biomass: 65.1 Mg/ha
-  "BC_INM_CM4_RCP85_1" = "1ENRDFzb0nQGXVsL-H9xyVHuKx5GyP5L3" #ha burned: 2,154,944 mean biomass: 67.0 Mg/ha
-
+  "BC_INM_CM4_RCP85_1" = "1ENRDFzb0nQGXVsL-H9xyVHuKx5GyP5L3", #ha burned: 2,154,944 mean biomass: 67.0 Mg/ha
+  "BC_CanESM2_RCP45_1" = "1xE02E74_UQy5P_A62EXfxx26jLgVTX05"
 
 
 )
