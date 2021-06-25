@@ -24,7 +24,6 @@ simOutPreamble <- Cache(simInitAndSpades,
                         modules = c("RIAlandscapes_studyArea"),
                         objects = preambleObjects,
                         paths = preamblePaths,
-                        useCache = 'overwrite',
                         useCloud = useCloudCache,
                         cloudFolderID = cloudCacheFolderID,
                         userTags = c("RIAlandscapes_studyArea", studyAreaName)
