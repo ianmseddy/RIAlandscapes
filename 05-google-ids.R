@@ -33,13 +33,16 @@ gdriveSims <- switch(
 )
 
 gdriveResults <- list(
-  "BC_CSIRO-Mk3_RCP85_1" = "1HaR46ocCS3tJTW1vdRZ2KWlEzZb-oxSk", # ha burned: 2,416,106 mean biomass: 65.9 Mg/ha
-  "BC_CSIRO-Mk3_RCP45_1" = NA, ################################# ha burned: 2,574,050 mean biomass: 65.8 Mg/ha
+  "BC_CSIRO-Mk3_RCP85_1" = "1HaR46ocCS3tJTW1vdRZ2KWlEzZb-oxSk", # ha burned: 2,416,106 mean biomass: 65.9 Mg/ha #has no biomass Map
+  "BC_CSIRO-Mk3_RCP45_1" = "1hnn4iDwXla7_qBdEEh3brPP0IIDIumr-", # ha  burned: 2,462,269 mean biomass: 66.0 Mg/ha
+  "BC_CSIRO-Mk3_RCP45_2" = "1E3i9eqJ_S8SIBAhwrgYg3KBUoOowazTI", # ha burned: 2,632,500 mean biomass: 66.0 Mg/ha
   "BC_Access1_RCP45_1" = "1HPgLw6BVnUDXBEJ09UBFa4rxPv1fKb-I", #ha burned: 3,176,050 mean biomass:  63.5 Mg/ha
   "BC_Access1_RCP85_2" =  "1ix6pgiCQNma7xlefRk1WSmOxeT05qSXU", #ha burned: 3,707,181 mean biomass: 60.98 mg/ha
   "BC_Access1_RCP85_1" = "1qIkuLc45T_2a7lDK4ABp6gRialfIJcVZ", #ha burned: 3,609,369. mean biomass: 61.2 Mg/ha
   "BC_INM_CM4_RCP45_1" = "1_HU_GHl0pC7F0b_UOvavUyXYWwdgdvWl", #ha burned: 2,152,356 mean biomass: 65.1 Mg/ha
+  "BC_INM-CM4_RCP45_2" = "1ICCFcsDAVa0dCJihADMYp1MSikeOThcy" #ha burned : 2,093,700 mean biomass: 65.4 Mg/ha
   "BC_INM_CM4_RCP85_1" = "1ENRDFzb0nQGXVsL-H9xyVHuKx5GyP5L3", #ha burned: 2,154,944 mean biomass: 67.0 Mg/ha
+  "BC_INM-CM4_RCP85_2" =  "1znYInI9KmecksPG7TF9s3hFm9YjyHXjm", #ha burned: 2,230,112 mean biomass: 67.42
   "BC_CanESM2_RCP45_1" = "1xE02E74_UQy5P_A62EXfxx26jLgVTX05", #ha burned: 5,048,144 mean biomass: 67.1 Mg/ha
   "BC_CanESM2_RCP45_2" =  "13BF_aGve-QsPsjmKheQTsCDL3md86Ikn" #ha burned; 4,921,981 mean biomass: 67.5 Mg/ha
 
