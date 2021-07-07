@@ -22,7 +22,8 @@ ignitionFitParams <- list(
               knots = list(MDC = round(quantile(fSsimDataPrep[["fireSense_ignitionCovariates"]]$MDC,
                                                 probs = 0.8), digits = 0))),
     family = quote(MASS::negative.binomial(theta = 1, link = "identity")),
-    iterDEoptim = 300
+    iterDEoptim = 300,
+    .plots = "png" #trying this
   )
 )
 
@@ -54,7 +55,7 @@ if (isTRUE(usePrerun)) {
     #filebackedDir = dignitionOut,
     fileBackend = 2
   )
-  if (isTRUE(newGoogleIDs)) {
+  if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fignitionOut)

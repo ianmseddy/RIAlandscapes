@@ -34,7 +34,7 @@ if (isTRUE(usePrerun)) {
     #filebackedDir = descapeOut,
     fileBackend = 2
   )
-  if (isTRUE(newGoogleIDs)) {
+  if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = fescapeOut, path = gdriveURL, name = basename(fescapeOut), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["escapeOut"]]), media = fescapeOut)

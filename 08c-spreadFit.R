@@ -94,7 +94,7 @@ if (isTRUE(usePrerun)) {
     #filebackedDir = dspreadOut,
     fileBackend = 2
   )
-  if (isTRUE(newGoogleIDs)) {
+  if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
