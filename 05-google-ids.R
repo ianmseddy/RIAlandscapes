@@ -23,12 +23,12 @@ gdriveSims <- switch(
   YY = list(
     ## e.g., simOutPreamble = "yyyyyyyyyyyyyyyyyyyyy",  ## use ID only, not full URL
     simOutPreamble = "",
-    biomassMaps2001 = "",
-    biomassMaps2011 = "",
-    fSsimDataPrep = "",
-    ignitionOut = "",
-    escapeOut = "",
-    spreadOut = ""
+    biomassMaps2001 = "1vcU9GeSKj2YqMfQTwqnaxOlkbeAfZYKW",
+    biomassMaps2011 = "1dYEGipMDf0iV1yniJ8SiOeYETSNoRcXd",
+    fSsimDataPrep = "1WrvvZrUZ9GER9eS-jHRDPZhrXxGtYsGT",
+    ignitionOut = "1gMRfi4wY1V9cjNFbOCKwznIGjJuXpc4j",
+    escapeOut = "11LNR-Iwdd2Lq6EWpCbPBx4NOs56Vm29w",
+    spreadOut = "1PVEBMf6ddkxyje3QIunq83e371tYbFBC"
   )
 )
 

@@ -10,6 +10,7 @@ fSdataPrepParams <- list(
     "missingLCCgroup" = "nonForest_highFlam",
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
+    "PCAcomponentsForVeg" = if (studyAreaName == "Yukon") { 8 } else { 10 },
     ".useCache" = ".inputObjects",
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit")
   )
@@ -63,7 +64,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
-  if (isTRUE(newGoogleIDs)) {
+  if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = ffSsimDataPrep)
