@@ -35,6 +35,7 @@ gdriveSims <- switch(
 gdriveResults <- list(
   "BC_CSIRO-Mk3_RCP85_1" = "1oN7C-WFe-J3AUO9eWZRLk3M-tlRKVjhX", # ha burned: 5,348,888 mean biomass: 61.9 Mg/ha
   "BC_CSIRO-Mk3_RCP85_2" = "1C-bzpeybrPpBik-W_Pb9G8jycuDdYzix", # ha burned: 5,446,850 mean biomass: 62.2 Mg/ha
+  "BC_CSIRO-Mk3_RCP85_3" = "1M-wGzSvLn-Q6Nvj5RUGIam8IaXbsSZwL", # ha burned: 3,431,069 mean bimoass: 64.3 Mg/ha
   "BC_CSIRO-Mk3_RCP45_1" = "1hnn4iDwXla7_qBdEEh3brPP0IIDIumr-", # ha  burned: 2,462,269 mean biomass: 66.0 Mg/ha
   "BC_CSIRO-Mk3_RCP45_2" = "1E3i9eqJ_S8SIBAhwrgYg3KBUoOowazTI", # ha burned: 2,632,500 mean biomass: 66.0 Mg/ha
   "BC_CSIRO-Mk3_RCP45_3" = "1GCPt_jAJA_wI71wrrijun9Xjau2b1TBo", #ha burned: 2,458,656, mean biomass: 66.1 Mg/ha
@@ -46,6 +47,7 @@ gdriveResults <- list(
   "BC_Access1_RCP85_3" = "1WilixGkfOXz6RLbmrlYWA5z4PrNWsGf4", # ha burned: 3,694,356 mean biomass: 61.2 Mg/ha
   "BC_INM_CM4_RCP45_1" = "1_HU_GHl0pC7F0b_UOvavUyXYWwdgdvWl", # ha burned: 2,152,356 mean biomass: 65.1 Mg/ha
   "BC_INM-CM4_RCP45_2" = "1ICCFcsDAVa0dCJihADMYp1MSikeOThcy", # ha burned : 2,093,700 mean biomass: 65.4 Mg/ha
+  "BC_INM-CM4_RCP45_3" =  "15x0EUykIWgzeS49znwQ205dLXxV38sN3", #ha burned: 1,305,231 mean biomass: 66.7 Mg/ha
   "BC_INM_CM4_RCP85_1" = "1ENRDFzb0nQGXVsL-H9xyVHuKx5GyP5L3", # ha burned: 2,154,944 mean biomass: 67.0 Mg/ha
   "BC_INM-CM4_RCP85_2" =  "1znYInI9KmecksPG7TF9s3hFm9YjyHXjm", # ha burned: 2,230,112 mean biomass: 67.42 Mg/ha
   "BC_CanESM2_RCP45_1" = "1xE02E74_UQy5P_A62EXfxx26jLgVTX05", # ha burned: 5,048,144 mean biomass: 67.1 Mg/ha
@@ -68,8 +70,10 @@ gdriveResults <- list(
   "Yukon_Access1_RCP45_3" = "1nt9WulrfBd6eL9FZlgUgL8Sda_pPQzDN", #ha burned: 14,187,025 mean biomass: 28.9 Mg/ha
   "Yukon_CanESM2_RCP45_1" =  "1Z1RS2SnxJjSrwRHVkg7jqFe8DrRG1LoE", #ha burned: 15,729,737 mean biomass: 28.9 Mg/ha
   "Yukon_CanESM2_RCP45_2" =  "1KM8n-HtaSxA3qD5qOAhAbKQx7VO4URtg", #ha burned 15,835,337 mean biomass: 28.6 Mg/ha
+  "Yukon_CanESM2_RCP45_3" = "1wA501L7LnhP8c26RJbjT4_EcSoYHI3C8", #ha burned: 16,210,987 mean biomass: 28.5 Mg/ha
   "Yukon_CanESM2_RCP85_1" = "1Is1ihwRpBSV8Q0Q9Fux5eohelwreWwEq", #ha burned: 18,679,956 mean biomass: 27.8 Mg/ha
   "Yukon_CanESM2_RCP85_2" =  "11BgsHVb2RBQ1o1-Ok5NrDZnCP3PnnSiG", #ha burned: 18,614,519 mean biomass: 27.0 Mg/ha
+  "Yukon_CanESM2_RCP85_3" =  "1fdEp-8ifQm1hakd_SMwiczjyfEks4PQM", #ha burned 18,819,981 mean biomass: 27.3 Mg/ha
   "Yukon_INM-CM4_RCP85_1" = "1j_Eh7_9p0kJil8-O7sdSgKXgtx_uauEE", #ha burned: 9,604,587 mean biomass: 30.3 Mg/ha
   "Yukon_INM-CM4_RCP85_2" =  "1gesjZVvj1565hV2knjjx30MTTmWd6IjT", #ha burned: 9,129,812 mean Biomass: 30.9 Mg/ha
   "Yukon_INM-CM4_RCP85_3" = "1U3Syv6WiPwI7wwLoMGZ7dALwx3BvwlLn", #ha burned: 7,875,656 mean Biomass: 30.1 Mg/ha
