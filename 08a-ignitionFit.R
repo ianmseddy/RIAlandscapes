@@ -9,6 +9,8 @@ biggestObj <- as.numeric(object.size(fSsimDataPrep[["fireSense_ignitionCovariate
 
 form <- fSsimDataPrep$fireSense_ignitionFormula
 
+fSsimDataPrep$fireSense_ignitionCovariates <- as.data.table(fSsimDataPrep$fireSense_ignitionCovariates)
+
 nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
@@ -39,15 +41,15 @@ if (isTRUE(usePrerun)) {
   }
   ignitionOut <- loadSimList(fignitionOut)
 } else {
-  ignitionOut <- Cache(
-    simInitAndSpades,
-    times = list(start = 0, end = 1),
-    # ignitionSim <- simInit(times = list(start = 0, end = 1),
-    params = ignitionFitParams,
-    modules = "fireSense_IgnitionFit",
-    paths = ignitionFitPaths,
-    objects = ignitionFitObjects,
-    userTags = c("ignitionFit")
+  ignitionOut <- Cache(simInitAndSpades,
+                       times = list(start = 0, end = 1),
+                       # ignitionSim <- simInit(times = list(start = 0, end = 1),
+                       params = ignitionFitParams,
+                       useCache = FALSE,
+                       modules = "fireSense_IgnitionFit",
+                       paths = ignitionFitPaths,
+                       objects = ignitionFitObjects,
+                       userTags = c("ignitionFit")
   )
   saveSimList(
     sim = ignitionOut,

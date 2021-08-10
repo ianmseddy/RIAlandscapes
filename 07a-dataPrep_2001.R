@@ -64,13 +64,13 @@ dataPrepParams2001 <- list(
     constrainMaxANPP = c(3.0, 4.0),
     constrainGrowthCurve = c(0, 1),
     constrainMortalityShape = list(
-      "Abie_las" = c(13, 25),
-      "Betu_pap" = c(13, 25),
-      "Pice_eng" = c(13, 25),
-      "Pice_gla" = c(13, 25),
-      "Pice_mar" = c(13, 25),
-      "Pinu_con" = c(13, 25),
-      "Popu_tre" = c(13, 25) #changed from 20,25
+      "Abie_las" = c(15, 25),
+      "Betu_pap" = c(15, 25),
+      "Pice_eng" = c(15, 25),
+      "Pice_gla" = c(15, 25),
+      "Pice_mar" = c(15, 25),
+      "Pinu_con" = c(15, 25),
+      "Popu_tre" = c(15, 25) #changed from 20,25
     ),
     quantileAgeSubset = list(
       "Abie_las" = 95, #N = 250 ''

@@ -35,6 +35,13 @@ uniqueRunName <- paste(config::get("studyarea"),
                        rcpNoDots, #avoid dots with the tar
                        config::get("replicate"), sep = "_")
 #will need to rethink how to set up nonLandR runs -
+if (config::get('gmcsdriver') == "LandR") {
+  uniqueRunName <- paste(config::get("studyarea"),
+                         config::get("gcm"),
+                         rcpNoDots, #avoid dots with the tar
+                         "noLandRCS",
+                         config::get("replicate"), sep = "_")
+}
 #this approach cannot rely on nested directories, because the tarball only gets the final name
 dynamicPaths$outputPath <- file.path("outputs", "sims",
                                      config::get("studyarea"),
