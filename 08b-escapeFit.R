@@ -8,6 +8,8 @@ escapeFitParams <- list(
     fireSense_escapeFormula = fSsimDataPrep$fireSense_escapeFormula
   )
 )
+escapeFitParams$fireSense_EscapeFit$fireSense_escapeFormula <-
+  "cbind(escapes, ignitions - escapes) ~ youngAge + class2 + class3 + class4 + nonForest_lowFlam +nonForest_highFlam + MDC - 1"
 
 escapeFitObjects <- list(
   fireSense_escapeCovariates = fSsimDataPrep$fireSense_escapeCovariates

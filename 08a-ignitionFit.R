@@ -8,6 +8,10 @@ newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
 biggestObj <- as.numeric(object.size(fSsimDataPrep[["fireSense_ignitionCovariates"]]))/1e6 * 1.2
 
 form <- fSsimDataPrep$fireSense_ignitionFormula
+form <- paste('ignitions ~ youngAge:MDC + nonForest_highFlam:MDC + nonForest_lowFlam:MDC +',
+              'class2:MDC + class3:MDC + class4:MDC +',
+              'youngAge:pw(MDC, k_YA) + nonForest_lowFlam:pw(MDC, k_NFLF) + nonForest_highFlam:pw(MDC, k_NFHF) +',
+              'class2:pw(MDC, k_class2) + class3:pw(MDC, k_class3) + class4:pw(MDC, k_class4) - 1')
 
 fSsimDataPrep$fireSense_ignitionCovariates <- as.data.table(fSsimDataPrep$fireSense_ignitionCovariates)
 
