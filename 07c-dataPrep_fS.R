@@ -20,6 +20,10 @@ flammableMap <- LandR::defineFlammable(LandCoverClassifiedMap = simOutPreamble$r
                                        nonFlammClasses = c(13, 16, 17, 18, 19),
                                        mask = simOutPreamble$rasterToMatchLarge)
 
+sppEquiv <- simOutPreamble[["sppEquiv"]]
+sppEquiv[RIA %in% c("Pice_mar", "Pinu_con"), FuelClass := "class4"]
+
+
 # simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
   "flammableRTM" = flammableMap,

@@ -35,7 +35,8 @@ gdriveSims <- switch(
   "RIA" = list(
     biomassMaps2001 = '1jSdaULcq6H0W9tegYn6YyG1HkJFDqQ85',
     biomassMaps2011 = "1-BDaGZTfZh1I3tVW-hQdNs_rx47exX9X",
-    fSsimDataPrep = "1ViwF9OWBG4_7U9mStWLpNOT5BqPJ5Zv3"
+    fSsimDataPrep = "1ViwF9OWBG4_7U9mStWLpNOT5BqPJ5Zv3",
+    ignitionOut = "1snGvTH27oIe6MlSLplcyKy099bOb7ibC"
   )
 )
 
