@@ -49,3 +49,9 @@
 [submodule "modules/fireSense_SpreadPredict"]
 	path = modules/fireSense_SpreadPredict
 	url = git@github.com:PredictiveEcology/fireSense_SpreadPredict.git
+[submodule "modules/simpleHarvest"]
+	path = modules/simpleHarvest
+	url = git@github.com:ianmseddy/simpleHarvest.git
+[submodule "modules/assistedMigrationBC"]
+	path = modules/assistedMigrationBC
+	url = git@github.com:ianmseddy/assistedMigrationBC.git
