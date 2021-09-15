@@ -4,7 +4,7 @@
 if (studyAreaName == "BC") {
   gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"
 } else if (studyAreaName == "Yukon") {
-  gdriveURL <- 'https://drive.google.com/drive/folders/1xoqwH8HSQhDQviImPA6lmPSK1k7ztAQf?usp=sharing'
+   gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"
 } else if (studyAreaName == "RIA") {
   gdriveURL <- "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
 }
@@ -30,13 +30,16 @@ gdriveSims <- switch(
     fSsimDataPrep = "1WrvvZrUZ9GER9eS-jHRDPZhrXxGtYsGT",
     ignitionOut = "1gMRfi4wY1V9cjNFbOCKwznIGjJuXpc4j",
     escapeOut = "11LNR-Iwdd2Lq6EWpCbPBx4NOs56Vm29w",
-    spreadOut = "1PVEBMf6ddkxyje3QIunq83e371tYbFBC"
+    spreadOut = "1PVEBMf6ddkxyje3QIunq83e371tYbFBC",
+    results = "https://drive.google.com/drive/folders/1xoqwH8HSQhDQviImPA6lmPSK1k7ztAQf?usp=sharing"
   ),
   "RIA" = list(
     biomassMaps2001 = '1jSdaULcq6H0W9tegYn6YyG1HkJFDqQ85',
     biomassMaps2011 = "1-BDaGZTfZh1I3tVW-hQdNs_rx47exX9X",
     fSsimDataPrep = "1ViwF9OWBG4_7U9mStWLpNOT5BqPJ5Zv3",
-    ignitionOut = "1snGvTH27oIe6MlSLplcyKy099bOb7ibC"
+    ignitionOut = "1snGvTH27oIe6MlSLplcyKy099bOb7ibC",
+    escapeOut = "1imexXvXM8VFjCp_UCKhK7Krdd_kwCi8Q",
+    spreadOut = "12hjVsWmFCX8rtorOUyCc5UvCqloq7c-8"
   )
 )
 
