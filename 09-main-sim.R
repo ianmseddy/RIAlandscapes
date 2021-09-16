@@ -18,6 +18,15 @@ dynamicModules <- list(
   "Biomass_core",
   "Biomass_regeneration")
 
+if (is.null(simOutPreamble$sppColorVect)){
+  sppColorVect <-brewer.pal(name = 'Paired', n = length(unique(simOutPreamble$sppEquiv$RIA)) + 1)
+  sppNames <- unique(simOutPreamble$sppEquiv$RIA)
+  names(sppColorVect) <- c(sppNames, "mixed")
+} else {
+  sppColorVect <- simOutPreamble$sppColorVect
+}
+
+
 dynamicObjects <- list(
   studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
   ATAstack = simOutPreamble[["ATAstack"]],
@@ -48,7 +57,7 @@ dynamicObjects <- list(
   species = as.data.table(biomassMaps2011[["species"]]),
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
-  sppColorVect = simOutPreamble[["sppColors"]],
+  sppColorVect = sppColorVect,
   sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## biomassMaps2011 needs bugfix to qs
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],

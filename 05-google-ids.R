@@ -90,5 +90,7 @@ gdriveResults <- list(
   "Yukon_INM-CM4_RCP85_3" = "1U3Syv6WiPwI7wwLoMGZ7dALwx3BvwlLn", #ha burned: 7,875,656 mean Biomass: 30.1 Mg/ha
   "Yukon_INM-CM4_RCP45_1" = "1Bx6Z4E9vHBT1iF2kSzMMAYeTmGF4HKtL", #ha burned: 8,567,525 mean biomass: 32.1 Mg/ha
   "Yukon_INM-CM4_RCP45_2" = "1IjJKQRYcOLGmWhM_tvgJQ7ChNnc2El5_", #ha burned: 8,642,837 mean biomass: 31.2 Mg/ha
-  "Yukon_INM-CM4_RCP45_3" =  "1-VaByKNHZQLwrXqp2NZNy_nV-O6mmrdL" #ha burned: 8,554,425 mean biomass: 31.8 Mg/ha
+  "Yukon_INM-CM4_RCP45_3" =  "1-VaByKNHZQLwrXqp2NZNy_nV-O6mmrdL", #ha burned: 8,554,425 mean biomass: 31.8 Mg/ha
+  #####RIA####
+  "RIA_CSIRO-Mk3_RCP85_2" = "1mmwHQZrwngSPpzs7FWn97-XfveRpPH2V" #ha burned 76,167,875 mean biomass: 36.8 Mg/ha
 )
