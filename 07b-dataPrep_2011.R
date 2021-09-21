@@ -8,6 +8,8 @@ dataPrepParams2011$Biomass_speciesData$types <- "KNN"
 dataPrepParams2011$Biomass_speciesData$dataYear <- 2011
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
+dataPrepParams2011$Biomass_borealDataPrep$dataYear <- 2011
+
 
 dataPrepOutputs2011 <- data.frame(
   objectName = c("cohortData",
@@ -23,8 +25,8 @@ dataPrepOutputs2011 <- data.frame(
            "rawBiomassMap2011_borealDataPrep.rds") # Currently not needed
 )
 
+#standAgeMap no longer needs to be passed
 dataPrepObjects2011 <- dataPrepObjects
-dataPrepObjects2011$standAgeMap <- simOutPreamble$standAgeMap2011
 
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
@@ -37,12 +39,10 @@ if (isTRUE(usePrerun)) {
     simInitAndSpades,
     times = list(start = 2011, end = 2011),
     params = dataPrepParams2011,
-    modules = list("PSP_Clean", "Biomass_speciesData",
-                   "Biomass_borealDataPrep", "Biomass_speciesParameters"),
+    modules = list("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters"),
     objects = dataPrepObjects2011,
     paths = getPaths(),
-    loadOrder = c("PSP_Clean", "Biomass_speciesData",
-                     "Biomass_borealDataPrep", "Biomass_speciesParameters"),
+    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters"),
     clearSimEnv = TRUE,
     # outputs = dataPrepOutputs2011,
     useCache = 'overwrite',

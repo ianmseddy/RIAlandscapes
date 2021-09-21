@@ -123,6 +123,10 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 ## TODO: delete unused objects, including previous simLists to free up memory
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
+if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
+  stop("mismatched gcms")
+}
+
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,

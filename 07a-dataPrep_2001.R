@@ -13,14 +13,14 @@ dataPrep <- list(
 
 RIASppUpdate <- function(sT) {
   sT[species == "Abie_las", longevity := 300]
-  sT[species == "Betu_pap", longevity := 150]
+  sT[species == "Betu_pap", longevity := 170]
   sT[, shadetolerance := as.numeric(shadetolerance)]
   sT[species == 'Pice_eng', shadetolerance := 2.5]
   sT[species == 'Pice_mar', shadetolerance := 2.5]
-  sT[species == "Pice_mar", longevity := 200]
+  sT[species == "Pice_mar", longevity := 250]
   sT[species == "Pice_gla", longevity := 250]
   sT[species == "Pinu_con", longevity := 300]
-  sT[species == "Pice_eng", longevity := 300 ]
+  sT[species == "Pice_eng", longevity := 330 ]
   return(sT)
 }
 
@@ -51,36 +51,29 @@ dataPrepParams2001 <- list(
   ),
   Biomass_speciesParameters = list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
-    " useHeight" = FALSE,
+    " useHeight" = TRUE,
     "GAMMknots" = list(
       "Abie_las" = 3,
       "Betu_pap" = 3,
-      "Pice_eng" = 4,
+      "Pice_eng" = 3,
       "Pice_gla" = 3,
-      "Pice_mar" = 4,
-      "Pinu_con" = 4,
-      "Popu_tre" = 4
+      "Pice_mar" = 3,
+      "Pinu_con" = 3,
+      "Popu_tre" = 3
     ),
     constrainMaxANPP = c(3.0, 4.0),
     constrainGrowthCurve = c(0, 1),
     constrainMortalityShape = list(
-      "Abie_las" = c(15, 25),
-      "Betu_pap" = c(15, 25),
-      "Pice_eng" = c(15, 25),
-      "Pice_gla" = c(15, 25),
-      "Pice_mar" = c(15, 25),
-      "Pinu_con" = c(15, 25),
-      "Popu_tre" = c(15, 25) #changed from 20,25
+      "Abie_las" = c(12, 25),
+      "Betu_pap" = c(12, 25),
+      "Pice_eng" = c(12, 25),
+      "Pice_gla" = c(12, 25),
+      "Pice_mar" = c(12, 25),
+      "Pinu_con" = c(12, 25),
+      "Popu_tre" = c(12, 25)
     ),
-    quantileAgeSubset = list(
-      "Abie_las" = 95, #N = 250 ''
-      "Betu_pap" = 95, #N = 96
-      "Pice_eng" = 95, #N = 130
-      "Pice_gla" = 95, #N = 1849
-      "Pice_mar" = 95, #N = 785
-      "Pinu_con" = 97, # N = 3172
-      "Popu_tre" = 99 # N = 1997
-    ))
+    quantileAgeSubset = 98
+    )
 )
 
 dataPrepOutputs2001 <- data.frame(
@@ -119,8 +112,7 @@ if (isTRUE(usePrerun)) {
     simInitAndSpades,
     times = list(start = 2001, end = 2001),
     params = dataPrepParams2001,
-    modules = list("PSP_Clean", "Biomass_speciesData",
-                   "Biomass_borealDataPrep", "Biomass_speciesParameters"), ## TODO: separate to use different caches
+    modules = list("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters"), ## TODO: separate to use different caches
     objects = dataPrepObjects,
     paths = getPaths(),
     loadOrder = c("PSP_Clean", "Biomass_speciesData",

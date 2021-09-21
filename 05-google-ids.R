@@ -39,7 +39,8 @@ gdriveSims <- switch(
     fSsimDataPrep = "1ViwF9OWBG4_7U9mStWLpNOT5BqPJ5Zv3",
     ignitionOut = "1snGvTH27oIe6MlSLplcyKy099bOb7ibC",
     escapeOut = "1imexXvXM8VFjCp_UCKhK7Krdd_kwCi8Q",
-    spreadOut = "12hjVsWmFCX8rtorOUyCc5UvCqloq7c-8"
+    spreadOut = "12hjVsWmFCX8rtorOUyCc5UvCqloq7c-8",
+    results = "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
   )
 )
 
@@ -92,5 +93,8 @@ gdriveResults <- list(
   "Yukon_INM-CM4_RCP45_2" = "1IjJKQRYcOLGmWhM_tvgJQ7ChNnc2El5_", #ha burned: 8,642,837 mean biomass: 31.2 Mg/ha
   "Yukon_INM-CM4_RCP45_3" =  "1-VaByKNHZQLwrXqp2NZNy_nV-O6mmrdL", #ha burned: 8,554,425 mean biomass: 31.8 Mg/ha
   #####RIA####
-  "RIA_CSIRO-Mk3_RCP85_2" = "1mmwHQZrwngSPpzs7FWn97-XfveRpPH2V" #ha burned 76,167,875 mean biomass: 36.8 Mg/ha
-)
+  "RIA_CSIRO-Mk3_RCP45_1" =  "14cIOY1eeZ0YhsORvk35rQCc5YoM_2Xt", #ha burned: 64,603,381 mean biomass: 44.2 Mg/ha
+  "RIA_CSIRO-Mk3_RCP85_2" = "1mmwHQZrwngSPpzs7FWn97-XfveRpPH2V", #ha burned 76,167,875 mean biomass: 36.8 Mg/ha
+  "RIA_INM-CM4_RCP45_1" =  "1LQOgkJgvy51GrhHJpifUaYly6I-qS82E", #ha burned: 30,735,556 mean biomass: 52.5 Mg/ha
+  "RIA_INM-CM4_RCP85_1" = "1XUomyrj6bRERY780Y_iwRXhGzbCZC82C" #ha burned: 33,462,119 mean biomass: 50.9 Mg/ha
+  )
