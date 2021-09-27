@@ -17,8 +17,8 @@ RIASppUpdate <- function(sT) {
   sT[, shadetolerance := as.numeric(shadetolerance)]
   sT[species == 'Pice_eng', shadetolerance := 2.5]
   sT[species == 'Pice_mar', shadetolerance := 2.5]
-  sT[species == "Pice_mar", longevity := 250]
-  sT[species == "Pice_gla", longevity := 250]
+  sT[species == "Pice_mar", longevity := 225]
+  sT[species == "Pice_gla", longevity := 300]
   sT[species == "Pinu_con", longevity := 300]
   sT[species == "Pice_eng", longevity := 330 ]
   return(sT)
@@ -29,6 +29,7 @@ dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
                                      (logAge + cover | ecoregionGroup))),
+    "dataYear" = 2001,
     "exportModels" = "all",
     "forestedLCCClasses" = c(1:6),
     "LCCClassesToReplaceNN" = numeric(0),
@@ -46,6 +47,7 @@ dataPrepParams2001 <- list(
     ".useCache" = c(".inputObjects", "init")
   ),
   Biomass_speciesData = list(
+    "dataYear" = 2001,
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     ".studyAreaName" = paste0(studyAreaName, 2001)
   ),
