@@ -1,13 +1,14 @@
 ## Google Drive locations for pre-run simulation objects
 ## these are used when config option 'prerun' is true
 
-if (studyAreaName == "BC") {
-  gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"
-} else if (studyAreaName == "Yukon") {
-   gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"
-} else if (studyAreaName == "RIA") {
-  gdriveURL <- "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
-}
+switch(studyAreaName,
+       "BC" =  { gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
+       "Yukon" = { gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
+       "RIA" = { gdriveURL <- "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"},
+       "WCB" = { gdriveURL <- "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing"},
+       "SB" = { gdriveURL <- "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC?usp=sharing"},
+       "WB" = { gdriveURL <- "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing"}
+)
 
 gdriveSims <- switch(
   studyAreaName,
@@ -41,6 +42,18 @@ gdriveSims <- switch(
     escapeOut = "1imexXvXM8VFjCp_UCKhK7Krdd_kwCi8Q",
     spreadOut = "12hjVsWmFCX8rtorOUyCc5UvCqloq7c-8",
     results = "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
+  ),
+  "WB" = list(
+    results = "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing"
+  ),
+  "WCB" = list(
+    results = "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing"
+  ),
+  "SB" = list(
+    results = "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC?usp=sharing",
+    biomassMaps2001 = "1VdH_vCPDOBasCYiDo0kD0vunNIh4SolO",
+    biomassMaps2011 = "1jl94nI2u5UuR7ZAzhtNE6KvYd0evKNTK",
+    fSsimDataPrep =  "1XHNNnQNRuIVufjT-ZVxGJcK2FPgh1NPk"
   )
 )
 
