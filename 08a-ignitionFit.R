@@ -7,19 +7,14 @@ newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
 
 biggestObj <- as.numeric(object.size(fSsimDataPrep[["fireSense_ignitionCovariates"]]))/1e6 * 1.2
 
-form <- fSsimDataPrep$fireSense_ignitionFormula
-form <- paste('ignitions ~ youngAge:MDC + nonForest_highFlam:MDC + nonForest_lowFlam:MDC +',
-              'class2:MDC + class3:MDC + class4:MDC +',
-              'youngAge:pw(MDC, k_YA) + nonForest_lowFlam:pw(MDC, k_NFLF) + nonForest_highFlam:pw(MDC, k_NFHF) +',
-              'class2:pw(MDC, k_class2) + class3:pw(MDC, k_class3) + class4:pw(MDC, k_class4) - 1')
-
 fSsimDataPrep$fireSense_ignitionCovariates <- as.data.table(fSsimDataPrep$fireSense_ignitionCovariates)
 
-nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+nCores <- pmin(16, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     cores = nCores,
-    fireSense_ignitionFormula = form,
+    # fireSense_ignitionFormula = fSsimDataPrep$fireSense_ignitionFormula,
+    fireSense_ignitionFormula = fSsimDataPrep$fireSense_ignitionFormula,
     ## if using binomial need to pass theta to lb and ub
     lb = list(coef = 0,
               knots = list(MDC = round(quantile(fSsimDataPrep[["fireSense_ignitionCovariates"]]$MDC,
@@ -28,13 +23,14 @@ ignitionFitParams <- list(
               knots = list(MDC = round(quantile(fSsimDataPrep[["fireSense_ignitionCovariates"]]$MDC,
                                                 probs = 0.8), digits = 0))),
     family = quote(MASS::negative.binomial(theta = 1, link = "identity")),
-    iterDEoptim = 300,
+    iterDEoptim = 500,
     .plots = "png" #trying this
   )
 )
 
 ignitionFitObjects <- list(
   fireSense_ignitionCovariates = fSsimDataPrep[["fireSense_ignitionCovariates"]],
+  # fireSense_ignitionCovariates = tempDat,
   ignitionFitRTM = fSsimDataPrep[["ignitionFitRTM"]]
 )
 
@@ -49,7 +45,6 @@ if (isTRUE(usePrerun)) {
                        times = list(start = 0, end = 1),
                        # ignitionSim <- simInit(times = list(start = 0, end = 1),
                        params = ignitionFitParams,
-                       useCache = FALSE,
                        modules = "fireSense_IgnitionFit",
                        paths = ignitionFitPaths,
                        objects = ignitionFitObjects,

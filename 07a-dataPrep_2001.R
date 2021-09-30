@@ -131,7 +131,7 @@ if (isTRUE(usePrerun)) {
     # filebackedDir = dbiomassMaps2001,
     fileBackend = 2
   )
-  if (isTRUE(newGoogleIDs)) {
+  if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)

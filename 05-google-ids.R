@@ -44,16 +44,28 @@ gdriveSims <- switch(
     results = "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
   ),
   "WB" = list(
-    results = "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing"
+    results = "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing",
+    biomassMaps2001 = "1wpJnUvB9Ca_ek0C4Qm9vsj5KlqQ5n7yt",
+    biomassMaps2011 = "1C9Rhjgo27VsBuShtdIfwpM_mBvX-Xx6X",
+    fSsimDataPrep = "14VsGPCe5N1srRl8LEUiYC6MUF8O-Oe-K",
+    ignitionOut =  "1LkOqG_L4boorb_MTntASA2Ll5foZWfkz"
   ),
   "WCB" = list(
-    results = "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing"
+    results = "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing",
+    biomassMaps2001 =  "1u5kFbYoN4CPLCvikMd--q2m78juuvcxI",
+    biomassMaps2011 = "10Po5zF__jg_J9sdFxM1j2_lsgt48uBbm",
+    fSsimDataPrep = "1tlqO1W3j3pYxGpugEAl2sug3iTNa3gQk",
+    ignitionOut = "1U4GzRWzuWfB71E8olaC5X41mP-pWC5U4",
+    escapeOut = "1Tm8ex_MIbngYLMi6GqelvKjX7MQi49WN"
   ),
   "SB" = list(
     results = "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC?usp=sharing",
     biomassMaps2001 = "1VdH_vCPDOBasCYiDo0kD0vunNIh4SolO",
     biomassMaps2011 = "1jl94nI2u5UuR7ZAzhtNE6KvYd0evKNTK",
-    fSsimDataPrep =  "1XHNNnQNRuIVufjT-ZVxGJcK2FPgh1NPk"
+    fSsimDataPrep =  "1XHNNnQNRuIVufjT-ZVxGJcK2FPgh1NPk",
+    ignitionOut =  "1157gFEmXkZWkUYfNVgZhfBC8ojhJPW-q",
+    escapeOut = "1QkwHyITunBZ1tasvgKLFptnvRukDaVPK",
+    spreadOut = "1ah6HwqaBWbzvOkqFIJP_qmYPnlOJffVk"
   )
 )
 
