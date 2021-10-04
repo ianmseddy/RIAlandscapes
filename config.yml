@@ -35,6 +35,6 @@ ian:
   replicate: 1
   gmcsdriver: "LandR"
   simulateam: false
-  amscenario: 1
+  amscenario: true
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'

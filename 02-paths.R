@@ -42,6 +42,14 @@ if (config::get('gmcsdriver') == "LandR") {
                          "noLandRCS",
                          config::get("replicate"), sep = "_")
 }
+
+if (simulateAM){
+  hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
+  uniqueRunName <- paste(config::get("studyarea"),
+                         config::get("gcm"),
+                         rcpNoDots,
+                         hasAM, sep = "_")
+}
 #this approach cannot rely on nested directories, because the tarball only gets the final name
 dynamicPaths$outputPath <- file.path("outputs", "sims",
                                      config::get("studyarea"),
