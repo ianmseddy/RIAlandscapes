@@ -2,7 +2,7 @@ default:
   cachedb: "sqlite"
   googleuser: ""
   plot: true
-  useprerun: false
+  useprerun: true
   slackchannel: ""
   batchmode: false
   cacheformat: "qs"
@@ -29,10 +29,12 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  studyarea: "RIA" #Yukon
-  gcm: "CSIRO-Mk3"
-  rcp: "RCP8.5"
-  replicate: 3
-  gmcsdriver: "LandR.CS"
+  studyarea: "WCB" #Yukon #BC #RIA #SB #WCB #WB
+  gcm: "INM-CM4" #CanESM2 CSIRO-Mk3 Access1 INM-CM4
+  rcp: "RCP4.5"
+  replicate: 1
+  gmcsdriver: "LandR"
+  simulateam: false
+  amscenario: 1
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'

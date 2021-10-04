@@ -72,6 +72,7 @@ dynamicParams <- list(
     'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
     'sppEquivCol' = "RIA",
+    .studyAreaName = studyAreaName,
     gmcsGrowthLimits = c(33, 150),
     gmcsMortLimits = c(33, 300),
     plotOverstory = FALSE,
@@ -143,6 +144,41 @@ saveSimList(
   fileBackend = 2
 )
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+#some post-run analysis
+historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
+historicalBurns <- as.data.table(historicalBurns@data)
+historicalBurns <- historicalBurns[, .(sumBurn = sum(SIZE_HA), nFires = .N), .(YEAR)]
+setnames(historicalBurns, "YEAR", "year")
+historicalBurns[, stat := 'observed']
+#hardcoded eww gross wtf
+projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
+projectedBurns <- mainSim$burnSummary[, .(sumBurn = sum(areaBurnedHa)), .(year)]
+projectedBurns <- projectedBurns[projectedEscapes, on = c("year")]
+projectedBurns[, stat := "projected"]
+dat <- rbind(projectedBurns, historicalBurns)
+
+gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$sumBurn) * 1.1) +
+  labs(y = "cumulative annual burn (ha)",
+       title = studyAreaName,  subtitle = paste(config::get("gcm"), config::get("rcp")))
+
+gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$nFires) * 1.2) +
+  labs(y = "number of escaped fires",
+       title = studyAreaName,
+       subtitle = paste(config::get("gcm"), config::get("rcp")))
+ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_nFires.png"))
+ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
+
+
+
+
+
+
 
 resultsDir <- dynamicPaths$outputPath
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
@@ -158,3 +194,4 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
 #       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
+

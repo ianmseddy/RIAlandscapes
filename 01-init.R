@@ -21,3 +21,5 @@ userInputPaths <- config::get("inputpaths")
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
+simulateAM <- config::get("simulateam")
+amscenario <- config::get(amscenario)
