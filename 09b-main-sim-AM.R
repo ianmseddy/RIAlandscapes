@@ -1,38 +1,22 @@
 do.call(setPaths, dynamicPaths)
 
-newStudyArea <- prepInputs(url = 'https://drive.google.com/file/d/1LAXjmuaCt0xOWP-Nmll3xfRqCq-NbJP-/view?usp=sharing',
-                           destinationPath = dynamicPaths$inputPath) %>%
-  spTransform(., CRSobj = crs(simOutPreamble$studyAreaReporting))
-studyArea <- postProcess(newStudyArea, studyArea = simOutPreamble$studyAreaReporting)
 
-#clean up some problems
+#fix some postProcessing issues
 names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
 names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
 names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
 
-times <- list(start = 2011, end = 2101)
-
-#for now - there is a problem with dpf and spread
-rasterToMatch <- postProcess(simOutPreamble$rasterToMatch, studyArea = studyArea)
-
+####prep####
 thlb <- prepInputs(url = "https://drive.google.com/file/d/1nmoTUX29gQtFUzZC0ZaROri7XFxrR6_5/view?usp=sharing",
-                   studyArea = studyArea,
-                   rasterToMatch = rasterToMatch,
+                   studyArea = simOutPreamble$studyArea,
+                   rasterToMatch = simOutPreamble$rasterToMatch,
                    destinationPath = dynamicPaths$inputPath)
-mainObjects <- list(
-  "ecoregionRst" = simOutPreamble$ecoregionRst,
-  "flammableRTM" = fSsimDataPrep$flammableRTM,
-  "rstLCC" = fSsimDataPrep$rstLCC,
-  "speciesLayers" = biomassMaps2011$speciesLayers,
-  "biomassMap" = biomassMaps2011$biomassMap,
-  "standAgeMap" = biomassMaps2011$standAgeMap,
-  "nonForest_timeSinceDisturbance2011" = fSsimDataPrep$nonForest_timeSinceDisturbance2011
-)
-mainObjects <- lapply(mainObjects, postProcess, studyArea = studyArea, rasterToMatch = rasterToMatch)
-
+tempDT <- data.table(thlb = getValues(thlb), pixelIndex = getValues(simOutPreamble$rasterToMatch))
+tempDT[!is.na(pixelIndex), newTHLB := 0]
+tempDT[thlb >= 0.8, newTHLB := 1]
+thlb <- setValues(thlb, tempDT$newTHLB)
+####modules####
 dynamicModules <- list(
-  "LandR_reforestation",
-  "assistedMigrationBC",
   "simpleHarvest",
   "gmcsDataPrep",
   "fireSense_dataPrepPredict",
@@ -41,10 +25,13 @@ dynamicModules <- list(
   "fireSense_EscapePredict",
   "fireSense_SpreadPredict",
   "Biomass_core",
-  "Biomass_regeneration")
-
+  "Biomass_regeneration",
+  "LandR_reforestation",
+  "assistedMigrationBC")
+####objects####
 dynamicObjects <- list(
-  studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
+  ATAstack = simOutPreamble[["ATAstack"]],
+  biomassMap = biomassMaps2011$biomassMap,
   cceArgs = list(quote(CMI),
                  quote(ATA),
                  quote(CMInormal),
@@ -54,48 +41,56 @@ dynamicObjects <- list(
                  quote(ecoregionMap),
                  quote(currentBEC),
                  quote(BECkey)),
-  ATAstack = simOutPreamble[["ATAstack"]],
+
   CMIstack = simOutPreamble[["CMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
+  cohortData = as.data.table(biomassMaps2011$cohortData),
   PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
   PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
   PSPgis = biomassMaps2011[["PSPgis"]],
-  biomassMap = mainObjects$biomassMap,
+
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
-  ecoregionRst = mainObjects[["ecoregionRst"]],
-  flammableRTM = mainObjects[["flammableRTM"]],
+  ecoregionRst = biomassMaps2011[["ecoregionRst"]],
+  ecoregion = as.data.table(biomassMaps2011[["ecoregion"]]),
+  ecoregionMap = biomassMaps2011[["ecoregionMap"]],
+  flammableRTM = fSsimDataPrep[["flammableRTM"]],
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
   covMinMax_spread = as.data.table(spreadOut[["covMinMax_spread"]]),
   covMinMax_ignition = as.data.table(ignitionOut[["covMinMax_ignition"]]),
-  nonForest_timeSinceDisturbance = mainObjects[["nonForest_timeSinceDisturbance2011"]],
+  nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   nonForestedLCCGroups = fSsimDataPrep$nonForestedLCCGroups,
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
+  pixelGroupMap = biomassMaps2011$pixelGroupMap,
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
-  rasterToMatch = rasterToMatch,
-  rstLCC = mainObjects$rstLCC,
+  rasterToMatch = simOutPreamble$rasterToMatch,
+  rstLCC = biomassMaps2011$rstLCC,
   species = as.data.table(biomassMaps2011[["species"]]),
-  speciesLayers = mainObjects[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
+  speciesLayers = biomassMaps2011[["speciesLayers"]],
+  speciesEcoregion = as.data.table(biomassMaps2011$speciesEcoregion),
   sppColorVect = LandR::sppColors(sppEquiv = simOutPreamble$sppEquiv,
                                   sppEquivCol = simOutPreamble$sppEquivCol,
                                   palette = 'Pastel1'),
   sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## biomassMaps2011 needs bugfix to qs
-  studyArea = studyArea,
+  studyArea = simOutPreamble$studyArea,
+  studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
+  studyAreaReporting = simOutPreamble[["studyAreaReporting"]],
   sufficientLight = as.data.frame(biomassMaps2011[["sufficientLight"]]), ## biomassMaps2011 needs bugfix to qs
   thlb = thlb,
   vegComponentsToUse = fSsimDataPrep[["vegComponentsToUse"]]
 )
-cohortCols <- c("pixelGroup", "speciesCode", "age", "Provenance", "planted")
 
+####params ####
+cohortCols <- c("pixelGroup", "speciesCode", "age", "Provenance", "planted")
 dynamicParams <- list(
   assistedMigrationBC = list(
-    doAssistedMigration = TRUE,
+    doAssistedMigration = config::get("amscenario"),
     trackPlanting = TRUE,
-    trackPlantedCohorts = FALSE,
     sppEquivCol = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol
   ),
+  Biomass_borealDataPrep = dataPrepParams2011$Biomass_borealDataPrep,
   Biomass_core = list(
     'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
@@ -126,8 +121,7 @@ dynamicParams <- list(
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
     ".plotInterval" = NA,
-    ".plotInitialTime" = NA,
-    "plotIgnitions" = FALSE
+    ".plotInitialTime" = NA
   ),
   gmcsDataPrep = list(
     useHeight = TRUE
@@ -140,7 +134,7 @@ dynamicParams <- list(
     minAgesToHarvest = 70
   )
 )
-
+#####outputObjs####
 outputObjs = c('cohortData',
                'pixelGroupMap',
                'burnMap',
@@ -159,6 +153,7 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
                                                    saveTime = times$end, eventPriority = 10))
 
 
+#####simulation
 times <- list(start = 2011, end = 2101)
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
@@ -171,12 +166,48 @@ mainSim <- simInitAndSpades(
   paths = dynamicPaths
 )
 
+
+
+####save####
 saveSimList(
   sim = mainSim,
   filename = fsim,
   #filebackedDir = dfSsimDataPrep,
   fileBackend = 2
 )
+
+
+historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
+historicalBurns <- as.data.table(historicalBurns@data)
+historicalBurns <- historicalBurns[, .(sumBurn = sum(SIZE_HA), nFires = .N), .(YEAR)]
+setnames(historicalBurns, "YEAR", "year")
+historicalBurns[, stat := 'observed']
+#hardcoded eww gross wtf
+projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
+projectedBurns <- mainSim$burnSummary[, .(sumBurn = sum(areaBurnedHa)), .(year)]
+projectedBurns <- projectedBurns[projectedEscapes, on = c("year")]
+projectedBurns[, stat := "projected"]
+dat <- rbind(projectedBurns, historicalBurns)
+
+gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$sumBurn) * 1.1) +
+  labs(y = "cumulative annual burn (ha)",
+       title = studyAreaName,  subtitle = paste(config::get("gcm"), config::get("rcp")))
+
+gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$nFires) * 1.2) +
+  labs(y = "number of escaped fires",
+       title = studyAreaName,
+       subtitle = paste(config::get("gcm"), config::get("rcp")))
+ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_nFires.png"))
+ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
+
+
+
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 resultsDir <- dynamicPaths$outputPath
 utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")

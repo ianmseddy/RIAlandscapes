@@ -1,6 +1,9 @@
 ## Google Drive locations for pre-run simulation objects
 ## these are used when config option 'prerun' is true
 
+
+
+
 switch(studyAreaName,
        "BC" =  { gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
        "Yukon" = { gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
@@ -132,6 +135,8 @@ gdriveResults <- list(
   "WCB_CanESM2_RCP85_1" = "12mKMD8Tlmffe2g9-7Ry_5H2x44ozfpK1", #ha burned: 20,065,369 mean biomass: 66 Mg/ha
   "WCB_INM-CM4_RCP85_1" = "1czcpRiMvMurM7sbZ7DcoSe0Vs5r2BUuy", #ha burned: 13,288,63 mean biomass: 49.2 Mg/ha
   "WCB_INM-CM4_RCP45_1" = "1rAzOOSuvnslUEXlF2y9X8d4_fP5Le3CN", #ha burned: 1,160,325 biomass: 48.7 Mg/ha
-  "WCB_INM-CM4_RCP45_noLandRCS_1" = "1wd97xbxjHNxX5R5QRlfIfFPn9nvrGGj0" #ha burned: 999,837 mean biomass: 69.01 Mg/ha
+  "WCB_INM-CM4_RCP45_noLandRCS_1" = "1wd97xbxjHNxX5R5QRlfIfFPn9nvrGGj0", #ha burned: 999,837 mean biomass: 69.01 Mg/ha
+  "WCB_INM-CM4_RCP45_withAM" =  "112RSKqXwrg-xeU4hKKhPOEFnQKFqf7uE", #ha burned 1,023,694 mean buiomass: 54 Mg/ha
+  "WCB_INM-CM4_RCP45_withNoAM" = "1SMlHNkaW_2gFRGIco2aMqAvyT9tjLYO2" #ha burned 997,375  mean biomass: 54.4 Mg/ha
   )
 
