@@ -5,12 +5,12 @@
 
 
 switch(studyAreaName,
-       "BC" =  { gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
-       "Yukon" = { gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_?usp=sharing"},
-       "RIA" = { gdriveURL <- "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"},
-       "WCB" = { gdriveURL <- "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing"},
-       "SB" = { gdriveURL <- "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC?usp=sharing"},
-       "WB" = { gdriveURL <- "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing"}
+       "BC" =  { gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_"},
+       "Yukon" = { gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_"},
+       "RIA" = { gdriveURL <- "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA"},
+       "WCB" = { gdriveURL <- "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P"},
+       "SB" = { gdriveURL <- "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC"},
+       "WB" = { gdriveURL <- "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu"}
 )
 
 gdriveSims <- switch(
@@ -24,7 +24,7 @@ gdriveSims <- switch(
     ignitionOut = "1_SpyfSzTPd70phPlJhr1dclgg2qw4MWT",
     escapeOut = "1sX2PbmoY5ESkgs8BWZAR-niVuFyU2xB0",
     spreadOut = "1ybSeXJfer8_4IVnDscW9U3O8dpyww6t9",
-    results = "https://drive.google.com/drive/folders/1n5mfIzvqAEpCewiXntWyAJ149SDyX9lY?usp=sharing"
+    results = "1n5mfIzvqAEpCewiXntWyAJ149SDyX9lY"
   ),
   "Yukon" = list(
     ## e.g., simOutPreamble = "yyyyyyyyyyyyyyyyyyyyy",  ## use ID only, not full URL
@@ -35,7 +35,7 @@ gdriveSims <- switch(
     ignitionOut = "1gMRfi4wY1V9cjNFbOCKwznIGjJuXpc4j",
     escapeOut = "11LNR-Iwdd2Lq6EWpCbPBx4NOs56Vm29w",
     spreadOut = "1PVEBMf6ddkxyje3QIunq83e371tYbFBC",
-    results = "https://drive.google.com/drive/folders/1xoqwH8HSQhDQviImPA6lmPSK1k7ztAQf?usp=sharing"
+    results = "1xoqwH8HSQhDQviImPA6lmPSK1k7ztAQf"
   ),
   "RIA" = list(
     biomassMaps2001 = '1jSdaULcq6H0W9tegYn6YyG1HkJFDqQ85',
@@ -44,17 +44,17 @@ gdriveSims <- switch(
     ignitionOut = "1snGvTH27oIe6MlSLplcyKy099bOb7ibC",
     escapeOut = "1imexXvXM8VFjCp_UCKhK7Krdd_kwCi8Q",
     spreadOut = "12hjVsWmFCX8rtorOUyCc5UvCqloq7c-8",
-    results = "https://drive.google.com/drive/folders/1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA?usp=sharing"
+    results = "1y0SzeFQWZxeKjtsTwD4_XqRPl1rMb_eA"
   ),
   "WB" = list(
-    results = "https://drive.google.com/drive/folders/1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu?usp=sharing",
+    results = "1PZG5_shP5rrvtLPtb7GgJKuoJh6SOyWu",
     biomassMaps2001 = "1wpJnUvB9Ca_ek0C4Qm9vsj5KlqQ5n7yt",
     biomassMaps2011 = "1C9Rhjgo27VsBuShtdIfwpM_mBvX-Xx6X",
     fSsimDataPrep = "14VsGPCe5N1srRl8LEUiYC6MUF8O-Oe-K",
     ignitionOut =  "1LkOqG_L4boorb_MTntASA2Ll5foZWfkz"
   ),
   "WCB" = list(
-    results = "https://drive.google.com/drive/folders/1vwrFVb6KCNgdJxh0C25828y76ni3oF7P?usp=sharing",
+    results = "1vwrFVb6KCNgdJxh0C25828y76ni3oF7P",
     biomassMaps2001 =  "1u5kFbYoN4CPLCvikMd--q2m78juuvcxI",
     biomassMaps2011 = "10Po5zF__jg_J9sdFxM1j2_lsgt48uBbm",
     fSsimDataPrep = "1tlqO1W3j3pYxGpugEAl2sug3iTNa3gQk",
@@ -63,10 +63,11 @@ gdriveSims <- switch(
     spreadOut = "1SYfpikqJjYVYyI01cCkceiQULJXNjqIS"
   ),
   "SB" = list(
-    results = "https://drive.google.com/drive/folders/1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC?usp=sharing",
+    results = "1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC",
     biomassMaps2001 = "1VdH_vCPDOBasCYiDo0kD0vunNIh4SolO",
     biomassMaps2011 = "1jl94nI2u5UuR7ZAzhtNE6KvYd0evKNTK",
     fSsimDataPrep =  "1XHNNnQNRuIVufjT-ZVxGJcK2FPgh1NPk",
+    fSsimDataPrep_fuelClass = "1OroO4moL5b0iLKggHP0eSPiU43qcbpsa",
     ignitionOut =  "1157gFEmXkZWkUYfNVgZhfBC8ojhJPW-q",
     escapeOut = "1QkwHyITunBZ1tasvgKLFptnvRukDaVPK",
     spreadOut = "1ah6HwqaBWbzvOkqFIJP_qmYPnlOJffVk"

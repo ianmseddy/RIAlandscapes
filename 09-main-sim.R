@@ -50,7 +50,7 @@ dynamicObjects <- list(
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
-  pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
+  pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
@@ -58,7 +58,7 @@ dynamicObjects <- list(
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
   sppColorVect = sppColorVect,
-  sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## biomassMaps2011 needs bugfix to qs
+  sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## #use fSsimdataPrep in case fuelClass changes
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
   studyAreaReporting = biomassMaps2011[["studyArea"]],
