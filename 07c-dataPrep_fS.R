@@ -1,7 +1,7 @@
 ## NOTE: 07a-dataPrep_2001.R and 07b-dataPrep_2011.R need to be run before this script
 
 source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["fSsimDataPrep"]] == ""
+newGoogleIDs <- gdriveSims[["fSsimDataPrep_fuelClass"]] == ""
 
 fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
@@ -12,7 +12,8 @@ fSdataPrepParams <- list(
     "useCentroids" = TRUE,
     "PCAcomponentsForVeg" = if (studyAreaName == "Yukon") { 8 } else { 10 },
     ".useCache" = ".inputObjects",
-    "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit")
+    "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit"),
+    "usePCA" = FALSE
   )
 )
 
@@ -21,8 +22,9 @@ flammableMap <- LandR::defineFlammable(LandCoverClassifiedMap = simOutPreamble$r
                                        mask = simOutPreamble$rasterToMatchLarge)
 
 sppEquiv <- simOutPreamble[["sppEquiv"]]
-# sppEquiv[RIA %in% c("Pice_mar", "Pinu_con"), FuelClass := "class3"]
-
+if (studyAreaName %in% c("SB", "WB")){
+  sppEquiv[RIA %in% c("Pinu_con"), FuelClass := "class4"]
+}
 
 # simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
@@ -34,7 +36,7 @@ fSdataPrepObjects <- list(
   "pixelGroupMap2011" = biomassMaps2011[["pixelGroupMap"]],
   "rasterToMatch" = simOutPreamble[["rasterToMatch"]], #this needs to be masked
   "rstLCC" = biomassMaps2001[["rstLCC"]],
-  "sppEquiv" = as.data.table(simOutPreamble[["sppEquiv"]]),
+  "sppEquiv" = as.data.table(sppEquiv),
   "standAgeMap2001" = biomassMaps2001[["standAgeMap"]],
   "standAgeMap2011" = biomassMaps2011[["standAgeMap"]],
   "studyArea" = simOutPreamble[["studyArea"]]
@@ -42,10 +44,10 @@ fSdataPrepObjects <- list(
 
 invisible(replicate(10, gc()))
 
-ffSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName, ".qs"))
+ffSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_fuelClass_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(ffSsimDataPrep)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["fSsimDataPrep"]]), path = ffSsimDataPrep)
+    googledrive::drive_download(file = as_id(gdriveSims[["fSsimDataPrep_fuelClass"]]), path = ffSsimDataPrep, overwrite = TRUE)
   }
   fSsimDataPrep <- loadSimList(ffSsimDataPrep)
 } else {
@@ -69,8 +71,8 @@ if (isTRUE(usePrerun)) {
   )
   #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
   if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
-    googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
+    googledrive::drive_put(media = ffSsimDataPrep, path = as_id(gdriveURL), name = basename(ffSsimDataPrep), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = ffSsimDataPrep)
+    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep_fuelClass"]]), media = ffSsimDataPrep)
   }
 }

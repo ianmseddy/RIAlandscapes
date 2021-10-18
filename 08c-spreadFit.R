@@ -1,7 +1,7 @@
 do.call(setPaths, spreadFitPaths)
 
 source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["spreadOut"]] == ""
+
 
 fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]] <- as.data.table(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
 fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[2]] <- as.data.table(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[2]])
@@ -70,10 +70,12 @@ spreadFitObjects <- list(
   studyArea = fSsimDataPrep[["studyArea"]]
 )
 
-fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
+spreadName <- ifelse(fuelClasses, "spreadOut_fuelClasses", "spreadOut")
+newGoogleIDs <- gdriveSims[[spreadName]] == ""
+fspreadOut <- file.path(Paths$outputPath, paste0(spreadName, studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(fspreadOut)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fspreadOut)
+    googledrive::drive_download(file = as_id(gdriveSims[[spreadName]]), path = fspreadOut)
   }
   spreadOut <- loadSimList(fspreadOut)
 } else {
@@ -97,7 +99,7 @@ if (isTRUE(usePrerun)) {
   if (isTRUE(newGoogleIDs) | length(newGoogleIDs) == 0) {
     googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
+    googledrive::drive_update(file = as_id(gdriveSims[[spreadName]]), media = fspreadOut)
   }
 }
 

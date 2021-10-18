@@ -51,7 +51,9 @@ gdriveSims <- switch(
     biomassMaps2001 = "1wpJnUvB9Ca_ek0C4Qm9vsj5KlqQ5n7yt",
     biomassMaps2011 = "1C9Rhjgo27VsBuShtdIfwpM_mBvX-Xx6X",
     fSsimDataPrep = "14VsGPCe5N1srRl8LEUiYC6MUF8O-Oe-K",
-    ignitionOut =  "1LkOqG_L4boorb_MTntASA2Ll5foZWfkz"
+    fSsimDataPrep_fuelClass = "1oMjqarQe7Wqov1I_57n_fG_htur2NlYL",
+    ignitionOut =  "1LkOqG_L4boorb_MTntASA2Ll5foZWfkz",
+    escapeOut = "1GkPrvdmPTkxZ9xC6dO2CIaXUfdcKfXm1"
   ),
   "WCB" = list(
     results = "1vwrFVb6KCNgdJxh0C25828y76ni3oF7P",
@@ -70,7 +72,8 @@ gdriveSims <- switch(
     fSsimDataPrep_fuelClass = "1OroO4moL5b0iLKggHP0eSPiU43qcbpsa",
     ignitionOut =  "1157gFEmXkZWkUYfNVgZhfBC8ojhJPW-q",
     escapeOut = "1QkwHyITunBZ1tasvgKLFptnvRukDaVPK",
-    spreadOut = "1ah6HwqaBWbzvOkqFIJP_qmYPnlOJffVk"
+    spreadOut = "1ah6HwqaBWbzvOkqFIJP_qmYPnlOJffVk",
+    spreadOut_fuelClasses = "1uRnFm0aeKa4D82C9Lw0ugBCp-VNqH148"
   )
 )
 
