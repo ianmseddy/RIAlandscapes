@@ -13,7 +13,7 @@ fSdataPrepParams <- list(
     "PCAcomponentsForVeg" = if (studyAreaName == "Yukon") { 8 } else { 10 },
     ".useCache" = ".inputObjects",
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit"),
-    "usePCA" = FALSE
+    "usePCA" = !fuelClasses
   )
 )
 
@@ -59,7 +59,6 @@ if (isTRUE(usePrerun)) {
     paths = dataPrepPaths,
     modules = "fireSense_dataPrepFit",
     .plots = NA,
-    #useCloud = useCloudCache,
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_dataPrepFit", studyAreaName)
   )
