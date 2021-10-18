@@ -147,7 +147,7 @@ saveSimList(
 #some post-run analysis
 historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
-historicalBurns <- historicalBurns[, .(sumBurn = sum(SIZE_HA), nFires = .N), .(YEAR)]
+historicalBurns <- historicalBurns[, .(sumBurn = sum(POLY_HA), nFires = .N), .(YEAR)]
 setnames(historicalBurns, "YEAR", "year")
 historicalBurns[, stat := 'observed']
 #hardcoded eww gross wtf
