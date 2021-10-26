@@ -7,11 +7,13 @@ fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
     "fireYears" = 2001:2019, # this will be fixed to post kNN only
-    "missingLCCgroup" = "nonForest_highFlam",
+    "missingLCCgroup" = "nf_hf",
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
-    "PCAcomponentsForVeg" = if (studyAreaName == "Yukon") { 8 } else { 10 },
+    "forestedLCC" = c(1:6, 20),
     ".useCache" = ".inputObjects",
+    "ignitionFuelClassCol" = 'ignitionFuelClass',
+    'spreadFuelClassCol' = 'spreadFuelClass',
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit"),
     "usePCA" = !fuelClasses
   )
@@ -32,10 +34,14 @@ fSdataPrepObjects <- list(
   "cohortData2001" = as.data.table(biomassMaps2001[["cohortData"]]),
   "cohortData2011" = as.data.table(biomassMaps2011[["cohortData"]]),
   "historicalClimateRasters" = simOutPreamble[["historicalClimateRasters"]],
+  "nonForestedLCCGroups" = list(
+    "nf_hf" = c(8, 10),#shrubland, grassland, wetland
+    "nf_lf" = c(11, 12, 14, 15) #shrub-lichen-moss + cropland. 2 barren classes are nonflam
+  ),
   "pixelGroupMap2001" = biomassMaps2001[["pixelGroupMap"]],
   "pixelGroupMap2011" = biomassMaps2011[["pixelGroupMap"]],
   "rasterToMatch" = simOutPreamble[["rasterToMatch"]], #this needs to be masked
-  "rstLCC" = biomassMaps2001[["rstLCC"]],
+  "rstLCC" = biomassMaps2001[["rstLCC"]], #this won't work
   "sppEquiv" = as.data.table(sppEquiv),
   "standAgeMap2001" = biomassMaps2001[["standAgeMap"]],
   "standAgeMap2011" = biomassMaps2011[["standAgeMap"]],

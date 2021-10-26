@@ -87,23 +87,32 @@ dynamicParams <- list(
   ),
   fireSense_dataPrepPredict = list(
     "fireTimeStep" = 1,
+    "ignitionFuelClassCol" = "ignitionFuelClass",
     "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "spreadFuelClassCol" = "spreadFuelClass",
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict",
                                 "fireSense_EscapePredict",
                                 "fireSense_SpreadPredict"),
     "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
-  fireSense_ignitionPredict = list(),
+  fireSense_IgnitionPredict = list(),
+  fireSense_SpreadPredict = list(
+    "coefToUse" = "bestCoef"
+  ),
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
     ".plotInterval" = NA,
-    ".plotInitialTime" = NA,
-    "plotIgnitions" = FALSE
+    ".plotInitialTime" = NA
   ),
   gmcsDataPrep = list(
     useHeight = TRUE
   )
 )
+
+if (studyAreaName == "SB") {
+  dynamicParams$fireSense_SpreadPredict$coefToUse <- "meanCoef"
+}
+
 
 outputObjs = c('cohortData',
                'pixelGroupMap',

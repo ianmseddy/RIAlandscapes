@@ -31,7 +31,7 @@ dataPrepParams2001 <- list(
                                      (logAge + cover | ecoregionGroup))),
     "dataYear" = 2001,
     "exportModels" = "all",
-    "forestedLCCClasses" = c(1:6),
+    "forestedLCCClasses" = c(1:6, 20),
     "LCCClassesToReplaceNN" = numeric(0),
     "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
     "speciesUpdateFunction" = list(
