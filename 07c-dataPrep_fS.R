@@ -37,7 +37,7 @@ fSdataPrepObjects <- list(
   "pixelGroupMap2011" = biomassMaps2011[["pixelGroupMap"]],
   "rasterToMatch" = simOutPreamble[["rasterToMatch"]], #this needs to be masked
   "rstLCC" = biomassMaps2001[["rstLCC"]], #this won't work
-  "sppEquiv" = as.data.table(sppEquiv),
+  "sppEquiv" = simOutPreamble$sppEquiv,
   "standAgeMap2001" = biomassMaps2001[["standAgeMap"]],
   "standAgeMap2011" = biomassMaps2011[["standAgeMap"]],
   "studyArea" = simOutPreamble[["studyArea"]]

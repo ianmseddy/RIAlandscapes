@@ -37,6 +37,7 @@ spreadFitParams <- list(
     "iterStep" = 150,
     "iterThresh" = 396L,
     "lower" = lower,
+    "mutuallyExclusiveCols" = ifelse(fuelClasses, list("youngAge" = c("class", "nf_")), list("youngAge" = "vegPC")),
     "maxFireSpread" = max(0.28, upper[1]),
     "mode" = if (isTRUE(firstRunSpreadFit)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),

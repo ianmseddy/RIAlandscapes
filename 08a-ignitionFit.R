@@ -8,20 +8,19 @@ newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
 biggestObj <- as.numeric(object.size(fSsimDataPrep[["fireSense_ignitionCovariates"]]))/1e6 * 1.2
 
 fSsimDataPrep$fireSense_ignitionCovariates <- as.data.table(fSsimDataPrep$fireSense_ignitionCovariates)
-if (any(grep("class4", names(fSsimDataPrep$fireSense_ignitionCovariates)))) {
-  fSsimDataPrep$fireSense_ignitionFormula <- paste0("ignitions ~ nonForest_highFlam:MDC + ",
-                                                    "class2:MDC + class3:MDC + class4:MDC + ",
-                                                    "nonForest_highFlam:pw(MDC, k_NFHF) + class2:pw(MDC, k_class2) + ",
-                                                    "class3:pw(MDC, k_class3) + class4:pw(MDC, k_class4) - 1")
-}
 
 nCores <- pmin(16, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 
+#remove youngAge where it is a fraction of the data
+tempFormula <- ifelse(studyAreaName == "WCB", paste0("ignitions ~ nf_hf:MDC + nf_lf:MDC + class2:MDC + class3:MDC + ",
+                                                "nf_hf:pw(MDC, k_nf_h) + nf_lf:pw(MDC, k_nf_l) + ",
+                                                "class2:pw(MDC, k_cl2) + class3:pw(MDC, k_cl3)- 1"),
+                      fSsimDataPrep$fireSense_ignitionFormula)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     cores = nCores,
     # fireSense_ignitionFormula = fSsimDataPrep$fireSense_ignitionFormula,
-    fireSense_ignitionFormula = fSsimDataPrep$fireSense_ignitionFormula,
+    fireSense_ignitionFormula = tempFormula,
     ## if using binomial need to pass theta to lb and ub
     lb = list(coef = 0,
               knots = list(MDC = round(quantile(fSsimDataPrep[["fireSense_ignitionCovariates"]]$MDC,
