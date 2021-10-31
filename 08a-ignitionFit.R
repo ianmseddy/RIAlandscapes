@@ -11,11 +11,17 @@ fSsimDataPrep$fireSense_ignitionCovariates <- as.data.table(fSsimDataPrep$fireSe
 
 nCores <- pmin(16, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 
-#remove youngAge where it is a fraction of the data
-tempFormula <- ifelse(studyAreaName == "WCB", paste0("ignitions ~ nf_hf:MDC + nf_lf:MDC + class2:MDC + class3:MDC + ",
-                                                "nf_hf:pw(MDC, k_nf_h) + nf_lf:pw(MDC, k_nf_l) + ",
-                                                "class2:pw(MDC, k_cl2) + class3:pw(MDC, k_cl3)- 1"),
-                      fSsimDataPrep$fireSense_ignitionFormula)
+#remove youngAge where it is a fraction of the data, as well as nf_l
+#whether or not pine shoudl be separate is a different question
+tempFormula <- switch(studyAreaName,
+                      "WCB"= { paste0("ignitions ~ nf_hf:MDC + nf_lf:MDC + class2:MDC + class3:MDC + ",
+                                      "nf_hf:pw(MDC, k_nf_h) + nf_lf:pw(MDC, k_nf_l) + ",
+                                      "class2:pw(MDC, k_cl2) + class3:pw(MDC, k_cl3)- 1")},
+                      "SB"= { paste0("ignitions ~ nf_hf:MDC + class2:MDC + class3:MDC + class4:MDC + ", #final
+                                     "nf_hf:pw(MDC, k_nf_h) + class3:pw(MDC, k_cl3)",
+                                     "class4:pw(MDC, k_cl4) - 1")}
+
+)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     cores = nCores,
