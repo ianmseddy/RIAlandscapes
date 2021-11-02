@@ -29,9 +29,10 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  studyarea: "WCB" #Yukon #BC #RIA #SB #WCB #WB
+  studyarea: "WB" #Yukon #BC #RIA #SB #WCB #WB #Note: SB needs an overwrite of preamble due to fuelclass
   gcm: "Access1" #CanESM2 CSIRO-Mk3 Access1 INM-CM4
   rcp: "RCP4.5"
+  fuelclasses: true
   replicate: 1
   gmcsdriver: "LandR"
   simulateam: false

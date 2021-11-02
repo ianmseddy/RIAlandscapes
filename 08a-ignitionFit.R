@@ -16,10 +16,13 @@ nCores <- pmin(16, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 tempFormula <- switch(studyAreaName,
                       "WCB"= { paste0("ignitions ~ nf_hf:MDC + nf_lf:MDC + class2:MDC + class3:MDC + ",
                                       "nf_hf:pw(MDC, k_nf_h) + nf_lf:pw(MDC, k_nf_l) + ",
-                                      "class2:pw(MDC, k_cl2) + class3:pw(MDC, k_cl3)- 1")},
-                      "SB"= { paste0("ignitions ~ nf_hf:MDC + class2:MDC + class3:MDC + class4:MDC + ", #final
-                                     "nf_hf:pw(MDC, k_nf_h) + class3:pw(MDC, k_cl3)",
-                                     "class4:pw(MDC, k_cl4) - 1")}
+                                      "class3:pw(MDC, k_cl3)- 1")},
+                      "SB"= { paste0("ignitions ~ nf_hf:MDC + class2:MDC + class3:MDC + class4:MDC + ",
+                                     "nf_hf:pw(MDC, k_nf_h) + class3:pw(MDC, k_cl3) + ",
+                                     "class4:pw(MDC, k_cl4) - 1")},  #nf_h, class2, clas3 sems better
+                      "WB" = { paste0("ignitions ~ nf_hf:MDC + class2:MDC + class3:MDC + ",
+                                     "nf_hf:pw(MDC, k_nf_h) + ",
+                                     "class3:pw(MDC, k_cl3) - 1")}
 
 )
 ignitionFitParams <- list(
