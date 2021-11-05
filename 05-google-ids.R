@@ -63,7 +63,8 @@ gdriveSims <- switch(
     fSsimDataPrep_fuelClass = "1_W9G3ZmwJnuJOWW9bkG-BllxabDk7mVm",
     ignitionOut = "1U4GzRWzuWfB71E8olaC5X41mP-pWC5U4",
     escapeOut = "1Tm8ex_MIbngYLMi6GqelvKjX7MQi49WN",
-    spreadOut = "1SYfpikqJjYVYyI01cCkceiQULJXNjqIS"
+    spreadOut = "1SYfpikqJjYVYyI01cCkceiQULJXNjqIS",
+    spreadOut_fuelClass = "1Z8xl_fWu1zzstw03RGkhnpxR9wSMahBc"
   ),
   "SB" = list(
     results = "1hhdpf84Oufm5iL_VwqUUmmuI9X0XsbqC",

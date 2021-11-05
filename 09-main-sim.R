@@ -97,7 +97,7 @@ dynamicParams <- list(
   ),
   fireSense_IgnitionPredict = list(),
   fireSense_SpreadPredict = list(
-    "coefToUse" = "bestCoef"
+    "coefToUse" = "meanCoef" #for WCB - mean cof is quite a bit different for deciduous.
   ),
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
@@ -108,11 +108,6 @@ dynamicParams <- list(
     useHeight = TRUE
   )
 )
-
-if (studyAreaName == "SB") {
-  dynamicParams$fireSense_SpreadPredict$coefToUse <- "meanCoef"
-}
-
 
 outputObjs = c('cohortData',
                'pixelGroupMap',
@@ -131,7 +126,7 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 
 ## TODO: delete unused objects, including previous simLists to free up memory
-
+uniqueRunName <- paste0(uniqueRunName, "_fuelClass")
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
   stop("mismatched gcms")
