@@ -126,7 +126,6 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 
 ## TODO: delete unused objects, including previous simLists to free up memory
-uniqueRunName <- paste0(uniqueRunName, "_fuelClass")
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
   stop("mismatched gcms")
@@ -178,11 +177,10 @@ gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_nFires.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
-
-
-
-
-
+compMDC <- compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
+                      projectedMDC = mainSim$projectedClimateLayers$MDC,
+                      flammableRTM = mainSim$flammableRTM)
+ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
 
 resultsDir <- dynamicPaths$outputPath
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
@@ -190,7 +188,7 @@ utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "g
 gdrivePath <- paste0("results/", uniqueRunName)
 
 retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
-                         path = (gdriveSims[["results"]]), name = uniqueRunName,
+                         path = (gdriveResults[["results"]]), name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
 
