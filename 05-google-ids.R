@@ -75,7 +75,7 @@ gdriveSims <- switch(
     ignitionOut =  "1157gFEmXkZWkUYfNVgZhfBC8ojhJPW-q",
     escapeOut = "1QkwHyITunBZ1tasvgKLFptnvRukDaVPK",
     spreadOut = "1ah6HwqaBWbzvOkqFIJP_qmYPnlOJffVk",
-    spreadOut_fuelClasses = "1uRnFm0aeKa4D82C9Lw0ugBCp-VNqH148"
+    spreadOut_fuelClass = "1uRnFm0aeKa4D82C9Lw0ugBCp-VNqH148"
   )
 )
 
@@ -132,10 +132,12 @@ gdriveResults <- list(
   "RIA_CSIRO-Mk3_RCP85_2" = "1mmwHQZrwngSPpzs7FWn97-XfveRpPH2V", #ha burned 76,167,875 mean biomass: 36.8 Mg/ha
   "RIA_INM-CM4_RCP45_1" =  "1LQOgkJgvy51GrhHJpifUaYly6I-qS82E", #ha burned: 30,735,556 mean biomass: 52.5 Mg/ha
   "RIA_INM-CM4_RCP85_1" = "1XUomyrj6bRERY780Y_iwRXhGzbCZC82C", #ha burned: 33,462,119 mean biomass: 50.9 Mg/ha
-  ####SB####
-  "SB_INM-CM4_RCP85_1" =  "1pBdZp5AR3omV2xglq0YJLWMbYxGiLW8l", #ha burned: 6,209,700 mean biomass: 93.6 Mg/ha
-  "SB_INM-CM4_RCP45_1" =  "1kW6Y21qXASMcbMpQeKFz4DsGRbnAiCAR", #ha burned: 2,233,219 mean biomass: 90.0 Mg/ha
-  "SB_CanESM2_RCP45_1" = "1vtJIrNXCKEkaG8C__uXN9BG_RqduavpM", #ha burned: 253,026,381 mean biomass: 63.9 Mg/ha
+  ####SB#### - 90 year sumBurn ~ 2,500,000
+  "SB_Access1_RCP45_1" = "1mnZd6qJBtnGnLDIarlLgVppt6If35Dix",
+  "SB_Access1_RCP45_noLandRCS_1" = "1uKayT-sUT73iE44I6XhSSXMvl69yqz5N",
+  "SB_Access1_RCP85_1" = "1t4eWprG481kR0xS1csnbNXfuXwnpSyH9", #ha burned: 7,816,481 mean biomass: 67.9 Mg/ha
+  "SB_CanESM2_RCP85_1" = "1lKyWCoAZNiE2gP39QVRXdz3X84KNw1cp", #ha burned: 9,659,525 mean biomass: 68.9 Mg/ha
+
   #WCB: biomass 2011 = 66 Mg/ha
   "WCB_CanESM2_RCP45_1" = "1y_QfDME-Me5Ep8_kaERFqXwxIfYWj85q", #ha burned: 8,894200, mean biomass: 53.0 Mg/ha
   "WCB_CanESM2_RCP85_1" = "12mKMD8Tlmffe2g9-7Ry_5H2x44ozfpK1", #ha burned: 20,065,369 mean biomass: 40.5 Mg/ha
