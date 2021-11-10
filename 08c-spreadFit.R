@@ -11,8 +11,8 @@ fSsimDataPrep$fireBufferedListDT <- lapply(fSsimDataPrep$fireBufferedListDT, as.
 extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
-upperParamsNonAnnual <- rep(0, extremeVals) #zero for youngAge (assumes YA is first formula term)
-upperParamsAnnual <- c(extremeVals, extremeVals)
+upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
+upperParamsAnnual <- c(0, extremeVals) #zero for youngAge (assumes YA is first formula term)
 lowerParams <- c(lowerParamsAnnual, lowerParamsNonAnnual)
 upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 
