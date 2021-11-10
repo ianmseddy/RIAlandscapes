@@ -19,7 +19,7 @@ upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 ## Spread log function bounds
 
 lower <- c(0.25, 0.2, 0.1, lowerParams)
-upper <- c(0.286, 2, 4, upperParams)
+upper <- c(0.276, 2, 4, upperParams)
 dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
@@ -33,13 +33,13 @@ spreadFitParams <- list(
     "cores" = cores,
     "DEoptimTests" = c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
     "doObjFunAssertions" = FALSE,
-    "iterDEoptim" = 150,
-    "iterStep" = 150,
+    "iterDEoptim" = 160,
+    "iterStep" = 160,
     "iterThresh" = 396L,
     "lower" = lower,
     "mutuallyExclusiveCols" = ifelse(fuelClasses, list("youngAge" = c("class", "nf_")), list("youngAge" = "vegPC")),
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (isTRUE(firstRunSpreadFit)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
+    "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -51,7 +51,7 @@ spreadFitParams <- list(
     #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
-    "visualizeDEoptim" = FALSE,
+    "visualizeDEoptim" =  FALSE,
     "useCloud_DE" = useCloudCache,
     ".plot" = if (isTRUE(firstRunSpreadFit)) TRUE else FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
