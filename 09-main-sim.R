@@ -153,7 +153,6 @@ historicalBurns <- as.data.table(historicalBurns@data)
 historicalBurns <- historicalBurns[, .(sumBurn = sum(POLY_HA), nFires = .N), .(YEAR)]
 setnames(historicalBurns, "YEAR", "year")
 historicalBurns[, stat := 'observed']
-#hardcoded eww gross wtf
 projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
 projectedBurns <- mainSim$burnSummary[, .(sumBurn = sum(areaBurnedHa)), .(year)]
 projectedBurns <- projectedBurns[projectedEscapes, on = c("year")]
@@ -165,7 +164,8 @@ gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   # geom_smooth() +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
-       title = studyAreaName,  subtitle = paste(config::get("gcm"), config::get("rcp")))
+       title = paste(studyAreaName, "rep", config::get("replicate")),
+       subtitle = paste(config::get("gcm"), config::get("rcp")))
 
 gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
