@@ -13,16 +13,22 @@ dataPrep <- list(
 
 RIASppUpdate <- function(sT) {
   sT[species == "Abie_las", longevity := 300]
-  sT[species == "Betu_pap", longevity := 170]
+  sT[species == "Betu_pap", longevity := 150]
   sT[, shadetolerance := as.numeric(shadetolerance)]
   sT[species == 'Pice_eng', shadetolerance := 2.5]
   sT[species == 'Pice_mar', shadetolerance := 2.5]
   sT[species == "Pice_mar", longevity := 225]
   sT[species == "Pice_gla", longevity := 300]
   sT[species == "Pinu_con", longevity := 300]
-  sT[species == "Pice_eng", longevity := 330 ]
+  sT[species == "Pice_eng", longevity := 350]
   return(sT)
 }
+
+factCDreduced <- prepInputs(url = "https://drive.google.com/file/d/10t6RbR-1gSi7m42kG1-7iHO7m6ZZsEjA/view?usp=sharing",
+                            destinationPath = dataPrepPaths$inputPath, fun = 'readRDS', overwrite =TRUE)
+factCDSpp <- prepInputs(url = "https://drive.google.com/file/d/15NqL58NvSfI0ppBzKCvUPgs5ylRmQV8A/view?usp=sharing",
+                         destinationPath = dataPrepPaths$inputPath, fun = 'readRDS', overwrite = TRUE)
+
 
 
 dataPrepParams2001 <- list(
@@ -63,16 +69,24 @@ dataPrepParams2001 <- list(
       "Pinu_con" = 3,
       "Popu_tre" = 3
     ),
-    constrainMaxANPP = c(3.0, 4.0),
-    constrainGrowthCurve = c(0, 1),
+    constrainMaxANPP = list(
+      "Abie_las" = c(3.0, 3.1),
+      "Betu_pap" = c(3.6, 3.8),
+      "Pice_eng" = c(3.2, 3.4),
+      "Pice_gla" = c(3.2, 3.4),
+      "Pice_mar" = c(3.2, 3.4),
+      "Pinu_con" = c(3.2, 3.4),
+      "Popu_tre" = c(3.6, 3.8)
+    ),
+    constrainGrowthCurve = c(0.73, 0.73),
     constrainMortalityShape = list(
-      "Abie_las" = c(12, 25),
-      "Betu_pap" = c(12, 25),
-      "Pice_eng" = c(12, 25),
-      "Pice_gla" = c(12, 25),
-      "Pice_mar" = c(12, 25),
-      "Pinu_con" = c(12, 25),
-      "Popu_tre" = c(12, 25)
+      "Abie_las" = c(23, 25),
+      "Betu_pap" = c(23, 25),
+      "Pice_eng" = c(23, 25),
+      "Pice_gla" = c(23, 25),
+      "Pice_mar" = c(23, 25),
+      "Pinu_con" = c(23, 25),
+      "Popu_tre" = c(23, 25)
     ),
     quantileAgeSubset = 98
     )
@@ -94,6 +108,8 @@ dataPrepOutputs2001 <- data.frame(
 )
 
 dataPrepObjects <- list("ecoregionRst" = simOutPreamble$ecoregionRst,
+                        "factorialSpeciesTable" = factCDSpp,
+                        "reducedFactorialCohortData" = factCDreduced,
                         "rasterToMatch" = simOutPreamble$rasterToMatch,
                         "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
                         "rstLCC" = simOutPreamble$rstLCC2010,
