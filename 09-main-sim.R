@@ -131,6 +131,11 @@ if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
   stop("mismatched gcms")
 }
 
+#a simple check
+LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
+                        pixelGroupMap = dynamicObjects$pixelGroupMap,
+                        doAssertion = TRUE)
+
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,

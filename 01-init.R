@@ -23,3 +23,4 @@ useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 simulateAM <- config::get("simulateam")
 AMscenario <- config::get("amscenario")
+fuelClasses <- config::get("fuelclass")

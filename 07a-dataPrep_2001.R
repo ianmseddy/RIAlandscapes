@@ -12,7 +12,7 @@ dataPrep <- list(
 )
 
 RIASppUpdate <- function(sT) {
-  sT[species == "Abie_las", longevity := 300]
+  sT[species == "Abie_las", longevity := 250]
   sT[species == "Betu_pap", longevity := 150]
   sT[, shadetolerance := as.numeric(shadetolerance)]
   sT[species == 'Pice_eng', shadetolerance := 2.5]
