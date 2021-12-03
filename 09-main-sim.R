@@ -137,6 +137,9 @@ LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
                         pixelGroupMap = dynamicObjects$pixelGroupMap,
                         doAssertion = TRUE)
 
+if (config::get("gmcsdriver") == "LandR"){
+  dynamicModules <- dynamicModules[dynamicModules != "gmcsDataPrep"]
+}
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
