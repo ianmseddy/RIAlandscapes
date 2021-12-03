@@ -2,10 +2,11 @@ do.call(setPaths, dynamicPaths)
 # runName <- paste0(config::get("studyarea"), config::get("replicate"))
 
 #clean up some problems
-names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
-names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
-names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
-
+if (config::get("gcm") != "historical"){
+  names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
+  names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
+  names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
+}
 times <- list(start = 2011, end = 2101)
 
 dynamicModules <- list(
@@ -203,3 +204,5 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
 
+message(paste("mean biomass: ", mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)))
+message(paste("burn summary: ", sum(mainSim$burnSummary$areaBurnedHa)))
