@@ -159,7 +159,9 @@ saveSimList(
 #some post-run analysis
 historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
-historicalBurns <- historicalBurns[, .(sumBurn = sum(POLY_HA), nFires = .N), .(YEAR)]
+
+#restrict to escapes only, but sum poly_ha for burns
+historicalBurns <- historicalBurns[SIZE_HA > 6.25, .(sumBurn = sum(POLY_HA), nFires = .N), .(YEAR)]
 setnames(historicalBurns, "YEAR", "year")
 historicalBurns[, stat := 'observed']
 projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
@@ -167,6 +169,32 @@ projectedBurns <- mainSim$burnSummary[, .(sumBurn = sum(areaBurnedHa)), .(year)]
 projectedBurns <- projectedBurns[projectedEscapes, on = c("year")]
 projectedBurns[, stat := "projected"]
 dat <- rbind(projectedBurns, historicalBurns)
+
+trueHistoricalIgs <- as.data.table(fSsimDataPrep$ignitionFirePoints) %>%
+  .[, .N, .(YEAR)] %>%
+  setnames(., "YEAR", "year") %>%
+  .[, stat := "observed"] %>%
+  .[, year := as.numeric(year)]
+projectedIgs <- mainSim$burnSummary[, .N, .(year)] %>%
+  .[, stat := "projected"]
+dat2 <- rbind(trueHistoricalIgs, projectedIgs)
+
+gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat2$N) * 1.2) +
+  labs(y = "number of ignitions",
+       title = studyAreaName,
+       subtitle = paste(config::get("gcm"), config::get("rcp")))
+gIgnitions
+
+gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$nFires) * 1.2) +
+  labs(y = "number of escaped fires",
+       title = studyAreaName,
+       subtitle = paste(config::get("gcm"), config::get("rcp")))
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
@@ -176,14 +204,9 @@ gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
        title = paste(studyAreaName, "rep", config::get("replicate")),
        subtitle = paste(config::get("gcm"), config::get("rcp")))
 
-gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
-  geom_point() +
-  # geom_smooth() +
-  ylim(0, max(dat$nFires) * 1.2) +
-  labs(y = "number of escaped fires",
-       title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("rcp")))
-ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_nFires.png"))
+
+ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
+ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
 compMDC <- compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
