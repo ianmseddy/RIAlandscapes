@@ -28,7 +28,7 @@ source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
 source("04-options.R")
-source("05-google-ids.R")   ## gets sourced at top of each script 06, 07x, 08x
+source("05-google-ids.R") ## gets sourced at top of each script 06, 07x, 08x
 source("06-studyArea.R") ## you will need to customize this script
 source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
@@ -36,8 +36,9 @@ source("07c-dataPrep_fS.R")
 source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 source("08c-spreadFit.R")
+
 if (config::get("simulateam")) {
-source("09b-main-sim-AM.R")
+  source("09b-main-sim-AM.R")
 } else {
   source("09-main-sim.R")
 }

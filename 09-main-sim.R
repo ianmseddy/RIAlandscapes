@@ -28,6 +28,20 @@ if (is.null(simOutPreamble$sppColorVect)){
 }
 
 
+#if using "historical" fire data, the random sampling is cached - so resample the years
+if (config::get("gcm") == "historical"){
+  projectedMDCyears <- sample(names(simOutPreamble$historicalClimateRasters$MDC),
+                              size = 90, replace = TRUE)
+  projectedMDC <- lapply(projectedMDCyears, FUN = function(x){
+    simOutPreamble$historicalClimateRasters$MDC[[x]]
+  })
+  names(projectedMDC) <- paste0("year", 2011:2100)
+  simOutPreamble$projectedClimateLayers <- list("MDC" = stack(projectedMDC))
+  rm(projectedMDC)
+}
+
+
+
 dynamicObjects <- list(
   studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
   ATAstack = simOutPreamble[["ATAstack"]],
