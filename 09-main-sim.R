@@ -120,7 +120,8 @@ dynamicParams <- list(
     ".plotInitialTime" = NA
   ),
   gmcsDataPrep = list(
-    useHeight = TRUE
+    useHeight = TRUE,
+    useCache = c("Init", ".inputObjects")
   )
 )
 

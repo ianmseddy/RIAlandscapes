@@ -30,6 +30,8 @@ dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
 
 
 
+
+
 if (config::get("gcm") != "historical") {
   rcpNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("rcp"))
   uniqueRunName <- paste(config::get("studyarea"),
@@ -72,3 +74,6 @@ if (config::get("gcm") != "historical") {
   stop("Ian you need to set up for when LandR.CS is run but historical fireSense")
 }
 #redundant study area so dir begins with letter
+postProcessingPaths <- dynamicPaths
+postProcessingPaths$outputPath <- file.path("outputs/summary figures/", studyAreaName)
+postProcessingPaths$cachePath <- "cache/cache_postProcess"
