@@ -29,9 +29,9 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  studyarea: "WB" #Yukon #BC #RIA #SB #WCB #WB
-  gcm: "INM-CM4" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical
-  rcp: "RCP8.5" #"RCP4.5" "RCP8.5" or ""
+  studyarea: "SB" #Yukon #BC #RIA #SB #WCB #WB
+  gcm: "CanESM5" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical
+  ssp: "370" #"RCP4.5" "RCP8.5" or ""
   fuelclasses: true
   replicate: 3
   gmcsdriver: "LandR"

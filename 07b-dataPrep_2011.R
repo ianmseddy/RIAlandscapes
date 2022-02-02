@@ -31,7 +31,7 @@ dataPrepObjects2011 <- dataPrepObjects
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(fbiomassMaps2011)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011"]]), path = fbiomassMaps2011)
+    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011"]]), path = fbiomassMaps2011, overwrite = TRUE)
   }
   biomassMaps2011 <- loadSimList(fbiomassMaps2011)
 } else {
