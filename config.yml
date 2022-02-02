@@ -29,11 +29,11 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  studyarea: "WCB" #Yukon #BC #RIA #SB #WCB #WB
-  gcm: "historical" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical
-  rcp: "" #"RCP4.5" "RCP8.5" or ""
+  studyarea: "WB" #Yukon #BC #RIA #SB #WCB #WB
+  gcm: "INM-CM4" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical
+  rcp: "RCP8.5" #"RCP4.5" "RCP8.5" or ""
   fuelclasses: true
-  replicate: 1
+  replicate: 3
   gmcsdriver: "LandR"
   simulateam: false
   amscenario: true
