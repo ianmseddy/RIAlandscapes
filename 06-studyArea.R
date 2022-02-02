@@ -12,7 +12,7 @@ preambleParams <- list(
     "projectedFireYears" = 2011:2100,
     "studyAreaName" = studyAreaName,
     "GCM" = config::get("gcm"),
-    "RCP" = config::get("rcp")
+    "SSP" = config::get("ssp")
   )
 )
 

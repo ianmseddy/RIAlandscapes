@@ -1,7 +1,7 @@
 ################################################################################
 ## Options
 ################################################################################
-
+setDTthreads(2)
 cacheDBconn <- if (config::get("cachedb") == "sqlite") {
   Require("RSQLite")
   NULL ## default to sqlite
