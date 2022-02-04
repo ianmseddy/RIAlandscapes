@@ -24,11 +24,12 @@ RIASppUpdate <- function(sT) {
   return(sT)
 }
 
-factCDreduced <- prepInputs(url = "https://drive.google.com/file/d/10t6RbR-1gSi7m42kG1-7iHO7m6ZZsEjA/view?usp=sharing",
-                            destinationPath = dataPrepPaths$inputPath, fun = 'readRDS', overwrite =TRUE)
-factCDSpp <- prepInputs(url = "https://drive.google.com/file/d/15NqL58NvSfI0ppBzKCvUPgs5ylRmQV8A/view?usp=sharing",
-                         destinationPath = dataPrepPaths$inputPath, fun = 'readRDS', overwrite = TRUE)
-
+factCDcohort <- prepInputs(url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
+                            destinationPath = dataPrepPaths$inputPath, targetFile = "cohortDataFactorial_medium.rds",
+                           fun = 'readRDS')
+factCDSpp <- prepInputs(url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
+                        targetFIle = "speciesTableFactorial_medium.rds",
+                        destinationPath = dataPrepPaths$inputPath, fun = 'readRDS')
 
 
 dataPrepParams2001 <- list(
@@ -60,36 +61,16 @@ dataPrepParams2001 <- list(
   Biomass_speciesParameters = list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     " useHeight" = TRUE,
-    "GAMMknots" = list(
-      "Abie_las" = 3,
-      "Betu_pap" = 3,
-      "Pice_eng" = 3,
-      "Pice_gla" = 3,
-      "Pice_mar" = 3,
-      "Pinu_con" = 3,
-      "Popu_tre" = 3
-    ),
-    constrainMaxANPP = list(
-      "Abie_las" = c(3.0, 3.1),
-      "Betu_pap" = c(3.6, 3.8),
-      "Pice_eng" = c(3.2, 3.4),
-      "Pice_gla" = c(3.2, 3.4),
-      "Pice_mar" = c(3.2, 3.4),
-      "Pinu_con" = c(3.2, 3.4),
-      "Popu_tre" = c(3.6, 3.8)
-    ),
-    constrainGrowthCurve = c(0.73, 0.73),
+    speciesFittingApproach = "focal",
     constrainMortalityShape = list(
-      "Abie_las" = c(23, 25),
-      "Betu_pap" = c(23, 25),
-      "Pice_eng" = c(23, 25),
-      "Pice_gla" = c(23, 25),
-      "Pice_mar" = c(23, 25),
-      "Pinu_con" = c(23, 25),
-      "Popu_tre" = c(23, 25)
-    ),
-    quantileAgeSubset = 98
-    )
+      "Abie_las" = c(20, 25),
+      "Betu_pap" = c(20, 25),
+      "Pice_eng" = c(20, 25),
+      "Pice_gla" = c(20, 25),
+      "Pice_mar" = c(20, 25),
+      "Pinu_con" = c(20, 25),
+      "Popu_tre" = c(20, 25)
+    ))
 )
 
 dataPrepOutputs2001 <- data.frame(
@@ -108,8 +89,8 @@ dataPrepOutputs2001 <- data.frame(
 )
 
 dataPrepObjects <- list("ecoregionRst" = simOutPreamble$ecoregionRst,
-                        "factorialSpeciesTable" = factCDSpp,
-                        "reducedFactorialCohortData" = factCDreduced,
+                        "cohortDataFactorial" = factCDcohort,
+                        "speciesTableFactorial" = factCDSpp,
                         "rasterToMatch" = simOutPreamble$rasterToMatch,
                         "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
                         "rstLCC" = simOutPreamble$rstLCC2010,
