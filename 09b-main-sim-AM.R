@@ -96,7 +96,7 @@ dynamicParams <- list(
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
     'sppEquivCol' = "RIA",
     gmcsGrowthLimits = c(33, 150),
-    gmcsMortLimits = c(33, 300),
+    gmcsMortLimits = c(100, 100),
     plotOverstory = FALSE,
     growthAndMortalityDrivers = "LandRCSAM",
     cohortDefinitionCols = cohortCols,

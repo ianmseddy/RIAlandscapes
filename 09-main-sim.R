@@ -89,7 +89,7 @@ dynamicParams <- list(
     'sppEquivCol' = "RIA",
     .studyAreaName = studyAreaName,
     gmcsGrowthLimits = c(33, 150),
-    gmcsMortLimits = c(33, 300),
+    gmcsMortLimits = c(100, 100),
     plotOverstory = FALSE,
     growthAndMortalityDrivers = config::get('gmcsdriver'),
     keepClimateCols = TRUE,
