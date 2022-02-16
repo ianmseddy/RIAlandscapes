@@ -24,12 +24,19 @@ RIASppUpdate <- function(sT) {
   return(sT)
 }
 
-factCDcohort <- prepInputs(url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
-                            destinationPath = dataPrepPaths$inputPath, targetFile = "cohortDataFactorial_medium.rds",
-                           fun = 'readRDS')
-factCDSpp <- prepInputs(url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
-                        targetFIle = "speciesTableFactorial_medium.rds",
-                        destinationPath = dataPrepPaths$inputPath, fun = 'readRDS')
+if (!file.exists(file.path(dataPrepPaths$inputPath, "cohortDataFactorial_medium.rds"))){
+  factCDcohort <- Cache(prepInputs,url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
+                        destinationPath = dataPrepPaths$inputPath, targetFile = "cohortDataFactorial_medium.rds",
+                        fun = 'readRDS')
+  factCDSpp <- Cache(prepInputs, url = "https://drive.google.com/file/d/1NH7OpAnWtLyO8JVnhwdMJakOyapBnuBH/view?usp=sharing",
+                     targetFIle = "speciesTableFactorial_medium.rds",
+                     destinationPath = dataPrepPaths$inputPath, fun = 'readRDS')
+} else {
+  factCDcohort <- readRDS(file.path(dataPrepPaths$inputPath, "cohortDataFactorial_medium.rds"))
+  factCDSpp <- readRDS(ile.path(dataPrepPaths$inputPath, "speciesTableFactorial_medium.rds"))
+  # b2d737504b264f49
+  # 978f2d1b32375d27 clear these cacheIDs from dataPrep if you need space
+}
 
 
 dataPrepParams2001 <- list(

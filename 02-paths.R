@@ -33,16 +33,16 @@ dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
 
 
 if (config::get("gcm") != "historical") {
-  rcpNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("rcp"))
+  sspNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("ssp"))
   uniqueRunName <- paste(config::get("studyarea"),
                          config::get("gcm"),
-                         rcpNoDots, #avoid dots with the tar
+                         sspNoDots, #avoid dots with the tar
                          config::get("replicate"), sep = "_")
   #will need to rethink how to set up nonLandR runs -
   if (config::get('gmcsdriver') == "LandR") {
     uniqueRunName <- paste(config::get("studyarea"),
                            config::get("gcm"),
-                           rcpNoDots, #avoid dots with the tar
+                           sspNoDots, #avoid dots with the tar
                            "noLandRCS",
                            config::get("replicate"), sep = "_")
   }
@@ -50,14 +50,14 @@ if (config::get("gcm") != "historical") {
     hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
     uniqueRunName <- paste(config::get("studyarea"),
                            config::get("gcm"),
-                           rcpNoDots,
+                           sspNoDots,
                            hasAM, sep = "_")
   }
   #this approach cannot rely on nested directories, because the tarball only gets the final name
   dynamicPaths$outputPath <- file.path("outputs", "sims",
                                        config::get("studyarea"),
                                        config::get("gcm"),
-                                       config::get("rcp"),
+                                       config::get("ssp"),
                                        uniqueRunName)
 } else if (config::get("gmcsdriver") == "LandR") {
   landr <- ifelse(config::get("gmcsdriver") == "LandR", "LandR", "LandRCS")

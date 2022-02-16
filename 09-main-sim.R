@@ -1,10 +1,28 @@
 do.call(setPaths, dynamicPaths)
 # runName <- paste0(config::get("studyarea"), config::get("replicate"))
 
+
+#no point saving the simList when the climate runs will alll be different..
+if (!compareCRS(simOutPreamble$studyArea, simOutPreamble$rasterToMatch)){
+  simOutPreamble$studyArea <- sf::st_transform(simOutPreamble$studyArea, crs = crs(simOutPreamble$rasterToMatch))
+  simOutPreamble$studyAreaReporting <- sf::st_transform(simOutPreamble$studyAreaReporting, crs = crs(simOutPreamble$rasterToMatch))
+  simOutPreamble$studyAreaLarge <- sf::st_transform(simOutPreamble$studyAreaLarge, crs = crs(simOutPreamble$rasterToMatch))
+}
+
+if ("sf" %in% class(simOutPreamble$studyAreaPSP)){
+  simOutPreamble$studyAreaPSP <- st_zm(simOutPreamble$studyAreaPSP)
+  simOutPreamble$studyAreaPSP <- sf::as_Spatial(simOutPreamble$studyAreaPSP)
+}
+if ("sf" %in% class(simOutPreamble$studyArea)){
+  simOutPreamble$studyArea <- sf::as_Spatial(simOutPreamble$studyArea)
+  simOutPreamble$studyAreaReporting <- sf::as_Spatial(simOutPreamble$studyAreaReporting)
+  simOutPreamble$studyAreaLarge <- sf::as_Spatial(simOutPreamble$studyAreaLarge)
+}
+
 #clean up some problems
-if (config::get("gcm") != "historical"){
-  names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
-  names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
+if (config::get("gcm") != "historical") {
+  names(simOutPreamble$projectedATAstack) <- paste0("ATA", 2011:2100)
+  names(simOutPreamble$projectedCMIstack) <- paste0("CMI", 2011:2100)
   names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
 }
 times <- list(start = 2011, end = 2101)
@@ -29,7 +47,7 @@ if (is.null(simOutPreamble$sppColorVect)){
 
 
 #if using "historical" fire data, the random sampling is cached - so resample the years
-if (config::get("gcm") == "historical"){
+if (config::get("gcm") == "historical") {
   projectedMDCyears <- sample(names(simOutPreamble$historicalClimateRasters$MDC),
                               size = 90, replace = TRUE)
   projectedMDC <- lapply(projectedMDCyears, FUN = function(x){
@@ -40,12 +58,10 @@ if (config::get("gcm") == "historical"){
   rm(projectedMDC)
 }
 
-
-
 dynamicObjects <- list(
   studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
-  ATAstack = simOutPreamble[["ATAstack"]],
-  CMIstack = simOutPreamble[["CMIstack"]],
+  ATAstack = simOutPreamble[["projectedATAstack"]],
+  CMIstack = simOutPreamble[["projectedCMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
   PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
   PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
@@ -176,7 +192,7 @@ historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
 
 #restrict to escapes only, but sum poly_ha for burns
-historicalBurns <- historicalBurns[SIZE_HA > 6.25, .(sumBurn = sum(POLY_HA), nFires = .N), .(YEAR)]
+historicalBurns <- historicalBurns[SIZE_HA > 6.25, .(sumBurn = sum(as.numeric(POLY_HA)), nFires = .N), .(YEAR)]
 setnames(historicalBurns, "YEAR", "year")
 historicalBurns[, stat := 'observed']
 projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
@@ -201,7 +217,6 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   labs(y = "number of ignitions",
        title = studyAreaName,
        subtitle = paste(config::get("gcm"), config::get("rcp")))
-gIgnitions
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +

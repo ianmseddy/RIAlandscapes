@@ -30,14 +30,4 @@ simOutPreamble <- Cache(simInitAndSpades,
                         userTags = c("RIAlandscapes_studyArea", studyAreaName)
 )
 
-#no point saving the simList when the climate runs will alll be different..
-if (!compareCRS(simOutPreamble$studyArea, simOutPreamble$rasterToMatch)){
-  simOutPreamble$studyArea <- sf::st_transform(simOutPreamble$studyArea, crs = crs(simOutPreamble$rasterToMatch))
-  simOutPreamble$studyAreaReporting <- sf::st_transform(simOutPreamble$studyAreaReporting, crs = crs(simOutPreamble$rasterToMatch))
-  simOutPreamble$studyAreaLarge <- sf::st_transform(simOutPreamble$studyAreaLarge, crs = crs(simOutPreamble$rasterToMatch))
-}
-
-simOutPreamble$studyArea <- sf::as_Spatial(simOutPreamble$studyArea)
-simOutPreamble$studyAreaReporting <- sf::as_Spatial(simOutPreamble$studyAreaReporting)
-simOutPreamble$studyAreaLarge <- sf::as_Spatial(simOutPreamble$studyAreaLarge)
 
