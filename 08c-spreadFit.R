@@ -71,7 +71,7 @@ spreadFitObjects <- list(
   studyArea = fSsimDataPrep[["studyArea"]]
 )
 
-spreadName <- ifelse(fuelClasses, "spreadOut_fuelClass", "spreadOut")
+spreadName <- "spreadOut_fuelClass"
 newGoogleIDs <- gdriveSims[[spreadName]] == ""
 fspreadOut <- file.path(Paths$outputPath, paste0(spreadName, studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {

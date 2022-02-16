@@ -15,7 +15,7 @@ fSdataPrepParams <- list(
     "ignitionFuelClassCol" = 'ignitionFuelClass',
     'spreadFuelClassCol' = 'spreadFuelClass',
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit"),
-    "usePCA" = !fuelClasses
+    "usePCA" = FALSE
   )
 )
 
