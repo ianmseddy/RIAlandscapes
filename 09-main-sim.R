@@ -159,7 +159,8 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
-if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
+if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM |
+    config::get("ssp") != simOutPreamble@params$RIAlandscapes_studyArea$SSP) {
   stop("mismatched gcms")
 }
 
@@ -216,7 +217,7 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   ylim(0, max(dat2$N) * 1.2) +
   labs(y = "number of ignitions",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("rcp")))
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
@@ -224,7 +225,7 @@ gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("rcp")))
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
@@ -232,16 +233,16 @@ gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
        title = paste(studyAreaName, "rep", config::get("replicate")),
-       subtitle = paste(config::get("gcm"), config::get("rcp")))
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
 
 
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
 ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
-compMDC <- compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
-                      projectedMDC = mainSim$projectedClimateLayers$MDC,
-                      flammableRTM = mainSim$flammableRTM)
+compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
+                                      projectedMDC = mainSim$projectedClimateLayers$MDC,
+                                      flammableRTM = mainSim$flammableRTM)
 ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
 
 resultsDir <- dynamicPaths$outputPath

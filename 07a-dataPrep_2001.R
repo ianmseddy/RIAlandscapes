@@ -33,7 +33,7 @@ if (!file.exists(file.path(dataPrepPaths$inputPath, "cohortDataFactorial_medium.
                      destinationPath = dataPrepPaths$inputPath, fun = 'readRDS')
 } else {
   factCDcohort <- readRDS(file.path(dataPrepPaths$inputPath, "cohortDataFactorial_medium.rds"))
-  factCDSpp <- readRDS(ile.path(dataPrepPaths$inputPath, "speciesTableFactorial_medium.rds"))
+  factCDSpp <- readRDS(file.path(dataPrepPaths$inputPath, "speciesTableFactorial_medium.rds"))
   # b2d737504b264f49
   # 978f2d1b32375d27 clear these cacheIDs from dataPrep if you need space
 }

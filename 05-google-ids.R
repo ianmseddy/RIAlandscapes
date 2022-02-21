@@ -206,10 +206,12 @@ gdriveResults <- list(
   "SB_historical_LandR_1" = "1akY_YOxeeN9jq3T22eVlyy6XikJnsIzZ", #burn summary: 1,360,237 mean biomass: 97.8 Mg/ha
   "SB_historical_LandR_2" = "1c3o-agGVEVWipii8E3FL0Nmpdc4u2I3i", #burn summary: 1,610,700 mean biomass: 96.5 Mg/ha
   "SB_historical_LandR_3" = "1FpMgizvPqSTc6sIzNwpS1qghFI1hqMNy", #burn Summary: 1,395,912 mean biomass: 97.8 Mg/ha
+
   "SB_CanESM5_245_noLandRCS_3" = "1tTIJKApy3uKN-N9VOK2sAfFglEFrfJsa", #ha burned: 777,831 mean biomass: 99.5 Mg/ha
   "SB_CanESM5_245_3" = "1TUmOn1vsI-1PHgpRkskqyVeN_5GWzyrD", #ha burned: 767,118 mean biomass: 87.0 Mg/ha
 
-  "SB_CNRM-ESM2-1_370_1" = "1w7_1FmiNEPMT3p83CME6dIRBL4hE-B-e" #ha burned: 776,356 mean biomass: 87.0 Mg/ha
+  "SB_CNRM-ESM2-1_370_1" = "1w7_1FmiNEPMT3p83CME6dIRBL4hE-B-e", #ha burned: 776,356 mean biomass: 87.0 Mg/ha
+  "SB_CNRM-ESM2-1_370_2" = "1_KygsVgFCA-4dMawuDDpJuaC3Ra_R5m8" #ha burned: 1,617,293 mean biomass: 64.6 Mg/ha
 
 
 )
