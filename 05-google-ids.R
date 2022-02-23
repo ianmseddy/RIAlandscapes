@@ -1,9 +1,6 @@
 ## Google Drive locations for pre-run simulation objects
 ## these are used when config option 'prerun' is true
 
-
-
-
 switch(studyAreaName,
        "BC" =  { gdriveURL <- "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_"},
        "Yukon" = { gdriveURL <-  "https://drive.google.com/drive/folders/1zq8HT4MKAV8RZv5ggrsDN-dmJt-KeD3_"},
@@ -210,9 +207,9 @@ gdriveResults <- list(
   "SB_CanESM5_245_noLandRCS_3" = "1tTIJKApy3uKN-N9VOK2sAfFglEFrfJsa", #ha burned: 777,831 mean biomass: 99.5 Mg/ha
   "SB_CanESM5_245_3" = "1TUmOn1vsI-1PHgpRkskqyVeN_5GWzyrD", #ha burned: 767,118 mean biomass: 87.0 Mg/ha
 
-  "SB_CNRM-ESM2-1_370_1" = "1w7_1FmiNEPMT3p83CME6dIRBL4hE-B-e", #ha burned: 776,356 mean biomass: 87.0 Mg/ha
-  "SB_CNRM-ESM2-1_370_2" = "1_KygsVgFCA-4dMawuDDpJuaC3Ra_R5m8" #ha burned: 1,617,293 mean biomass: 64.6 Mg/ha
-
-
+  "SB_CNRM-ESM2-1_370_1" = "1jdDnVf0S_K7XCxYQ2H34GbDSP-ICZQEb", #ha burned: 1,655,512 mean biomass: 64.2 Mg/ha
+  "SB_CNRM-ESM2-1_370_2" = "1_KygsVgFCA-4dMawuDDpJuaC3Ra_R5m8", #ha burned: 1,617,293 mean biomass: 64.6 Mg/ha
+  "SB_CNRM-ESM2-1_370_3" = "1NoupEJT1N2lwIRi4lrtkSnrZx9kSo4jz", #ha burned: 1,697,581 mean biomass: 63.8 Mg/ha
+  "SB_CNRM-ESM2-1_370_noLandRCS_3" = "1EDd9QSVaTiz_1xYB1UtjpQiSEhhXmUW3" #ha burned: 1,602,693 mean biomass: 94.0 Mg/ha
 )
 

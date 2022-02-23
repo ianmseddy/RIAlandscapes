@@ -28,6 +28,7 @@ opts <- options(
   "reproducible.cachePath" = file.path(scratchDir, "cache"),
   "reproducible.cacheSaveFormat" = cacheFormat,
   "reproducible.conn" = cacheDBconn,
+  "reproducible.tempPath" = scratchDir,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
   "reproducible.inputPaths" = userInputPaths,
   "reproducible.nThreads" = 2,
@@ -37,7 +38,7 @@ opts <- options(
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCache" = TRUE,
   "reproducible.useCloud" = TRUE,
-  "reproducible.useGDAL" = FALSE, ## TODO: can't use true until system call bugs are resolved
+  "reproducible.useGDAL" = TRUE,
   "reproducible.useMemoise" = useMemoise,
   "reproducible.useNewDigestAlgorithm" = reproducibleAlgorithm,
   "reproducible.useRequire" = useRequire,
