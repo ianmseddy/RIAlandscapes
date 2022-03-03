@@ -12,10 +12,10 @@ default:
   messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
-    scratchdir: "/tmp/scratch/RIAlandscapes"
+    scratchdir: "scratch/RIAlandscapes"
   reproduciblealgorithm: 1
   usememoise: false
-  userequire: true
+  userequire: false
 
 production:
   batchmode: true
@@ -29,13 +29,13 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  studyarea: "SB" #Yukon #BC #RIA #SB #WCB #WB
-  gcm: "CanESM5" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical
-  ssp: "370" #"RCP4.5" "RCP8.5" or ""
+  studyarea: "WB" #Yukon #BC #RIA #SB #WCB #WB
+  gcm: "CanESM5" #CanESM5 CSIRO-Mk3 Access1 INM-CM4 historical CNRM-ESM2-1
+  ssp: "370" #585 370 245 ""
   fuelclasses: true
   replicate: 3
-  gmcsdriver: "LandR"
+  gmcsdriver: "LandR.CS"
   simulateam: false
   amscenario: true
   paths:
-    scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else if (Sys.info()[["nodename"]] == "ria01") "home/ieddy/scratch" else '/mnt/scratch/ieddy/'
+    scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else if (Sys.info()[["nodename"]] == "ria01") "scratch" else 'scratch'
