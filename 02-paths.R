@@ -46,13 +46,6 @@ if (config::get("gcm") != "historical") {
                            "noLandRCS",
                            config::get("replicate"), sep = "_")
   }
-  if (simulateAM){
-    hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
-    uniqueRunName <- paste(config::get("studyarea"),
-                           config::get("gcm"),
-                           sspNoDots,
-                           hasAM, sep = "_")
-  }
   #this approach cannot rely on nested directories, because the tarball only gets the final name
   dynamicPaths$outputPath <- file.path("outputs", "sims",
                                        config::get("studyarea"),
@@ -73,6 +66,17 @@ if (config::get("gcm") != "historical") {
 } else {
   stop("Ian you need to set up for when LandR.CS is run but historical fireSense")
 }
+
+if (simulateAM){
+  hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
+  uniqueRunName <- paste(config::get("studyarea"),
+                         config::get("gcm"),
+                         sspNoDots,
+                         hasAM, sep = "_")
+  dynamicPaths$outputPath <- file.path("outputs", "AMsims",
+                                       uniqueRunName)
+}
+
 #redundant study area so dir begins with letter
 postProcessingPaths <- dynamicPaths
 postProcessingPaths$outputPath <- file.path("outputs/summary figures/", studyAreaName)
