@@ -181,6 +181,10 @@ mainSim <- simInitAndSpades(
   paths = dynamicPaths
 )
 
+mainSim$CMIstack <- NULL
+mainSim$ATAstack <- NULL
+mainSim$projectedClimateLayers <- NULL
+
 saveSimList(
   sim = mainSim,
   filename = fsim,
