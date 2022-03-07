@@ -244,8 +244,9 @@ gdriveResults <- list(
 
 
   #WB 90-year sumBurn = 9,779,156 ha, starting biomas = 56.4 Mg/ha
- "WB_CanESM5_370_1" = "1oRf8D95aWIrMw3T8Qk8tngcqzV8gEWJO", #ha burned: 15,184,381 mean biomass: 27.8 Mg/ha
- "WB_CanESM5_370_noLandRCS_1" = "1eufRAQwgRV_jSgIza3AgwdhItoglsRX2" #ha burned 14,667,075 mean biomass: 35.4 Mg/ha
+  "WB_historical_LandR_1" = "1blsTUnTcyYY95egavG4XAcHWMoz67ZuO", #ha burned: 21,885,268 mean biomass: 32.7 Mg/ha
+  "WB_CanESM5_370_1" = "1oRf8D95aWIrMw3T8Qk8tngcqzV8gEWJO", #ha burned: 15,184,381 mean biomass: 27.8 Mg/ha
+  "WB_CanESM5_370_noLandRCS_1" = "1eufRAQwgRV_jSgIza3AgwdhItoglsRX2" #ha burned 14,667,075 mean biomass: 35.4 Mg/ha
   #SB AM
 
 
