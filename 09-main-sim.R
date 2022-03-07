@@ -80,7 +80,6 @@ dynamicObjects <- list(
   landcoverDT = as.data.table(fSsimDataPrep[["landcoverDT"]]),
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
-  PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
@@ -172,6 +171,12 @@ LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
 if (config::get("gmcsdriver") == "LandR"){
   dynamicModules <- dynamicModules[dynamicModules != "gmcsDataPrep"]
 }
+
+#safety
+if (config::get("simulateam") == TRUE | config::get('amscenario') = TRUE) {
+  stop("please run 09b-main.sim for AM")
+}
+
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,

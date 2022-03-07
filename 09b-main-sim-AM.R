@@ -2,8 +2,8 @@ do.call(setPaths, dynamicPaths)
 
 
 #fix some postProcessing issues
-names(simOutPreamble$ATAstack) <- paste0("ATA", 2011:2100)
-names(simOutPreamble$CMIstack) <- paste0("CMI", 2011:2100)
+names(simOutPreamble$projectedATAstack) <- paste0("ATA", 2011:2100)
+names(simOutPreamble$projectedCMIstack) <- paste0("CMI", 2011:2100)
 names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
 
 ####prep####
@@ -30,7 +30,7 @@ dynamicModules <- list(
   "assistedMigrationBC")
 ####objects####
 dynamicObjects <- list(
-  ATAstack = simOutPreamble[["ATAstack"]],
+  ATAstack = simOutPreamble[["projectedATAstack"]],
   biomassMap = biomassMaps2011$biomassMap,
   cceArgs = list(quote(CMI),
                  quote(ATA),
@@ -42,7 +42,7 @@ dynamicObjects <- list(
                  quote(currentBEC),
                  quote(BECkey)),
 
-  CMIstack = simOutPreamble[["CMIstack"]],
+  CMIstack = simOutPreamble[["projectedCMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
   cohortData = as.data.table(biomassMaps2011$cohortData),
   PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
@@ -62,7 +62,6 @@ dynamicObjects <- list(
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   nonForestedLCCGroups = fSsimDataPrep$nonForestedLCCGroups,
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
-  PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = biomassMaps2011$pixelGroupMap,
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
   rasterToMatch = simOutPreamble$rasterToMatch,
@@ -112,19 +111,23 @@ dynamicParams <- list(
   fireSense_dataPrepPredict = list(
     "fireTimeStep" = 1,
     "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "ignitionFuelClassCol" = "ignitionFuelClass",
+    "spreadFuelClassCol" = "spreadFuelClass",
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict",
                                 "fireSense_EscapePredict",
                                 "fireSense_SpreadPredict"),
     "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
-  fireSense_ignitionPredict = list(),
+  fireSense_IgnitionPredict = list(),
+  fireSense_SpreadPredict = list("coefTouse" = "meanCoef"),
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
     ".plotInterval" = NA,
     ".plotInitialTime" = NA
   ),
   gmcsDataPrep = list(
-    useHeight = TRUE
+    useHeight = TRUE,
+    useCache = c(".Init", ".inputObjects")
   ),
   LandR_reforestation = list(
     cohortDefinitionCols = cohortCols,
@@ -155,6 +158,8 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 #####simulation
 times <- list(start = 2011, end = 2101)
+
+options("LandR.assertions" = TRUE)
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 mainSim <- simInitAndSpades(
@@ -217,3 +222,4 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          path = (gdriveSims[["results"]]), name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
+
