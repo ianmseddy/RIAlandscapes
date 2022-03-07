@@ -173,7 +173,7 @@ if (config::get("gmcsdriver") == "LandR"){
 }
 
 #safety
-if (config::get("simulateam") == TRUE | config::get('amscenario') = TRUE) {
+if (config::get("simulateam") == TRUE | config::get("amscenario") = TRUE) {
   stop("please run 09b-main.sim for AM")
 }
 
@@ -250,7 +250,7 @@ ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "si
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
 compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
-                                      projectedMDC = mainSim$projectedClimateLayers$MDC,
+                                      projectedMDC = simOutPreamble$projectedClimateLayers$MDC,
                                       flammableRTM = mainSim$flammableRTM)
 ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
 
