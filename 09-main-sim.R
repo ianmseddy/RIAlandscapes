@@ -173,7 +173,7 @@ if (config::get("gmcsdriver") == "LandR"){
 }
 
 #safety
-if (config::get("simulateam") == TRUE | config::get("amscenario") = TRUE) {
+if (config::get("simulateam") == TRUE | config::get("amscenario") == TRUE) {
   stop("please run 09b-main.sim for AM")
 }
 
