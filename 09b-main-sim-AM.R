@@ -133,7 +133,8 @@ dynamicParams <- list(
   ),
   LandR_reforestation = list(
     cohortDefinitionCols = cohortCols,
-    trackPlanting = TRUE
+    trackPlanting = TRUE,
+    initialB = 20,
   ),
   simpleHarvest = list(
     minAgesToHarvest = 70
@@ -161,7 +162,7 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 #####simulation
 times <- list(start = 2011, end = 2101)
 
-options("LandR.assertions" = TRUE)
+options("LandR.assertions" = FALSE) #the testing of sumB alone adds 30 seconds every year.
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 mainSim <- simInitAndSpades(
