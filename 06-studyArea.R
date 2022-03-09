@@ -30,4 +30,7 @@ simOutPreamble <- Cache(simInitAndSpades,
                         userTags = c("RIAlandscapes_studyArea", studyAreaName)
 )
 
+simOutPreamble$studyArea <- sf::as_Spatial(simOutPreamble$studyArea)
+simOutPreamble$studyAreaLarge <- sf::as_Spatial(simOutPreamble$studyAreaLarge)
+simOutPreamble$studyAreaReporting <- sf::as_Spatial(simOutPreamble$studyAreaReporting)
 

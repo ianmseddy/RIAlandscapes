@@ -1,6 +1,6 @@
 do.call(setPaths, dynamicPaths)
 
-
+times <- list(start = 2011, end = 2101)
 #fix some postProcessing issues
 names(simOutPreamble$projectedATAstack) <- paste0("ATA", 2011:2100)
 names(simOutPreamble$projectedCMIstack) <- paste0("CMI", 2011:2100)
@@ -19,15 +19,16 @@ thlb <- setValues(thlb, tempDT$newTHLB)
 dynamicModules <- list(
   "simpleHarvest",
   "gmcsDataPrep",
+  "LandR_reforestation",
+  "assistedMigrationBC",
   "fireSense_dataPrepPredict",
   "fireSense",
   "fireSense_IgnitionPredict",
   "fireSense_EscapePredict",
   "fireSense_SpreadPredict",
   "Biomass_core",
-  "Biomass_regeneration",
-  "LandR_reforestation",
-  "assistedMigrationBC")
+  "Biomass_regeneration")
+
 ####objects####
 dynamicObjects <- list(
   ATAstack = simOutPreamble[["projectedATAstack"]],
@@ -94,6 +95,7 @@ dynamicParams <- list(
     'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
     'sppEquivCol' = "RIA",
+    .useCache = FALSE,
     gmcsGrowthLimits = c(33, 150),
     gmcsMortLimits = c(100, 100),
     plotOverstory = FALSE,
@@ -165,12 +167,16 @@ fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
+  loadOrder = unlist(dynamicModules), #make sure AM and LandR_reforestation are first
   objects = dynamicObjects,
   outputs = dynamicOutputs,
   params = dynamicParams,
   paths = dynamicPaths
 )
 
+mainSim$CMIstack <- NULL
+mainSim$ATAstack <- NULL
+mainSim$projectedClimateLayers <- NULL
 
 
 ####save####
@@ -181,37 +187,63 @@ saveSimList(
   fileBackend = 2
 )
 
-
+#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+#some post-run analysis
 historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
-historicalBurns <- historicalBurns[, .(sumBurn = sum(SIZE_HA), nFires = .N), .(YEAR)]
+
+#restrict to escapes only, but sum poly_ha for burns
+historicalBurns <- historicalBurns[SIZE_HA > 6.25, .(sumBurn = sum(as.numeric(POLY_HA)), nFires = .N), .(YEAR)]
 setnames(historicalBurns, "YEAR", "year")
 historicalBurns[, stat := 'observed']
-#hardcoded eww gross wtf
 projectedEscapes <- mainSim$burnSummary[areaBurnedHa > 6.25, .(nFires = .N), .(year)]
 projectedBurns <- mainSim$burnSummary[, .(sumBurn = sum(areaBurnedHa)), .(year)]
 projectedBurns <- projectedBurns[projectedEscapes, on = c("year")]
 projectedBurns[, stat := "projected"]
 dat <- rbind(projectedBurns, historicalBurns)
 
-gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
+trueHistoricalIgs <- as.data.table(fSsimDataPrep$ignitionFirePoints) %>%
+  .[, .N, .(YEAR)] %>%
+  setnames(., "YEAR", "year") %>%
+  .[, stat := "observed"] %>%
+  .[, year := as.numeric(year)]
+projectedIgs <- mainSim$burnSummary[, .N, .(year)] %>%
+  .[, stat := "projected"]
+dat2 <- rbind(trueHistoricalIgs, projectedIgs)
+
+gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   geom_point() +
   # geom_smooth() +
-  ylim(0, max(dat$sumBurn) * 1.1) +
-  labs(y = "cumulative annual burn (ha)",
-       title = studyAreaName,  subtitle = paste(config::get("gcm"), config::get("rcp")))
+  ylim(0, max(dat2$N) * 1.2) +
+  labs(y = "number of ignitions",
+       title = studyAreaName,
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
 
-gIgnitions <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
+gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
   # geom_smooth() +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("rcp")))
-ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_nFires.png"))
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
+
+gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
+  geom_point() +
+  # geom_smooth() +
+  ylim(0, max(dat$sumBurn) * 1.1) +
+  labs(y = "cumulative annual burn (ha)",
+       title = paste(studyAreaName, "rep", config::get("replicate")),
+       subtitle = paste(config::get("gcm"), config::get("ssp")))
+
+
+ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
+ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
-
+compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
+                                      projectedMDC = simOutPreamble$projectedClimateLayers$MDC,
+                                      flammableRTM = mainSim$flammableRTM)
+ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
 
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 resultsDir <- dynamicPaths$outputPath
