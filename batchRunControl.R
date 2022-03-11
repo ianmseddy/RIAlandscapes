@@ -7,6 +7,8 @@ allRunInfo <- fread("climateRunInfo.csv")
 runInfoGroup <- allRunInfo[GCM == "historical" & Replicates == 3]
 for (i in 1:nrow(runInfoGroup)) {
   runInfo <- runInfoGroup[i,]
+  #the "" is being input as NA
+  runInfo$SSP <- ""
   source("00-global.R")
 }
 
