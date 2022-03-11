@@ -37,7 +37,7 @@ source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 source("08c-spreadFit.R")
 
-if (config::get("simulateam")) {
+if (simulateAM) {
   source("09b-main-sim-AM.R")
 } else {
   source("09-main-sim.R")

@@ -29,8 +29,6 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
-  gcm: "CNRM-ESM2-1" #CanESM2 CSIRO-Mk3 Access1 INM-CM4 historical CNRM-ESM2-1 ACCESS-ESMI1-5
-  ssp: "370" #585 370 245 ""
   fuelclasses: true
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else if (Sys.info()[["nodename"]] == "ria01") "scratch" else 'scratch'
