@@ -32,35 +32,35 @@ dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")
 
 
 
-if (config::get("gcm") != "historical") {
-  sspNoDots <- gsub(pattern = "\\.", replacement = "", x = config::get("ssp"))
-  uniqueRunName <- paste(config::get("studyarea"),
-                         config::get("gcm"),
+if (GCM != "historical") {
+  sspNoDots <- gsub(pattern = "\\.", replacement = "", x = SSP)
+  uniqueRunName <- paste(studyAreaName,
+                         GCM,
                          sspNoDots, #avoid dots with the tar
-                         config::get("replicate"), sep = "_")
+                         Replicate, sep = "_")
   #will need to rethink how to set up nonLandR runs -
-  if (config::get('gmcsdriver') == "LandR") {
-    uniqueRunName <- paste(config::get("studyarea"),
-                           config::get("gcm"),
+  if (gmcsDriver == "LandR") {
+    uniqueRunName <- paste(studyAreaName,
+                           GCM,
                            sspNoDots, #avoid dots with the tar
                            "noLandRCS",
-                           config::get("replicate"), sep = "_")
+                           Replicate, sep = "_")
   }
   #this approach cannot rely on nested directories, because the tarball only gets the final name
   dynamicPaths$outputPath <- file.path("outputs", "sims",
-                                       config::get("studyarea"),
-                                       config::get("gcm"),
-                                       config::get("ssp"),
+                                       studyAreaName,
+                                       GCM,
+                                       SSP,
                                        uniqueRunName)
-} else if (config::get("gmcsdriver") == "LandR") {
-  landr <- ifelse(config::get("gmcsdriver") == "LandR", "LandR", "LandRCS")
-  uniqueRunName <- paste(config::get("studyarea"),
+} else if (gmcsDriver == "LandR") {
+  landr <- ifelse(gmcsDriver == "LandR", "LandR", "LandRCS")
+  uniqueRunName <- paste(studyAreaName,
                          "historical",
                          landr,
-                         config::get("replicate"),
+                         Replicate,
                          sep = "_")
   dynamicPaths$outputPath <- file.path("outputs", "sims",
-                                       config::get("studyarea"),
+                                       studyAreaName,
                                        uniqueRunName)
 
 } else {
@@ -69,8 +69,8 @@ if (config::get("gcm") != "historical") {
 
 if (simulateAM){
   hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
-  uniqueRunName <- paste(config::get("studyarea"),
-                         config::get("gcm"),
+  uniqueRunName <- paste(studyAreaName,
+                         GCM,
                          sspNoDots,
                          hasAM, sep = "_")
   dynamicPaths$outputPath <- file.path("outputs", "AMsims",

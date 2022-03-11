@@ -11,8 +11,8 @@ preambleParams <- list(
     "historicalFireYears" = 1991:2019,
     "projectedFireYears" = 2011:2100,
     "studyAreaName" = studyAreaName,
-    "GCM" = config::get("gcm"),
-    "SSP" = config::get("ssp")
+    "GCM" = GCM,
+    "SSP" = SSP
   )
 )
 

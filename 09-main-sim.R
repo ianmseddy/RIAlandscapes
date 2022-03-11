@@ -1,6 +1,4 @@
 do.call(setPaths, dynamicPaths)
-# runName <- paste0(config::get("studyarea"), config::get("replicate"))
-
 
 #no point saving the simList when the climate runs will alll be different..
 if (!compareCRS(simOutPreamble$studyArea, simOutPreamble$rasterToMatch)){
@@ -20,7 +18,7 @@ if ("sf" %in% class(simOutPreamble$studyArea)){
 }
 
 #clean up some problems
-if (config::get("gcm") != "historical") {
+if (GCM != "historical") {
   names(simOutPreamble$projectedATAstack) <- paste0("ATA", 2011:2100)
   names(simOutPreamble$projectedCMIstack) <- paste0("CMI", 2011:2100)
   names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
@@ -47,7 +45,7 @@ if (is.null(simOutPreamble$sppColorVect)){
 
 
 #if using "historical" fire data, the random sampling is cached - so resample the years
-if (config::get("gcm") == "historical") {
+if (GCM == "historical") {
   projectedMDCyears <- sample(names(simOutPreamble$historicalClimateRasters$MDC),
                               size = 90, replace = TRUE)
   projectedMDC <- lapply(projectedMDCyears, FUN = function(x){
@@ -106,7 +104,7 @@ dynamicParams <- list(
     gmcsGrowthLimits = c(33, 150),
     gmcsMortLimits = c(100, 100),
     plotOverstory = FALSE,
-    growthAndMortalityDrivers = config::get('gmcsdriver'),
+    growthAndMortalityDrivers = gmcsDriver,
     keepClimateCols = TRUE,
     minCohortBiomass = 5,
     .plotInitialTime = NA,
@@ -158,8 +156,8 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
-if (config::get("gcm") != simOutPreamble@params$RIAlandscapes_studyArea$GCM |
-    config::get("ssp") != simOutPreamble@params$RIAlandscapes_studyArea$SSP) {
+if (GCM != simOutPreamble@params$RIAlandscapes_studyArea$GCM |
+    SSP != simOutPreamble@params$RIAlandscapes_studyArea$SSP) {
   stop("mismatched gcms")
 }
 
@@ -168,12 +166,12 @@ LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
                         pixelGroupMap = dynamicObjects$pixelGroupMap,
                         doAssertion = TRUE)
 
-if (config::get("gmcsdriver") == "LandR"){
+if (gmcsDriver == "LandR"){
   dynamicModules <- dynamicModules[dynamicModules != "gmcsDataPrep"]
 }
 
 #safety
-if (config::get("simulateam") == TRUE | config::get("amscenario") == TRUE) {
+if (simulateAM == TRUE | AMscenario == TRUE) {
   stop("please run 09b-main.sim for AM")
 }
 
@@ -226,7 +224,7 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   ylim(0, max(dat2$N) * 1.2) +
   labs(y = "number of ignitions",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       subtitle = paste(GCM, SSP))
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
@@ -234,15 +232,15 @@ gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       subtitle = paste(GCM, SSP))
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
   # geom_smooth() +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
-       title = paste(studyAreaName, "rep", config::get("replicate")),
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       title = paste(studyAreaName, "rep", Replicate),
+       subtitle = paste(GCM, SSP))
 
 
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
@@ -270,5 +268,6 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
 
-message(paste("mean biomass: ", mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)))
-message(paste("burn summary: ", sum(mainSim$burnSummary$areaBurnedHa)))
+temp <- data.table("meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
+                   "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
+write.csv(temp, file.path(outputPath(temp), "quickStats.csv"))

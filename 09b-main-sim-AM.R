@@ -86,7 +86,7 @@ dynamicObjects <- list(
 cohortCols <- c("pixelGroup", "speciesCode", "age", "Provenance", "planted")
 dynamicParams <- list(
   assistedMigrationBC = list(
-    doAssistedMigration = config::get("amscenario"),
+    doAssistedMigration = AMscenario,
     trackPlanting = TRUE,
     sppEquivCol = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol
   ),
@@ -218,7 +218,7 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   ylim(0, max(dat2$N) * 1.2) +
   labs(y = "number of ignitions",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       subtitle = paste(GCM, GCM))
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
@@ -226,15 +226,15 @@ gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       subtitle = paste(GCM, GCM))
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
   # geom_smooth() +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
-       title = paste(studyAreaName, "rep", config::get("replicate")),
-       subtitle = paste(config::get("gcm"), config::get("ssp")))
+       title = paste(studyAreaName, "rep", Rep),
+       subtitle = paste(GCM, GCM))
 
 
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
@@ -255,4 +255,8 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          path = (gdriveSims[["results"]]), name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
+
+temp <- data.table("meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
+                   "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
+write.csv(temp, file.path(outputPath(temp), "quickStats.csv"))
 
