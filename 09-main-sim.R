@@ -166,7 +166,7 @@ LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
                         pixelGroupMap = dynamicObjects$pixelGroupMap,
                         doAssertion = TRUE)
 
-if (gmcsDriver == "LandR"){
+if (gmcsDriver == "LandR") {
   dynamicModules <- dynamicModules[dynamicModules != "gmcsDataPrep"]
 }
 
@@ -272,6 +272,6 @@ temp <- data.table("name" = uniqueRunName,
                    "path" = dat[name == uniqueRunName,]$id,
                     "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
                    "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
-write.csv(temp, file.path(outputPath(temp), "quickStats.csv"))
+write.csv(temp, file.path(outputPath(mainSim), "quickStats.csv"))
 rm(dat)
 amc::.gc()
