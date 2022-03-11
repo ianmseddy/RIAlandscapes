@@ -267,7 +267,11 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
 #       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
-
-temp <- data.table("meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
+dat <- as.data.table(googledrive::drive_ls(path = as_id(gdriveSims$results)))
+temp <- data.table("name" = uniqueRunName,
+                   "path" = dat[name == uniqueRunName,]$id,
+                    "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
                    "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
 write.csv(temp, file.path(outputPath(temp), "quickStats.csv"))
+rm(dat)
+amc::.gc()
