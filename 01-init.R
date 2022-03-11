@@ -28,4 +28,4 @@ simulateAM <- runInfo$simulateAM
 Replicate <- runInfo$Replicates
 GCM <- runInfo$GCM
 AMscenario <- runInfo$AMscenario
-gmcsdriver <- runInfo$gmcsDriver
+gmcsDriver <- runInfo$gmcsDriver
