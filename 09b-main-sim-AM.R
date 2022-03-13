@@ -46,10 +46,6 @@ dynamicObjects <- list(
   CMIstack = simOutPreamble[["projectedCMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
   cohortData = as.data.table(biomassMaps2011$cohortData),
-  PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
-  PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
-  PSPgis = biomassMaps2011[["PSPgis"]],
-
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
   ecoregionRst = biomassMaps2011[["ecoregionRst"]],
   ecoregion = as.data.table(biomassMaps2011[["ecoregion"]]),

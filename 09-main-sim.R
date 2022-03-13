@@ -61,22 +61,20 @@ dynamicObjects <- list(
   ATAstack = simOutPreamble[["projectedATAstack"]],
   CMIstack = simOutPreamble[["projectedCMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
-  PSPmeasure = as.data.table(biomassMaps2011[["PSPmeasure"]]),
-  PSPplot = as.data.table(biomassMaps2011[["PSPplot"]]),
-  PSPgis = biomassMaps2011[["PSPgis"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
-  cohortData = as.data.table(fSsimDataPrep[["cohortData2011"]]),
+  covMinMax_spread = as.data.table(spreadOut[["covMinMax_spread"]]),
+  covMinMax_ignition = as.data.table(ignitionOut[["covMinMax_ignition"]]),
+  cohortData = as.data.table(biomassMaps2011[["cohortData"]]),
   ecoregion = as.data.table(biomassMaps2011[["ecoregion"]]),
   ecoregionMap = biomassMaps2011[["ecoregionMap"]],
   flammableRTM = fSsimDataPrep[["flammableRTM"]],
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
-  covMinMax_spread = as.data.table(spreadOut[["covMinMax_spread"]]),
-  covMinMax_ignition = as.data.table(ignitionOut[["covMinMax_ignition"]]),
-  landcoverDT = as.data.table(fSsimDataPrep[["landcoverDT"]]),
+  landcoverDT = fSsimDataPrep[["landcoverDT"]],
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
+  nonForestedLCCGroups = fSsimDataPrep[["nonForestedLCCGroups"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
@@ -86,12 +84,11 @@ dynamicObjects <- list(
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
   sppColorVect = sppColorVect,
-  sppEquiv = as.data.table(fSsimDataPrep[["sppEquiv"]]), ## #use fSsimdataPrep in case fuelClass changes
+  sppEquiv = as.data.table(biomassMaps2011[["sppEquiv"]]), ## #use fSsimdataPrep in case fuelClass changes
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
   studyAreaReporting = biomassMaps2011[["studyArea"]],
   sufficientLight = as.data.frame(biomassMaps2011[["sufficientLight"]]), ## biomassMaps2011 needs bugfix to qs
-  terrainDT = as.data.table(fSsimDataPrep[["terrainDT"]]),
   vegComponentsToUse = fSsimDataPrep[["vegComponentsToUse"]]
 )
 
