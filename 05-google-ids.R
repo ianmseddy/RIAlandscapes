@@ -200,9 +200,10 @@ gdriveResults <- list(
 
   ###CMIP6###
   # ####SB#### - 90 year sumBurn ~ 2,500,000 ha - starting biomass = 130 Mg/ha *** some bad youngAge pixels
-  "SB_historical_LandR_1" = "1akY_YOxeeN9jq3T22eVlyy6XikJnsIzZ", #ha burned: 1,360,237 mean biomass: 97.8 Mg/ha *
-  "SB_historical_LandR_2" = "1c3o-agGVEVWipii8E3FL0Nmpdc4u2I3i", #ha burned: 1,610,700 mean biomass: 96.5 Mg/ha *
-  "SB_historical_LandR_3" = "1FpMgizvPqSTc6sIzNwpS1qghFI1hqMNy", #ha burned: 1,395,912 mean biomass: 97.8 Mg/ha *
+  "SB_historical_LandR_1" = "1akY_YOxeeN9jq3T22eVlyy6XikJnsIzZ", #ha burned: 1,360,237 mean biomass: 97.8 Mg/ha
+  "SB_historical_LandR_2" = "1c3o-agGVEVWipii8E3FL0Nmpdc4u2I3i", #ha burned: 1,610,700 mean biomass: 96.5 Mg/ha
+  "SB_historical_LandR_3" = "1HovXmX4wM1PdTVREFNWk5-cHTTkgBWK-", #ha burned: 1,506,863 mean biomass: 97.0 Mg/ha
+
 
   "SB_CanESM5_245_noLandRCS_1" = "1E6y9AAjAh4tVIwT7zvKNAjek_Swtaeig", #ha burned: 733,237 mean biomass: 99.6 Mg/ha *
   "SB_CanESM5_245_noLandRCS_2" = "1UbI4sNQAW_UMHOII5SZYONSEHphMwaiI", #ha burned: 657,931 mean biomass: 99.7 Mg/ha *
@@ -236,6 +237,7 @@ gdriveResults <- list(
 
 
   #WCB: 90-year sumBurn = 6,294,584 biomass 2011 = 66 Mg/ha
+  "WCB_historical_LandR_3" = "1jXyzl4HUQwGjnPUQrCvZlSXCoOx88rOb", #ha burned: 6,842,356 mean biomass: 52.25 Mg/ha
   "WCB_CNRM-ESM2-1_245_noLandRCS_1" = "1RI3GgG6ctXr18QqtFcNIpGEa_OsBFsiU", #ha burned: 5,958,287 mean biomass: 53.0 Mg/ha *
   "WCB_CNRM-ESM2-1_245_noLandRCS_2"= "1QnQd__4RmDCBTHWUfzL3Bn-LmTYAeecT", #ha burned: 5,854,744 mean biomass: 53.9 Mg/ha *
   "WCB_CNRM-ESM2-1_245_noLandRCS_3" = "1a9HjtFy5Dkc66KQZs2CexR9kX5OGH9AB", #ha burned: 5,973,987 mean biomass: 53.1 Mg/ha *
