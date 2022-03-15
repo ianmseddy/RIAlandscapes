@@ -269,5 +269,20 @@ temp <- data.table("name" = uniqueRunName,
                     "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
                    "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
 write.csv(temp, file.path(outputPath(mainSim), "quickStats.csv"))
+
+#this needs to happen
+#better track what's been run, for my sanity - will still ahve to merge across machines
+allRunInfo2 <- fread("climateRunInfo.csv")
+
+allRunInfo2[GCM == runInfo$GCM &
+            SSP == runInfo$SSP &
+            gmcsDriver == runInfo$gmcsDriver &
+            studyArea == runInfo$studyArea &
+            Replicates == runInfo$Replicates &
+            AMscenario == runInfo$AMscenario &
+            simulateAM == runInfo$simulateAM,
+            complete := TRUE]
+write.csv(allRunInfo2, "climateRunInfo.csv", row.names = FALSE)
+
 rm(dat)
 amc::.gc()
