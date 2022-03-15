@@ -2,7 +2,7 @@
 
 if (file.exists(".Renviron")) readRenviron(".Renviron")
 
-Require::Require("config")
+Require::Require("config", upgrade = FALSE)
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
