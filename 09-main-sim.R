@@ -266,8 +266,8 @@ SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchan
 dat <- as.data.table(googledrive::drive_ls(path = as_id(gdriveSims$results)))
 temp <- data.table("name" = uniqueRunName,
                    "path" = dat[name == uniqueRunName,]$id,
-                    "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
-                   "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
+                   "haBurned" = round(sum(mainSim$burnSummary$areaBurnedHa), digits = 0),
+                   "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2))
 write.csv(temp, file.path(outputPath(mainSim), "quickStats.csv"))
 
 #this needs to happen
