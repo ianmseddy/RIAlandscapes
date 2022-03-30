@@ -282,7 +282,7 @@ allRunInfo2[GCM == runInfo$GCM &
             AMscenario == runInfo$AMscenario &
             simulateAM == runInfo$simulateAM,
             complete := TRUE]
-write.csv(allRunInfo2, "climateRunInfo.csv", row.names = FALSE)
+data.table::fwrite(allRunInfo2, "climateRunInfo.csv", row.names = FALSE)
 
 rm(dat)
 amc::.gc()

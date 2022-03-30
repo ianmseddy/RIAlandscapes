@@ -200,60 +200,74 @@ gdriveResults <- list(
 
   ###CMIP6###
   # ####SB#### - 90 year sumBurn ~ 2,500,000 ha - starting biomass = 130 Mg/ha *** some bad youngAge pixels
-  #historical
+  #historical - complete
   "SB_historical_LandR_1" = "1akY_YOxeeN9jq3T22eVlyy6XikJnsIzZ", #ha burned: 1,360,237 mean biomass: 97.8 Mg/ha
   "SB_historical_LandR_2" = "1-c8nnDyZWyLoVKFg_zj8UV57pmGIteEB", #ha burned: 1,988,088 mean biomass: 94.8 Mg/ha
   "SB_historical_LandR_3" = "1HovXmX4wM1PdTVREFNWk5-cHTTkgBWK-", #ha burned: 1,506,863 mean biomass: 97.0 Mg/ha
-  #CanESM5 245
+  #CanESM5 245 - complete
+  "SB_CanESM5_245_noLandRCS_1" = "1fsEJ1KF6N09g066f3V44BY4PUVverx4f",#ha burned: 652,919 99.89
+  "SB_CanESM5_245_1" = "1568dhwkbxZkj5DY4bp8m5LGxDs_jSv9d",#ha burned: 577,088, mean biomass: 83.5 Mg/ha
+  "SB_CanESM5_245_noLandRCS_2" = "1nzuMktmBPP_Oo_ywYTh1e7NCqkbxc7CE",#ha burned: 703,181 mean biomass: 100.4 Mg/ha
+  "SB_CanESM5_245_2" = "1XYmD0PKz6F7iqOM2azm3QX6Qw3GuEvqD",#ha burned: 691,569, mean biomass: 83.2 Mg/ha
   "SB_CanESM5_245_noLandRCS_3" = "1tQXqaG892DQ0PTglSu3Iq1gmPrt7N-Ld", #ha burned: 908,462 mean biomass: 98.9 Mg/ha
-  "SB_CanESM5_245_3" = "1CUcH-_Y9HiJpcGIUzmT72_Yy6HKILt4T", #ha burned: 718,381 mean biomass: 87.2 Mg/ha *** Curious about fire, but this is correct...
-  #CanESM5 370
+  "SB_CanESM5_245_3" = "1CUcH-_Y9HiJpcGIUzmT72_Yy6HKILt4T", #ha burned: 718,381 mean biomass: 87.2 Mg/ha *** Curious, but correct
+  #CanESM5 370 - complete
+  "SB_CanESM5_370_noLandRCS_1" = "1SUfScOgLk0V6Fk8hEQKG5dIL9HcZzSJ0",#ha burned: 1,356,019 mean biomass: 94.6 Mg/ha
+  "SB_CanESM5_370_1" = "1SFvirQTkEhX9sJXYdGbFJP3nypnrzN_5",#ha burned: 1,436,781 mean biomass: 81.6 Mg/ha
+  "SB_CanESM5_370_noLandRCS_2" = "1dGnedOeNOrk0jcEh56VmiXIXSkL3wRtX",#ha burned: 1,561,075 mean biomass: 93.1 Mg/ha
+  "SB_CanESM5_370_2" = "1T9yDVm3ES0UJDUnwn_cMfAEB4qtD8Gnn",#ha burned: 1,445,288 mean biomass: 81.2 Mg/ha
   "SB_CanESM5_370_noLandRCS_3" = "1MT4ETl23lZDkKB8mKnO3B0VIEH6rBxxh", #ha burned: 1,238,550 mean biomass: 95.4 Mg/ha
   "SB_CanESM5_370_3"= "1lylskguUxW_a2JMObdO3L010nTv0naFG", #ha burned: 1,281,575 mean biomass: 86.2 Mg/ha
-  #CNRM 245
+  #CNRM 245 - complete
   "SB_CNRM-ESM2-1_245_noLandRCS_1"= "1CizM2tdJQdM8K3-ktIXZEFThBZk9Wyng", #ha burned: 1,385,119, mean biomass: 96.2 Mg/ha
   "SB_CNRM-ESM2-1_245_1" = "1mI4iLN3BfRp4ZiNTVCH63yQWAbpjc_1p", #ha burned 1,414,544, mean biomass: 82.9 Mg/ha
   "SB_CNRM-ESM2-1_245_noLandRCS_2"= "1qlvy0qScsUqxzr1Y0uBZam21c53AiUXG", #ha burned: 1,425,800, mean biomass: 96.2 Mg/ha
   "SB_CNRM-ESM2-1_245_2" = "1YEA16JfFBGQ47lCqpTW4OmhZHveIxuvB", #ha burned: 1,406,338, mean biomass: 82.0 Mg/ha
-  "SB_CNRM-ESM2-1_245_noLandRCS_3" = "1QRVdcOKwvubJKh5Xc1mupzAurXvRhXjo", #ha burned: 1,365,931 mean biomass: 96.32 Mg/ha
-  "SB_CNRM-ESM2-1_245_3" = "1LTY9wHHgINp2pB6rZanpVqhA7GAZ3Lmn", #ha burned: 1,392,325 mean biomass: 80.52 Mg/ha
-  #CNRM 370
-  "SB_CNRM-ESM2-1_370_noLandRCS_1" = "1uds92wFrllc6oMjtDShg0x4D-JfLYhz4", #ha burned: 1,609,900 mean biomass: 94.25 Mg/ha
+  "SB_CNRM-ESM2-1_245_noLandRCS_3" = "1QRVdcOKwvubJKh5Xc1mupzAurXvRhXjo", #ha burned: 1,365,931 mean biomass: 96.3 Mg/ha
+  "SB_CNRM-ESM2-1_245_3" = "1LTY9wHHgINp2pB6rZanpVqhA7GAZ3Lmn", #ha burned: 1,392,325 mean biomass: 80.5 Mg/ha
+  #CNRM 370 - complete
+  "SB_CNRM-ESM2-1_370_noLandRCS_1" = "1uds92wFrllc6oMjtDShg0x4D-JfLYhz4", #ha burned: 1,609,900 mean biomass: 94.3 Mg/ha
   "SB_CNRM-ESM2-1_370_1" = "1LuN555WCv5uRVdoXmW4RWVFlrkxDkgW3", #ha burned: 1,543,562, mean biomass: 81.9 Mg/ha
   "SB_CNRM-ESM2-1_370_noLandRCS_2" = "1He1hXVOZK9E3g6h9DXWlg8cs60HoNLTp", #ha burned: 1,580,081 mean biomass: 94.1 Mg/ha
   "SB_CNRM-ESM2-1_370_2" = "18qtqs6870JrdJxlTMEp2d6xz1-ggGRfa", #ha burned: 1,661,331, mean biomass: 83.4 Mg/ha
   "SB_CNRM-ESM2-1_370_noLandRCS_3" = "1FAT-tsrP-zOjv5OcsDn2lIYam5pS4FLj", #ha burned: 1,967,200 mean biomass: 90.8 Mg/ha,
   "SB_CNRM-ESM2-1_370_3" = "19DOS_TtG5mezYel18RGV6fKFUZOxyp6u", #ha burned: 1,728,731 mean biomass: 78.5 Mg/ha
-  #Access5 245
+  #Access5 245 - complete
+  "SB_ACCESS-ESMI1-5_245_noLandRCS_1" = "1lj2WpNee6Abr1cMGWs-p6H5Ug4iFnJrp", #ha burned: 2,272,438 mean biomass: 88.4 Mg/ha
+  "SB_ACCESS-ESMI1-5_245_1" = "12bTMW__TG1GERosNP5uNXF_jDZbeUAK8", #ha burned: 2,458,812 mean biomass: 73.1 Mg/ha
+  "SB_ACCESS-ESMI1-5_245_noLandRCS_2" = "18bmOpO87pYsEiaBTN94CsNWo95y70AHv", #ha burned: 2,536,606 mean biomass: 87.2 Mg/ha
+  "SB_ACCESS-ESMI1-5_245_2" = "1yIcROE6UWKv0eOzOSIzxtQbqz8n4X7KE", #ha burned: 2,401,675 mean biomass: 74.9 Mg/ha
   "SB_ACCESS-ESMI1-5_245_noLandRCS_3" = "1RfhGdaQdFPQ7Vg1uKlzGg7jF1maQ2XV2", #ha burned 2,392,244 mean biomass: 89.0 Mg/ha
   "SB_ACCESS-ESMI1-5_245_3" = "1psA-Rfb60poueoa6Wcfi8kk5LnlicoKN", #ha burned: 2,346,306 mean biomass: 74 Mg/ha
-  #Access 370
-  "SB_ACCESS-ESMI1-5_370_noLandRCS_3" = "1uUX3vK_c0aT7EjrwoOE9M2InFu8SpGPh", #ha burned: 3,668,938 mean biomass: 80.24 Mg/ha
+  #Access 370 - complete
+  "SB_ACCESS-ESMI1-5_370_noLandRCS_1" = "1l1S6GfNkD088P0W7n4IhSf52QUNaRVxl", #ha burned: 3,701,738 mean biomass: 80.3 Mg/ha
+  "SB_ACCESS-ESMI1-5_370_1" = "1orWvW2aF2f5NJUUeuOJj4F4895Kkezek", #ha burned: 3,951,744 mean biomass: 67.6 Mg/ha
+  "SB_ACCESS-ESMI1-5_370_noLandRCS_2" = "1L0KY9f8PChm6Z0VJUb9CQ40HtiQFcoLJ", #ha burned: 3,971,325 mean biomass: 79.3 Mg/ha
+  "SB_ACCESS-ESMI1-5_370_2" = "1lk33q0B26v0t3kLDxef_2a33Ri33ZFNE", #ha burned: 3,944,031 mean biomass: 70.0 Mg/ha
+  "SB_ACCESS-ESMI1-5_370_noLandRCS_3" = "1uUX3vK_c0aT7EjrwoOE9M2InFu8SpGPh", #ha burned: 3,668,938 mean biomass: 80.2 Mg/ha
   "SB_ACCESS-ESMI1-5_370_3" = "1dpDNkJ5Foh4ltSr8YbFW45m1slm8jyRI", #ha burned: 2,948,869 mean biomass: 76.2 Mg/ha
   #####WCB####: 90-year sumBurn = 6,294,584 biomass 2011 = 66 Mg/ha
   #historical
   "WCB_historical_LandR_3" = "1jXyzl4HUQwGjnPUQrCvZlSXCoOx88rOb", #ha burned: 6,842,356 mean biomass: 52.25 Mg/ha
-  #CanESM5 245
+  #CanESM5 245 - complete
   "WCB_CanESM5_245_noLandRCS_1" = "1DBOMiwu2hKqDDe9GZvlztJXTBWVqBXII", #ha burned: 3,892,025 mean biomass: 64.3 Mg/ha
   "WCB_CanESM5_245_1" = "1pVMh7Ln9iGSG58fZ_HfXSsTELIaDGkwO", #burn area = 3,699,644 mean biomass: = 49.6 Mg/ha
   "WCB_CanESM5_245_noLandRCS_2" = "10XYUtMGEGP5QJKYpoSj_H3zEQEdXlyfw", #ha burned: 3,946,725 mean biomass: 64.3 Mg/ha
   "WCB_CanESM5_245_2" = "1gtsoW1GYYfZLX4LqZLoJrYEwqH2y-87r",#ha burned: 3,528,362 mean biomass: 49.4 Mg/ha
-  #bad LandR
-  #had LandR.CS 3
-  #CanESM5 370
+  "WCB_CanESM5_245_noLandRCS_3" = "1jZx4UfC_NI7UqKeMuKn_v25syC7NYO_s", #ha burned: 3,724,912 mean biomass: 64.4 Mg/ha
+  "WCB_CanESM5_245_3" = "1Mj4peULggfIDB1t1oIJRXLFyG3EqfWF7", #ha burned: 3,799,338, mean biomass: 49.8 Mg/ha
+  #CanESM5 370 - complete
   "WCB_CanESM5_370_noLandRCS_1" = "1hzuXrl7mSRcKgAk1VsXQgr7dgEreJimi", #ha burned: 4,876,856 mean biomass: 61.1 Mg/ha
   "WCB_CanESM5_370_1" = "1kLSGuOsfaTkwpY5TiXl1GwtXPVq7Tho7",#ha burned: 5,297,350 mean biomass: 46.9 Mg/ha
   "WCB_CanESM5_370_noLandRCS_2" = "1qT7AF8IOXzZMzXDLmzDMx3Ta8ZbW98BI", #ha burned: 4,973,775 mean biomass: 60.1 Mg/ha
-  "WCB_CanESM5_370_2","1ECJbk1kiSDfTEGe_IiJQ9RUvaujzZhIY", #ha burned: 5,054,962 mean biomass: 47.6 Mg/ha
-  #bad LandR 3
-  #bad LandRCS 3
+  "WCB_CanESM5_370_2" = "1ECJbk1kiSDfTEGe_IiJQ9RUvaujzZhIY", #ha burned: 5,054,962 mean biomass: 47.6 Mg/ha
+  "WCB_CanESM5_370_noLandRCS_3" = "1FFm1IM2y3BBhik3hbQZzyzyI8d12667q", #ha burned: 4,964,350 mean biomass: 61.0 Mg/ha
+  "WCB_CanESM5_370_3" = "1qN7jvgcROzs_s-fUFizrr6Z7fbrk3sOW", #ha burned: 5,152,512 mean biomass: 47.1 Mg/ha
   #CNRM 245 Pseudotsuga
   "WCB_CNRM-ESM2-1_245_noLandRCS_1" = "1nY_VKEn_mpdPw_jb-tisxGJml2dnSO8f", #ha burned: 5,839,056 mean biomass: 60.34 Mg/ha
   "WCB_CNRM-ESM2-1_245_1" = "1lLLrJf9PIlPbJgSEO_yLR_Dk67uHe0xs", #ha burned: 5,459,494 mean biomass: 47.9 Mg/ha
   "WCB_CNRM-ESM2-1_245_noLandRCS_2" = "1ynWRnhD27x-FSDs8BFRwktlAau93tz1Q", #ha burned: 5,601,556 mean biomass: 60.1 Mg/ha
   "WCB_CNRM-ESM2-1_245_2" = "1jIn4LKdn5hAqwQ7N3KiRzUbIFkQEMGxt", #ha burned: 6,051,625  mean biomass: 48.3 Mg/ha
-  #bad LandR3
-  #bad LandRCS3
   #CNRM 370
   "WCB_CNRM-ESM2-1_370_noLandRCS_1" = "1_8hI8Q2W8zrVaul-O_dk5OcT_A9Krqxc", #ha burned: 6,163,875 mean biomass: 58.0 Mg/ha
   "WCB_CNRM-ESM2-1_370_1" = "1VYHTeX6ZNIY-OUKD68QW_Y78Y7-CgsYh", #ha burned: 6,842,838 mean biomass: 45.9 Mg/ha
@@ -262,6 +276,7 @@ gdriveResults <- list(
   #Access5 245
   "WCB_ACCESS-ESMI1-5_245_noLandRCS_3" = "1OVWOW8rkqFZLZ0ZKj_yj31YvAvN-Hfl3", #ha burned 5,231,737 mean biomass: 54.3 Mg/ha
   "WCB_ACCESS-ESMI1-5_245_3" = "1v0AzyJ1_MZG_9MYxT-7NIx9voOB4Z7nB", #ha burned: 5,272,912 mean biomass: 40.3
+  #Access 370
   "WCB_ACCESS-ESMI1-5_370_noLandRCS_3" = "1PxnUDw-B3PQPOu5QbMT91HIaCdHiqv9N", #ha burned:6,150,081 mean biomass: 50.9 Mg/ha
   "WCB_ACCESS-ESMI1-5_370_3" = "1VWrnoIUcnLeu9_xjpw20UgMZy5-wmXRf", #ha burned: 6,030,556 mean biomass: 37.9 Mg/ha
 
@@ -297,6 +312,8 @@ gdriveResults <- list(
   "WB_CNRM-ESM2-1_370_3" = "1wBJo93GVckNPaO7_PPHpNqbkvqTlN2Ib", #ha burned: 15,329,156 mean biomass: 29.0 Mg/ha
   "WB_CNRM-ESM2-1_370_noLandRCS_3" = "1HRd-_hzKzvKy1kZF3_OV9JASszymeVIH", #ha burned: 16,849,519 mean biomass: 33.8 Mg/ha
   #Access5 245 #running on pseudo
+  "WB_ACCESS-ESMI1-5_245_noLandRCS_1" = "1lVtqikuE82wYBQG_1wUOJFFr39zDWImu", #ha burned: 14,806,250 mean biomass: 39.6 Mg/ha
+  "WB_ACCESS-ESMI1-5_245_1" = "1dv3JXIGEPywNL6hbLQhOCcwr9OBNsIXi", #ha burned: 14,218,331 mean biomass: 34.7 Mg/ha
   "WB_ACCESS-ESMI1-5_245_noLandRCS_2" = "1QuYpe2rN9PQvJNlQCDOLS1VgSzwQgqO7", # ha burned: 14,426,631, mean biomass: 40.5 Mg/ha
   "WB_ACCESS-ESMI1-5_245_2" = "1XSUHXMd9xefNbV1_Ym7s93SJh8Jw1e90", #ha burned: 14,408,794 mean biomass: 34.5 Mg/ha
   "WB_ACCESS-ESMI1-5_245_noLandRCS_3" = "1w5vgNHwyQfOzhtvH9d4RLD93c4WkwxMm", #ha burned: 14,315,087 mean biomass: 39.7 Mg/ha
