@@ -50,7 +50,7 @@ opts <- options(
   "spades.useRequire" = useRequire
 )
 
-Require(c("googledrive", "httr"))
+Require(c("googledrive", "httr"), install = FALSE)
 
 httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)
