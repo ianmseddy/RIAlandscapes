@@ -42,7 +42,6 @@ dynamicObjects <- list(
                  quote(ecoregionMap),
                  quote(currentBEC),
                  quote(BECkey)),
-
   CMIstack = simOutPreamble[["projectedCMIstack"]],
   CMInormal = simOutPreamble[["CMInormal"]],
   cohortData = as.data.table(biomassMaps2011$cohortData),
@@ -82,8 +81,8 @@ dynamicObjects <- list(
 cohortCols <- c("pixelGroup", "speciesCode", "age", "Provenance", "planted")
 dynamicParams <- list(
   assistedMigrationBC = list(
+    cohortDefinitionCols = cohortCols,
     doAssistedMigration = AMscenario,
-    trackPlanting = TRUE,
     sppEquivCol = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol
   ),
   Biomass_borealDataPrep = dataPrepParams2011$Biomass_borealDataPrep,
@@ -130,7 +129,7 @@ dynamicParams <- list(
   LandR_reforestation = list(
     cohortDefinitionCols = cohortCols,
     trackPlanting = TRUE,
-    initialB = 20,
+    initialB = 20
   ),
   simpleHarvest = list(
     minAgesToHarvest = 70
@@ -158,7 +157,7 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 #####simulation
 times <- list(start = 2011, end = 2101)
 
-options("LandR.assertions" = FALSE) #the testing of sumB alone adds 30 seconds every year.
+options("LandR.assertions" = TRUE) #the testing of sumB alone adds 30 seconds every year.
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 mainSim <- simInitAndSpades(
@@ -252,7 +251,26 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
 
-temp <- data.table("meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2),
-                   "haBurned" = sum(mainSim$burnSummary$areaBurnedHa))
-write.csv(temp, file.path(outputPath(temp), "quickStats.csv"))
+temp <- data.table("name" = uniqueRunName,
+                   "path" = dat[name == uniqueRunName,]$id,
+                   "haBurned" = round(sum(mainSim$burnSummary$areaBurnedHa), digits = 0),
+                   "meanBiomass" = round(mean(mainSim$simulatedBiomassMap[], na.rm = TRUE)/100, digits = 2))
+write.csv(temp, file.path(outputPath(mainSim), "quickStats.csv"))
+
+#this needs to happen
+#better track what's been run, for my sanity - will still ahve to merge across machines
+allRunInfo2 <- fread("AMRunInfo.csv")
+
+allRunInfo2[GCM == runInfo$GCM &
+              SSP == runInfo$SSP &
+              gmcsDriver == runInfo$gmcsDriver &
+              studyArea == runInfo$studyArea &
+              Replicates == runInfo$Replicates &
+              AMscenario == runInfo$AMscenario &
+              simulateAM == runInfo$simulateAM,
+            complete := TRUE]
+write.csv(allRunInfo2, "AMRunInfo.csv", row.names = FALSE)
+
+rm(dat)
+amc::.gc()
 
