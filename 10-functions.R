@@ -1,29 +1,19 @@
 
-rcpNoDots <- function(rcp){
-  nodots <- gsub(pattern = "\\.", replacement = "", x = rcp)
+SSPNoDots <- function(SSP){
+  nodots <- gsub(pattern = "\\.", replacement = "", x = SSP)
   return(nodots)
 }
 
+buildResultsTable <- function(allRunInfo) {
 
-buildResultsTable <- function(studyAreaName, GCM = c("Access1", "INM-CM4", "CanESM2"), RCP = c("RCP4.5", "RCP8.5"), reps = c(1:3)) {
+  outTable <- data.table::copy(allRunInfo)
+  outTable[GCM != "historical" & gmcsDriver == "LandR.CS", filename := paste(studyArea, GCM, SSP, Replicates, sep = "_")]
+  outTable[GCM != "historical" & gmcsDriver == "LandR", filename := paste(studyArea, GCM, SSP, "noLandRCS", Replicates, sep = "_")]
+  outTable[GCM != "historical", fileLocation := file.path("outputs/sims", studyAreaName, GCM, SSP, filename)]
+  outTable[GCM == "historical", filename := paste(studyArea, GCM, gmcsDriver, Replicates, sep = "_")]
+  outTable[GCM == "historical", fileLocation := file.path("outputs/sims", studyAreaName, filename)]
 
-  dirs <- expand.grid("studyAreaName" = studyAreaName, "GCM" = GCM, RCP =  RCP, reps = reps, driver = c("noLandRCS", ""))
-
-  dirs$filename <- paste(dirs$studyAreaName, dirs$GCM, rcpNoDots(dirs$RCP),
-                         dirs$driver, dirs$reps, sep = "_")
-  dirs$filename <- gsub(pattern = "__", replacement = "_", x = dirs$filename)
-  dirs$fileLocation <- file.path("outputs/sims", dirs$studyAreaName, dirs$GCM, dirs$RCP, dirs$filename)
-  historicalRuns <- data.frame(filename = paste0(studyAreaName, "_historical_LandR_", 1:3), reps = 1:3)
-  historicalRuns$fileLocation <- paste("outputs/sims", studyAreaName = studyAreaName,
-                                       historicalRuns$filename, sep = "/")
-  outputFiles <- dplyr::full_join(historicalRuns, dirs)
-  outputFiles <- as.data.table(outputFiles)
-  outputFiles[is.na(studyAreaName), `:=`(
-              studyAreaName = studyAreaName,
-              GCM = "historical",
-              RCP = "",
-              driver = "noLandRCS")]
-  outputFiles
+  return(outTable)
 }
 
 
@@ -48,7 +38,7 @@ getSimulationOutput <- function(run, rt) {
 
   biomassByEcozone[, `:=`(
     GCM = thisRun$GCM,
-    RCP = thisRun$RCP,
+    SSP = thisRun$SSP,
     driver = thisRun$driver,
     rep = thisRun$rep
   )]
@@ -72,7 +62,7 @@ getSummaryBySpecies <- function(run, rt) {
 
   BiomassBySpecies[, `:=`(
     GCM = thisRun$GCM,
-    RCP = thisRun$RCP,
+    SSP = thisRun$SSP,
     driver = thisRun$driver,
     rep = thisRun$rep
   )]
@@ -81,11 +71,11 @@ getSummaryBySpecies <- function(run, rt) {
 }
 
 getMeanRasterByRun <- function(resultsTable, year, rasterName){
- RunsNoRep <- unique(resultsTable[, .(GCM, RCP, driver)])
+ RunsNoRep <- unique(resultsTable[, .(GCM, SSP, driver)])
  outRasters <- lapply(1:nrow(RunsNoRep), FUN = function(i, rT = resultsTable, rnr = RunsNoRep,
                                                         y = year, Name = rasterName){
    rnr <- rnr[i, ]
-   fileLocation <- rT[rnr, on = c("GCM", "RCP", "driver")]$fileLocation
+   fileLocation <- rT[rnr, on = c("GCM", "SSP", "driver")]$fileLocation
    fileLocation <- file.path(fileLocation, paste0(Name, "_year", y, ".rds"))
    rasters <- lapply(fileLocation, readRDS)
    rasters <- raster::stack(rasters)
@@ -93,6 +83,6 @@ getMeanRasterByRun <- function(resultsTable, year, rasterName){
    return(outRaster)
  })
 
-  names(outRasters) <- paste(RunsNoRep$GCM, RunsNoRep$RCP, RunsNoRep$driver, sep = "_")
+  names(outRasters) <- paste(RunsNoRep$GCM, RunsNoRep$SSP, RunsNoRep$driver, sep = "_")
   return(outRasters)
 }

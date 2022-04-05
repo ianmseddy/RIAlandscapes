@@ -15,7 +15,7 @@ burnSumFun <- function(run, rt) {
   #                                      Nfires = .N), .(decade)]
   burnSummary[, `:=`(
     GCM = thisRun$GCM,
-    RCP = thisRun$RCP,
+    SSP = thisRun$SSP,
     driver = thisRun$driver,
     rep = thisRun$rep
   )]
@@ -26,7 +26,7 @@ burnSumFun <- function(run, rt) {
 burnSummaries <- Cache(lapply, resultsTable$fileLocation, burnSumFun, rt = resultsTable)
 
 burnSummaries <- rbindlist(burnSummaries)
-burnSummaries[, runName := as.factor(paste(GCM, RCP, sep = " "))]
+burnSummaries[, runName := as.factor(paste(GCM, SSP, sep = " "))]
 burnSum <- burnSummaries[, .(AAB = sum(areaBurnedHa), Nfires = .N), .(year, runName, rep)]
 burnSum[, rollMeanAAB := frollmean(AAB, n = 10, fill = NA, align = 'right'), .(runName, rep)]
 burnSum[, rollMeanFires := frollmean(Nfires, n = 10, fill = NA, align = 'right'), .(runName, rep)]
@@ -39,11 +39,11 @@ ggplot(data = burnSum, aes(x = year, y = MAABx10, col = runName)) +
   geom_line(size = 1.3) +
   # geom_line(size = 2, alpha = 0.5) +
   labs(x = "year", y = "rolling 10-year mean annual area burned (ha)", title = "Sub-Boreal") +
-  scale_color_discrete("GCM and RCP")
+  scale_color_discrete("GCM and SSP")
 
 ggplot(data = burnSum, aes(x = year, y = nFiresx10, col = runName)) +
   geom_line(size = 1.5) +
   ylim(0, max(burnSum$nFiresx10) * 1.1) +
   labs(x = "year", y = "10-year mean no. of ignitions", title = "Sub-Boreal") +
-  scale_color_discrete("GCM and RCP") +
+  scale_color_discrete("GCM and SSP") +
   theme_bw()
