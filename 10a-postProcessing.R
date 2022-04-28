@@ -1,12 +1,23 @@
 library(magrittr)
 library(googledrive)
 library(data.table)
-
+library(reproducible)
 
 switch(Sys.info()[["user"]],
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
+
+if (!exists("pkgDir")) {
+  pkgDir <- file.path("packages", version$platform, paste0(version$major, ".",
+                                                           strsplit(version$minor, "[.]")[[1]][1]))
+
+  if (!dir.exists(pkgDir)) {
+    dir.create(pkgDir, recursive = TRUE)
+  }
+  .libPaths(pkgDir)
+}
+
 allRunInfo <- fread("ClimateRunInfo.csv")
 runInfo <- allRunInfo[1,]
 source("01-init.R")
@@ -29,7 +40,7 @@ rm(uniqueRunName, dynamicPaths)
 StudyAreas <- c("WB", "SB", "WCB")
 GCMs <- c("CanESM5", "CNRM-ESM2-1", "ACCESS-ESMI1-5")
 SSP<- c("245", "370")
-studyAreaName <- "WB"
+studyAreaName <- "WCB" #this was useful when some weren't completed
 #get data  - rebuild the nested directory layout across machines
 gdriveStudyArea <- grep(names(gdriveResults), pattern = studyAreaName) %>%
   gdriveResults[.]
@@ -46,11 +57,8 @@ historicalRuns$fileLocation <- paste("outputs/sims", studyAreaName, historicalRu
 outputFiles <- dplyr::full_join(historicalRuns, dirs)
 outputFiles <- as.data.table(outputFiles)
 #do you need to mark down the studyAreaname of missing?
-if (FALSE) {
-  outputFiles[is.na(studyAreaname), studyAreaname := studyAreaName]
-}
-
 if (FALSE){
+  outputFiles[is.na(studyAreaname), studyAreaname := studyAreaName]
   for (runFile in outputFiles$filename) {
     toSearch <- outputFiles[filename == runFile]$fileLocation
     gUrl <- gdriveStudyArea[[runFile]]
