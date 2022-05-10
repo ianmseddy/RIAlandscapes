@@ -1,4 +1,6 @@
-
+#these are functions used in postProcessing
+# most are simply two steps of either aggregating files by study area and doing something,
+#or mosaicking maps of study areas by GCM SSP Rep and gmcsDriver.
 SSPNoDots <- function(SSP) {
   nodots <- gsub(pattern = "\\.", replacement = "", x = SSP)
   return(nodots)
@@ -24,22 +26,17 @@ dropPadding <- function(ecoregionGroup) {
 getSimulationOutput <- function(run, rt) {
 
   thisRun <- rt[fileLocation == run,]
-  if (file.exists(file.path(thisRun$fileLocation, "simulationOutput_year2101.rds"))){
-    biomassByEcozone <- readRDS(file = file.path(thisRun$fileLocation, "simulationOutput_year2101.rds"))
-  } else {
-    simList <- qs::qread(file = file.path(thisRun$fileLocation, paste0(thisRun$filename, ".qs")))
-    biomassByEcozone <- simList$simulationOutput
-    if (is.null(biomassByEcozone)) {
-      stop("missing ", run) }
-    rm(simList)
-  }
+
+  biomassByEcozone <- readRDS(file = file.path(thisRun$fileLocation, "simulationOutput_year2101.rds"))
+
   biomassByEcozone <- as.data.table(biomassByEcozone)
 
   biomassByEcozone[, `:=`(
+    studyArea = thisRun$studyArea,
     GCM = thisRun$GCM,
     SSP = thisRun$SSP,
-    driver = thisRun$driver,
-    rep = thisRun$rep
+    driver = thisRun$gmcsDriver,
+    rep = thisRun$Replicates
   )]
 
   return(biomassByEcozone)
@@ -48,58 +45,42 @@ getSimulationOutput <- function(run, rt) {
 getSummaryBySpecies <- function(run, rt) {
   thisRun <- rt[fileLocation == run,]
   theFile <- file.path(thisRun$fileLocation, "summaryBySpecies_year2101.rds")
-  if (file.exists(theFile)) {
-    BiomassBySpecies <- readRDS(file = theFile)
-  } else {
-    simList <- qs::qread(file = file.path(thisRun$fileLocation, paste0(thisRun$filename, ".qs")))
-    BiomassBySpecies <- simList$summaryBySpecies
-    if (is.null(BiomassBySpecies)) {
-      stop("missing ", run) }
-    rm(simList)
-  }
+  BiomassBySpecies <- readRDS(file = theFile)
+
   BiomassBySpecies <- as.data.table(BiomassBySpecies)
 
   BiomassBySpecies[, `:=`(
+    studyArea = thisRun$studyArea,
     GCM = thisRun$GCM,
     SSP = thisRun$SSP,
-    driver = thisRun$driver,
-    rep = thisRun$rep
+    driver = thisRun$gmcsDriver,
+    rep = thisRun$Replicates
   )]
 
   return(BiomassBySpecies)
 }
 
-getMeanRasterByRun <- function(resultsTable, year, rasterName){
- RunsNoRep <- unique(resultsTable[, .(GCM, SSP, driver)])
- outRasters <- lapply(1:nrow(RunsNoRep), FUN = function(i, rT = resultsTable, rnr = RunsNoRep,
-                                                        y = year, Name = rasterName){
-   rnr <- rnr[i, ]
-   fileLocation <- rT[rnr, on = c("GCM", "SSP", "driver")]$fileLocation
-   fileLocation <- file.path(fileLocation, paste0(Name, "_year", y, ".rds"))
-   rasters <- lapply(fileLocation, readRDS)
-   rasters <- raster::stack(rasters)
-   outRaster <- raster::calc(rasters, mean)
-   return(outRaster)
- })
 
-  names(outRasters) <- paste(RunsNoRep$GCM, RunsNoRep$SSP, RunsNoRep$driver, sep = "_")
-  return(outRasters)
-}
-
-
-makeMeanBurnRasters <- function(rt, year = 2101) {
+#shapefiles = named list of studyAreaReporting, for cropping
+makeMeanBurnRasters <- function(rt, year = 2101, studyAreaReporting) {
 
   scenarios <- unique(rt[, .(studyArea, GCM, SSP)])
 
-  outRasters <- lapply(scenarios, FUN = function(i) {
-    scenario <- scenarios[i,]
-    scenario <- resultsTable[scenario, on = c("studyArea", "GCM", "SSP")]
-    burnRasters <- file.path(scenario$fileLocation, "burnMap_year2101.rds")
+
+  outRasters <- lapply(1:nrow(scenarios), FUN = function(i, s= scenarios, r = rt, sa = studyAreaReporting) {
+    scenario <- s[i, ]
+    sa <- sa[[scenario$studyArea]]
+    scenarioReps <- r[scenario, on = c("studyArea", "GCM", "SSP")]
+
+    burnRasters <- file.path(scenarioReps$fileLocation, paste0("burnMap_year", year, ".rds"))
     burnMaps <- lapply(burnRasters, readRDS)
-    burnMap <- stack(burnMaps)
+    burnMap <- raster::stack(burnMaps)
     burnMap <- raster::mean(burnMap)
+    burnMap <- postProcess(burnMap, studyArea = sa)
+
+    return(burnMap)
   })
-  names(outRasters) <- paste0(scenarios$studyArea, scenarios$GCM, scenarios$SSP, collapse = "_")
+  names(outRasters) <- paste(scenarios$studyArea, scenarios$GCM, scenarios$SSP, sep = "_")
   return(outRasters)
 }
 
@@ -107,11 +88,6 @@ burnSumFun <- function(run, rt) {
   thisRun <- rt[fileLocation == run,]
   simList <- qs::qread(file = file.path(thisRun$fileLocation, paste0(thisRun$filename, ".qs")))
   burnSummary <- as.data.table(simList$burnSummary)
-  # burnSummary[, decade := round(year/10) * 10]
-  # burnSummaryDecade <- burnSummary[, .(burnSum = sum(areaBurnedHa),
-  #                                      mfs = mean(areaBurnedHa),
-  #                                      sdMFS = sd(areaBurnedHa),
-  #                                      Nfires = .N), .(decade)]
   burnSummary[, `:=`(
     studyArea = thisRun$studyArea,
     GCM = thisRun$GCM,
@@ -125,3 +101,64 @@ burnSumFun <- function(run, rt) {
 }
 
 
+getStudyAreaReporting <- function(studyArea) {
+  outFile <- list()
+  for (i in 1:length(studyArea)) {
+  biomassMaps2011 <- qs::qread(file.path("outputs", studyArea[i], paste0("biomassMaps2011_", studyArea[i], ".qs")))
+  outFile[i] <- biomassMaps2011$studyAreaReporting
+  }
+  names(outFile) <- studyArea
+  return(outFile)
+}
+
+MosaicMaps <- function(rasterList) {
+ #the vectorization is NOT working. package bug?
+  names(rasterList) <- str_replace_all(string = names(rasterList),pattern = "WCB_", "")
+  names(rasterList) <- str_replace_all(string = names(rasterList),pattern = "SB_", "")
+  names(rasterList) <- str_replace_all(string = names(rasterList),pattern = "WB_", "")
+
+  gcmSSP <- unique(names(rasterList))
+  outMaps <- lapply(gcmSSP, FUN = function(i, ras = rasterList) {
+    outMap <- ras[names(ras) %in% i]
+    names(outMap)[1:2] <- c("x", "y") #absurd raster issue
+    outMap$fun <- "mean"
+    outMap$na.rm <- TRUE
+    outMap <- do.call(raster::mosaic, args = outMap)
+  })
+  names(outMaps) <- gcmSSP
+  return(outMaps)
+}
+
+makeMeanBiomassRasters <- function(rt, year = 2101, studyAreaReporting) {
+
+  scenarios <- unique(rt[, .(studyArea, GCM, SSP)])
+
+
+  outRasters <- lapply(1:nrow(scenarios), FUN = function(i, s= scenarios, r = rt, sa = studyAreaReporting) {
+    scenario <- s[i, ]
+    sa <- sa[[scenario$studyArea]]
+    scenarioReps <- r[scenario, on = c("studyArea", "GCM", "SSP")]
+
+    BiomassRasters <- file.path(scenarioReps$fileLocation, paste0("simulatedBiomassMap_year", year, ".rds"))
+    BiomassMaps <- lapply(BiomassRasters, readRDS)
+    BiomassMap <- raster::stack(BiomassMaps)
+    BiomassMap <- raster::mean(BiomassMap)
+    BiomassMap <- postProcess(BiomassMap, studyArea = sa)
+    BiomassMap <- BiomassMap/100 #convert to Mg/ha
+
+    return(BiomassMap)
+  })
+  names(outRasters) <- paste(scenarios$studyArea, scenarios$GCM, scenarios$SSP, sep = "_")
+  return(outRasters)
+}
+
+compareProjAndRef <- function(i, SAmaps, refMap, operatorFunction = function(proj, ref){proj-ref}){
+  SAmaps <- SAmaps[grep(names(SAmaps), pattern = i)]
+  layerNames <- names(SAmaps)
+  SAmaps <- raster::stack(SAmaps)
+  refMap <- refMap[[grep(names(refMap), pattern = i)]]
+  # SAmaps <- raster::overlay(x = SAmaps, y = refMap, fun = function(a, b){a - b})
+  SAmaps <- operatorFunction(proj = SAmaps, ref = refMap)
+  names(SAmaps) <- layerNames
+  return(SAmaps)
+}
