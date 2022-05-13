@@ -23,7 +23,12 @@ if (GCM != "historical") {
   names(simOutPreamble$projectedCMIstack) <- paste0("CMI", 2011:2100)
   names(simOutPreamble$projectedClimateLayers$MDC) <- paste0("year", 2011:2100)
 }
-times <- list(start = 2011, end = 2101)
+
+if (runInfo$Replicates == "300yr") { #added to track when/if biomass reaches equilibrium.
+  times <- list(start = 2011, end = 2311)
+} else {
+  times <- list(start = 2011, end = 2101)
+}
 
 dynamicModules <- list(
   "gmcsDataPrep",
@@ -47,11 +52,11 @@ if (is.null(simOutPreamble$sppColorVect)){
 #if using "historical" fire data, the random sampling is cached - so resample the years
 if (GCM == "historical") {
   projectedMDCyears <- sample(names(simOutPreamble$historicalClimateRasters$MDC),
-                              size = 90, replace = TRUE)
+                              size = length(times$start:times$end), replace = TRUE)
   projectedMDC <- lapply(projectedMDCyears, FUN = function(x){
     simOutPreamble$historicalClimateRasters$MDC[[x]]
   })
-  names(projectedMDC) <- paste0("year", 2011:2100)
+  names(projectedMDC) <- paste0("year", times$start:times$end)
   simOutPreamble$projectedClimateLayers <- list("MDC" = stack(projectedMDC))
   rm(projectedMDC)
 }
