@@ -1,14 +1,18 @@
 library(data.table)
-allRunInfo <- fread("climateRunInfo.csv")
+allRunInfo <- fread("AMRunInfo.csv")
 
 
 #Rep3 - historical
 
-runInfoGroup <- allRunInfo[GCM == "historical" & Replicates == 3]
+runInfoGroup <- allRunInfo[GCM == "CanESM5" & SSP == "245" & simulateAM == TRUE & AMscenario == TRUE & Replicates == 1]
 for (i in 1:nrow(runInfoGroup)) {
   runInfo <- runInfoGroup[i,]
-  #the "" is being input as NA
-  runInfo$SSP <- ""
+
+  #avoid NA SSP in file path
+  if (GCM == "historical"){
+    runInfo$SSP <- ""
+  }
+
   source("00-global.R")
 }
 
