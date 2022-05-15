@@ -161,6 +161,7 @@ options("LandR.assertions" = TRUE) #the testing of sumB alone adds 30 seconds ev
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 dynamicObjects$cohortData$planted <- FALSE #init assertCohortData fails without this column - must change assertion
+dynamicObjects$cohortData$planted <- NA #init assertCohortData fails without this column - must change assertion
 dynamicObjects$cohortData$Provenance <- NA #init assertCohortData in Biomass_core fails without this column
 mainSim <- simInitAndSpades(
   times = times,

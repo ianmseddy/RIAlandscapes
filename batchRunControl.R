@@ -9,7 +9,7 @@ for (i in 1:nrow(runInfoGroup)) {
   runInfo <- runInfoGroup[i,]
 
   #avoid NA SSP in file path
-  if (GCM == "historical"){
+  if (runInfo$GCM == "historical"){
     runInfo$SSP <- ""
   }
 
