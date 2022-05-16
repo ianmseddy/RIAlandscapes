@@ -250,7 +250,8 @@ utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "g
 gdrivePath <- paste0("results/", uniqueRunName)
 
 retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
-                         path = (gdriveSims[["results"]]), name = uniqueRunName,
+                         path = as_id(gdriveSims[["results"]]),
+                         name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
 
