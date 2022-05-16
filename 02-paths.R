@@ -69,10 +69,13 @@ if (GCM != "historical") {
 
 if (simulateAM){
   hasAM <- ifelse(AMscenario, "withAM", "withNoAM")
+
   uniqueRunName <- paste(studyAreaName,
                          GCM,
                          sspNoDots,
-                         hasAM, sep = "_")
+                         hasAM,
+                         Replicate,
+                         sep = "_")
   dynamicPaths$outputPath <- file.path("outputs", "AMsims",
                                        uniqueRunName)
 }

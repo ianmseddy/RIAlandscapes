@@ -216,7 +216,7 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   ylim(0, max(dat2$N) * 1.2) +
   labs(y = "number of ignitions",
        title = studyAreaName,
-       subtitle = paste(GCM, GCM))
+       subtitle = paste(GCM, SSP))
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
@@ -224,15 +224,15 @@ gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
-       subtitle = paste(GCM, GCM))
+       subtitle = paste(GCM, SSP))
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
   # geom_smooth() +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
-       title = paste(studyAreaName, "rep", Rep),
-       subtitle = paste(GCM, GCM))
+       title = paste(studyAreaName),
+       subtitle = paste(GCM, SSP))
 
 
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
