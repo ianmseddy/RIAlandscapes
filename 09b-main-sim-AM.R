@@ -157,12 +157,14 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutpu
 #####simulation
 times <- list(start = 2011, end = 2101)
 
-options("LandR.assertions" = TRUE) #the testing of sumB alone adds 30 seconds every year.
+useAssertions <- Replicate == 1
+options("LandR.assertions" = useAssertions) #the testing of sumB alone adds 30 seconds every year.
 
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 
 dynamicObjects$cohortData$planted <- NA #init assertCohortData fails without this column - must change assertion
 dynamicObjects$cohortData$Provenance <- NA #init assertCohortData in Biomass_core fails without this column
+
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
@@ -186,8 +188,7 @@ saveSimList(
   fileBackend = 2
 )
 
-#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
-#some post-run analysis
+####some post-run analysis####
 historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
 
@@ -212,7 +213,6 @@ dat2 <- rbind(trueHistoricalIgs, projectedIgs)
 
 gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
   geom_point() +
-  # geom_smooth() +
   ylim(0, max(dat2$N) * 1.2) +
   labs(y = "number of ignitions",
        title = studyAreaName,
@@ -220,7 +220,6 @@ gIgnitions <- ggplot(data = dat2, aes(x = year, y = N, col = stat)) +
 
 gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
   geom_point() +
-  # geom_smooth() +
   ylim(0, max(dat$nFires) * 1.2) +
   labs(y = "number of escaped fires",
        title = studyAreaName,
@@ -228,12 +227,10 @@ gEscapes <- ggplot(data = dat, aes(x = year, y = nFires, col = stat)) +
 
 gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
   geom_point() +
-  # geom_smooth() +
   ylim(0, max(dat$sumBurn) * 1.1) +
   labs(y = "cumulative annual burn (ha)",
        title = paste(studyAreaName),
        subtitle = paste(GCM, SSP))
-
 
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
 ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
@@ -244,7 +241,7 @@ compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalCl
                                       flammableRTM = mainSim$flammableRTM)
 ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
 
-#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+#####zip everything up####
 resultsDir <- dynamicPaths$outputPath
 utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
 gdrivePath <- paste0("results/", uniqueRunName)
@@ -254,7 +251,8 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
-
+#for easy tracking
+dat <- as.data.table(googledrive::drive_ls(path = as_id(gdriveSims$results)))
 temp <- data.table("name" = uniqueRunName,
                    "path" = dat[name == uniqueRunName,]$id,
                    "haBurned" = round(sum(mainSim$burnSummary$areaBurnedHa), digits = 0),
