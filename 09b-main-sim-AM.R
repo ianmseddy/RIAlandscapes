@@ -15,6 +15,8 @@ tempDT <- data.table(thlb = getValues(thlb), pixelIndex = getValues(simOutPreamb
 tempDT[!is.na(pixelIndex), newTHLB := 0]
 tempDT[thlb >= 0.8, newTHLB := 1]
 thlb <- setValues(thlb, tempDT$newTHLB)
+
+
 ####modules####
 dynamicModules <- list(
   "simpleHarvest",
@@ -124,6 +126,7 @@ dynamicParams <- list(
   ),
   gmcsDataPrep = list(
     useHeight = TRUE,
+    doPlotting = TRUE,
     useCache = c(".Init", ".inputObjects")
   ),
   LandR_reforestation = list(
@@ -135,6 +138,9 @@ dynamicParams <- list(
     minAgesToHarvest = 70
   )
 )
+
+rm(simOutPreamble)
+
 #####outputObjs####
 outputObjs = c('cohortData',
                'pixelGroupMap',
@@ -168,9 +174,9 @@ dynamicObjects$cohortData$Provenance <- NA #init assertCohortData in Biomass_cor
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
-  loadOrder = unlist(dynamicModules), #make sure AM and LandR_reforestation are first
+  loadOrder = unlist(dynamicModules),
   objects = dynamicObjects,
-  outputs = dynamicOutputs,
+  # outputs = dynamicOutputs,
   params = dynamicParams,
   paths = dynamicPaths
 )
@@ -236,15 +242,13 @@ ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "
 ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
-compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
-                                      projectedMDC = simOutPreamble$projectedClimateLayers$MDC,
-                                      flammableRTM = mainSim$flammableRTM)
-ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
+
 
 #####zip everything up####
 resultsDir <- dynamicPaths$outputPath
 utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
 gdrivePath <- paste0("results/", uniqueRunName)
+
 
 retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          path = as_id(gdriveSims[["results"]]),
@@ -253,6 +257,7 @@ retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
       retries = 5, exponentialDecayBase = 2)
 #for easy tracking
 dat <- as.data.table(googledrive::drive_ls(path = as_id(gdriveSims$results)))
+
 temp <- data.table("name" = uniqueRunName,
                    "path" = dat[name == uniqueRunName,]$id,
                    "haBurned" = round(sum(mainSim$burnSummary$areaBurnedHa), digits = 0),
