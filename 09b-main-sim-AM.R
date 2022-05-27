@@ -89,6 +89,7 @@ dynamicParams <- list(
   ),
   Biomass_borealDataPrep = dataPrepParams2011$Biomass_borealDataPrep,
   Biomass_core = list(
+    .studyAreaName = studyAreaName,
     'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     'vegLeadingProportion' = 0, #apparently sppColorVect has no mixed color
     'sppEquivCol' = "RIA",
@@ -176,7 +177,7 @@ mainSim <- simInitAndSpades(
   modules = dynamicModules,
   loadOrder = unlist(dynamicModules),
   objects = dynamicObjects,
-  # outputs = dynamicOutputs,
+  outputs = dynamicOutputs,
   params = dynamicParams,
   paths = dynamicPaths
 )
