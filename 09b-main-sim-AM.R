@@ -55,11 +55,13 @@ dynamicObjects <- list(
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
+  gcsModel = biomassMaps2011[["gcsModel"]],
   covMinMax_spread = as.data.table(spreadOut[["covMinMax_spread"]]),
   covMinMax_ignition = as.data.table(ignitionOut[["covMinMax_ignition"]]),
+  mcsModel = biomassMaps2011[["mcsModel"]],
+  minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   nonForestedLCCGroups = fSsimDataPrep$nonForestedLCCGroups,
-  minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   pixelGroupMap = biomassMaps2011$pixelGroupMap,
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
   rasterToMatch = simOutPreamble$rasterToMatch,
@@ -172,6 +174,7 @@ fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 dynamicObjects$cohortData$planted <- NA #init assertCohortData fails without this column - must change assertion
 dynamicObjects$cohortData$Provenance <- NA #init assertCohortData in Biomass_core fails without this column
 
+options("LandR.assertions" = TRUE)
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
