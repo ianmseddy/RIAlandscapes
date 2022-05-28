@@ -30,6 +30,9 @@ dataPrepOutputs2011 <- data.frame(
 
 #standAgeMap no longer needs to be passed
 dataPrepObjects2011 <- dataPrepObjects
+dataPrepObjects2011$CMIstack <- raster::stack(simOutPreamble$projectedCMIstack[[1]])
+dataPrepObjects2011$ATAstack <- raster::stack(simOutPreamble$projectedATAstack[[1]])
+dataPrepObjects2011$CMInormal <- simOutPreamble$CMInormal
 
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
