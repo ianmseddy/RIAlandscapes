@@ -9,7 +9,10 @@ dataPrepParams2011$Biomass_speciesData$dataYear <- 2011
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$dataYear <- 2011
-
+dataPrepParams2011$gmcsDataPrep <- list(
+  useHeight = TRUE,
+  useCache = c("Init", ".inputObjects")
+)
 
 dataPrepOutputs2011 <- data.frame(
   objectName = c("cohortData",
@@ -39,10 +42,10 @@ if (isTRUE(usePrerun)) {
     simInitAndSpades,
     times = list(start = 2011, end = 2011),
     params = dataPrepParams2011,
-    modules = list("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters"),
+    modules = list("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters", "gmcsDataPrep"),
     objects = dataPrepObjects2011,
     paths = getPaths(),
-    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters"),
+    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep", "Biomass_speciesParameters", "gmcsDataPrep"),
     clearSimEnv = TRUE,
     # outputs = dataPrepOutputs2011,
     .plots = "png",
