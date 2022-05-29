@@ -10,6 +10,7 @@ dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$dataYear <- 2011
 dataPrepParams2011$gmcsDataPrep <- list(
+  prepClimateLayers = FALSE,
   useHeight = TRUE,
   useCache = c("Init", ".inputObjects")
 )
@@ -30,9 +31,7 @@ dataPrepOutputs2011 <- data.frame(
 
 #standAgeMap no longer needs to be passed
 dataPrepObjects2011 <- dataPrepObjects
-dataPrepObjects2011$CMIstack <- raster::stack(simOutPreamble$projectedCMIstack[[1]])
-dataPrepObjects2011$ATAstack <- raster::stack(simOutPreamble$projectedATAstack[[1]])
-dataPrepObjects2011$CMInormal <- simOutPreamble$CMInormal
+
 
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
