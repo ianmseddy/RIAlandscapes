@@ -85,6 +85,7 @@ dynamicObjects <- list(
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
+  PSPmodelData = biomassMaps2011[["PSPmodelData"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
   species = as.data.table(biomassMaps2011[["species"]]),
@@ -177,6 +178,8 @@ if (gmcsDriver == "LandR") {
 if (simulateAM == TRUE | AMscenario == TRUE) {
   stop("please run 09b-main.sim for AM")
 }
+
+PSPmodelData <- biomassMaps2011$PSPmodelData
 
 mainSim <- simInitAndSpades(
   times = times,
