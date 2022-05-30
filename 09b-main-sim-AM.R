@@ -64,6 +64,7 @@ dynamicObjects <- list(
   nonForestedLCCGroups = fSsimDataPrep$nonForestedLCCGroups,
   pixelGroupMap = biomassMaps2011$pixelGroupMap,
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
+  PSPmodelData = biomassMaps2011[["PSPmodelData"]],
   rasterToMatch = simOutPreamble$rasterToMatch,
   rstLCC = biomassMaps2011$rstLCC,
   species = as.data.table(biomassMaps2011[["species"]]),
@@ -174,7 +175,10 @@ fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 dynamicObjects$cohortData$planted <- NA #init assertCohortData fails without this column - must change assertion
 dynamicObjects$cohortData$Provenance <- NA #init assertCohortData in Biomass_core fails without this column
 
+
+PSPmodelData <- biomassMaps2011$PSPmodelData #must be in global environment...
 options("LandR.assertions" = TRUE)
+
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
