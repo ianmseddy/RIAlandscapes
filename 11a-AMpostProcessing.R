@@ -21,8 +21,10 @@ allRunInfo <- fread("AMRunInfo.csv")
 allRunInfo[, AMname := ifelse(AMscenario, "withAM", "withNoAM")]
 allRunInfo[, runName := paste("SB", allRunInfo$GCM, allRunInfo$SSP, allRunInfo$AMname, allRunInfo$Replicate, sep = "_")]
 allRunInfo[, fileLocation := file.path("outputs/AMsims", runName)]
-allRunInfo <- allRunInfo[GCM == "CNRM-ESM2-1"] #for now
-runInfo <- allRunInfo[1] #this is needed to set up some paths - that's all
+# allRunInfo <- allRunInfo[GCM == "CNRM-ESM2-1"] #for now
+
+#this is needed to set up some paths and options, but most of it can be removed
+runInfo <- allRunInfo[1]
 source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
@@ -31,7 +33,7 @@ source("04-options.R")
 rm(preamblePaths, spreadFitPaths, ignitionFitPaths, escapeFitPaths, dataPrepPaths)
 rm(messagingNumCharsModule,firstRunSpreadFit, reproducibleAlgorithm, useMemoise,
    usePlot, useRequire, userInputPaths, AMscenario, simulateAM, codeChecks, fuelClasses)
-rm(uniqueRunName, dynamicPath, SSP, usePrerun, newGoogleIDs, maxMemory, cloudCacheFolderID,
+rm(uniqueRunName, dynamicPaths, SSP, usePrerun, newGoogleIDs, maxMemory, cloudCacheFolderID,
    cacheFormat, cacheDBconn, Replicate)
 
 source("05-google-ids.R")

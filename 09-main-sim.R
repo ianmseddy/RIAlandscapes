@@ -1,6 +1,5 @@
 do.call(setPaths, dynamicPaths)
 
-#no point saving the simList when the climate runs will alll be different..
 if (!compareCRS(simOutPreamble$studyArea, simOutPreamble$rasterToMatch)){
   simOutPreamble$studyArea <- sf::st_transform(simOutPreamble$studyArea, crs = crs(simOutPreamble$rasterToMatch))
   simOutPreamble$studyAreaReporting <- sf::st_transform(simOutPreamble$studyAreaReporting, crs = crs(simOutPreamble$rasterToMatch))
@@ -77,15 +76,15 @@ dynamicObjects <- list(
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
-  gcsModel = biomassMaps2011[["gcsModel"]],
+  gcsModel = simOutPreamble[["gcsModel"]],
   landcoverDT = fSsimDataPrep[["landcoverDT"]],
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   nonForestedLCCGroups = fSsimDataPrep[["nonForestedLCCGroups"]],
-  mcsModel = biomassMaps2011[["mcsModel"]],
+  mcsModel = simOutPreamble[["mcsModel"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
   projectedClimateLayers = simOutPreamble[["projectedClimateLayers"]],
-  PSPmodelData = biomassMaps2011[["PSPmodelData"]],
+  PSPmodelData = as.data.table(simOutPreamble[["PSPmodelData"]]),
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
   species = as.data.table(biomassMaps2011[["species"]]),
@@ -156,10 +155,6 @@ dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = c('summaryBySpec
 #contains results by ecoregion (not that important with no BECs..)
 dynamicOutputs <- rbind(dynamicOutputs, data.frame(objectName = 'simulationOutput', saveTime = times$end, eventPriority = 10))
 
-
-
-
-## TODO: delete unused objects, including previous simLists to free up memory
 fsim <- file.path(Paths$outputPath, paste0(uniqueRunName, ".qs"))
 if (GCM != simOutPreamble@params$RIAlandscapes_studyArea$GCM) {
   stop("mismatched gcms")
@@ -171,6 +166,7 @@ LandR::assertCohortData(cohortData = dynamicObjects$cohortData,
                         doAssertion = TRUE)
 
 if (gmcsDriver == "LandR") {
+  #no need to run gmcsDataPrep
   dynamicModules <- dynamicModules[dynamicModules != "gmcsDataPrep"]
 }
 
@@ -179,7 +175,9 @@ if (simulateAM == TRUE | AMscenario == TRUE) {
   stop("please run 09b-main.sim for AM")
 }
 
-PSPmodelData <- biomassMaps2011$PSPmodelData
+#this must be in global environment for default mortality model.
+
+PSPmodelData <- as.data.table(simOutPreamble[["PSPmodelData"]])
 
 mainSim <- simInitAndSpades(
   times = times,
@@ -200,8 +198,9 @@ saveSimList(
   #filebackedDir = dfSsimDataPrep,
   fileBackend = 2
 )
-#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
-#some post-run analysis
+
+
+####some post-run figure generation ####
 historicalBurns <- do.call(what = rbind, args = fSsimDataPrep$firePolys)
 historicalBurns <- as.data.table(historicalBurns@data)
 
@@ -248,31 +247,31 @@ gBurns <- ggplot(data = dat, aes(x = year, y = sumBurn, col = stat)) +
        title = paste(studyAreaName, "rep", Replicate),
        subtitle = paste(GCM, SSP))
 
-
 ggsave(plot = gIgnitions, filename = file.path(outputPath(mainSim), "figures", "simulated_Ignitions.png"))
 ggsave(plot = gEscapes, filename = file.path(outputPath(mainSim), "figures", "simulated_Escapes.png"))
 ggsave(plot = gBurns, filename = file.path(outputPath(mainSim), "figures", "simulated_burnArea.png"))
 
-compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
-                                      projectedMDC = simOutPreamble$projectedClimateLayers$MDC,
-                                      flammableRTM = mainSim$flammableRTM)
-ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
+if (FALSE) {
+  #this isn't needed for every replicate
+  compMDC <- fireSenseUtils::compareMDC(historicalMDC = fSsimDataPrep$historicalClimateRasters$MDC,
+                                        projectedMDC = simOutPreamble$projectedClimateLayers$MDC,
+                                        flammableRTM = mainSim$flammableRTM)
+  ggsave(compMDC, filename = file.path(outputPath(mainSim), "figures", "MDCcomparison.png"))
+}
+
 
 resultsDir <- dynamicPaths$outputPath
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
 utils::tar(tarfile = paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
 gdrivePath <- paste0("results/", uniqueRunName)
-
 retry(quote(drive_upload(media = paste0(resultsDir, ".tar.gz"),
                          path = as_id(gdriveSims[["results"]]),
                          name = uniqueRunName,
                          overwrite = TRUE)),
       retries = 5, exponentialDecayBase = 2)
 
-# retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), path =  as_id(gdriveSims[["results"]]), overwrite = TRUE)),
-#       retries = 5, exponentialDecayBase = 2)
 
-SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
+#### ADMIN ####
 dat <- as.data.table(googledrive::drive_ls(path = as_id(gdriveSims$results)))
 temp <- data.table("name" = uniqueRunName,
                    "path" = dat[name == uniqueRunName,]$id,

@@ -213,7 +213,7 @@ gdriveResults <- list(
   "SB_CanESM5_245_3" = "1CUcH-_Y9HiJpcGIUzmT72_Yy6HKILt4T", #ha burned: 718,381 mean biomass: 87.2 Mg/ha *** Curious, but correct
   #CanESM5 370 - complete
   "SB_CanESM5_370_noLandRCS_1" = "1SUfScOgLk0V6Fk8hEQKG5dIL9HcZzSJ0",#ha burned: 1,356,019 mean biomass: 94.6 Mg/ha
-  "SB_CanESM5_370_1" = "1SFvirQTkEhX9sJXYdGbFJP3nypnrzN_5",#ha burned: 1,436,781 mean biomass: 81.6 Mg/ha
+  "SB_CanESM5_370_1" =  "1SFvirQTkEhX9sJXYdGbFJP3nypnrzN_5",  #ha burned: 1,454,894 mean biomass: 94.5 Mg/ha
   "SB_CanESM5_370_noLandRCS_2" = "1dGnedOeNOrk0jcEh56VmiXIXSkL3wRtX",#ha burned: 1,561,075 mean biomass: 93.1 Mg/ha
   "SB_CanESM5_370_2" = "1T9yDVm3ES0UJDUnwn_cMfAEB4qtD8Gnn",#ha burned: 1,445,288 mean biomass: 81.2 Mg/ha
   "SB_CanESM5_370_noLandRCS_3" = "1MT4ETl23lZDkKB8mKnO3B0VIEH6rBxxh", #ha burned: 1,238,550 mean biomass: 95.4 Mg/ha
