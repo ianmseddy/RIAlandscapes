@@ -27,7 +27,7 @@ dataPrepOutputs2011 <- data.frame(
 
 #standAgeMap no longer needs to be passed
 dataPrepObjects2011 <- dataPrepObjects
-
+rm(dataPrepObjects) #don't double
 
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
