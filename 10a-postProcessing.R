@@ -60,7 +60,7 @@ if (FALSE){
   outputFiles[is.na(studyAreaname), studyAreaname := studyAreaName]
   for (runFile in outputFiles$filename) {
     toSearch <- outputFiles[filename == runFile]$fileLocation
-    gUrl <- gdriveStudyArea[[runFile]]
+    gUrl <- gdriveResults[[runFile]]
     if (!dir.exists(toSearch)) {
       checkPath(toSearch, create = TRUE)
       googledrive::drive_download(file = as_id(gUrl), path = paste0(toSearch, ".tar.gz"))
