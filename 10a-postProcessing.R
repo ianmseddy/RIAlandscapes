@@ -39,33 +39,24 @@ rm(uniqueRunName, dynamicPaths)
 #generate some mean cumulative burn maps by GCM, SSP
 
 if (FALSE){
-  StudyAreas <- c("WB", "SB", "WCB")
-  GCMs <- c("CanESM5", "CNRM-ESM2-1", "ACCESS-ESMI1-5")
-  SSP<- c("245", "370")
+  runFiles <- copy(allRunInfo)
+  runFiles[, gmcsDriverRep := ifelse(gmcsDriver == "LandR", paste("noLandRCS", Replicates, sep = "_"),
+                                     Replicates)]
+  runFiles[, filename := paste(studyArea, GCM, SSP, gmcsDriverRep, sep = "_")]
+  runFiles[, fileLocation := file.path("outputs/sims", studyArea, GCM, SSP, filename)]
+  runFiles[GCM == "historical", filename := paste(studyArea, "historical", "LandR", Replicates, sep = "_")]
+  runFiles[GCM == "historical", fileLocation := file.path("outputs/sims", studyArea, filename)]
 
-  #get data  - rebuild the nested directory layout across machines
-
-  #could just get this from allRunInfo
-  #where does studyAreaName come from?
-  dirs <- expand.grid("studyAreaname" = studyAreaName, "GCM" =  GCMs, "SSP" =  SSP, reps = 1:3, driver = c("noLandRCS", ""))
-  #
-  dirs$filename <- paste(dirs$studyAreaname, dirs$GCM, dirs$SSP,
-                         dirs$driver, dirs$reps, sep = "_")
-  dirs$filename <- gsub(pattern = "__", replacement = "_", x = dirs$filename)
-  dirs$fileLocation <- file.path("outputs/sims", dirs$studyAreaname, dirs$GCM, dirs$SSP, dirs$filename)
-  historicalRuns <- data.frame(filename = paste0(studyAreaName, "_historical_LandR_", 1:3), reps = 1:3)
-  historicalRuns$fileLocation <- paste("outputs/sims", studyAreaName, historicalRuns$filename, sep = "/")
-  outputFiles <- dplyr::full_join(historicalRuns, dirs)
-  outputFiles <- as.data.table(outputFiles)
-  outputFiles[is.na(studyAreaname), studyAreaname := studyAreaName]
-  for (runFile in outputFiles$filename) {
-    toSearch <- outputFiles[filename == runFile]$fileLocation
+  for (i in 1:nrow(runFiles)) {
+    fileLoc <- runFiles[i, ]$fileLocation
+    runFile <- runFiles[i, ]$filename
     gUrl <- gdriveResults[[runFile]]
-    if (!dir.exists(toSearch)) {
-      checkPath(toSearch, create = TRUE)
-      googledrive::drive_download(file = as_id(gUrl), path = paste0(toSearch, ".tar.gz"))
-      utils::untar(tarfile = paste0(toSearch, ".tar.gz"))
-      unlink(paste0(toSearch, ".tar.gz"))
+    if (!dir.exists(fileLoc)) {
+      checkPath(fileLoc, create = TRUE)
+      googledrive::drive_download(file = as_id(gUrl), path = paste0(fileLoc, ".tar.gz"))
+      utils::untar(tarfile = paste0(fileLoc, ".tar.gz"))
+      unlink(paste0(fileLoc, ".tar.gz"))
     }
+    rm(fileLoc, runFile, i)
   }
 }
