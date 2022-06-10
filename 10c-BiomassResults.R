@@ -120,7 +120,7 @@ if (FALSE) {
 #####  biomassMaps ####
 meanBiomass2100 <- Cache(makeMeanBiomassRasters, rt = resultsTable, studyAreaReporting = SARs)
 
-referenceMaps <- meanBiomass2100[grep(names(meanBiomass2100), pattern = "reference")]
+referenceMaps <- meanBiomass2100[grep(names(meanBiomass2100), pattern = "historical")]
 projectedMaps <- meanBiomass2100[names(meanBiomass2100) != names(referenceMaps)]
 
 BiomassDiffMaps <- Cache(lapply, studyAreas, compareProjAndRef, SAmaps = projectedMaps,
@@ -184,13 +184,14 @@ cols <- RColorBrewer::brewer.pal(name = "Spectral", length(colBreaks) - 1)
 myRs <- rasterVis::levelplot(RIAmaps, scales = list(draw = FALSE), layout = c(3,2),
                              layers = c(1,3,5,2,4,6), ylab = "change in biomass (Mg/ha)",
                              col.regions = cols, at = colBreaks, par.settings = myTheme,
+                             maxpixels = 2e5,
                              panel = function(...){
                                panel.levelplot(...)
                                sp::sp.polygons(SAshp1, col = "black", lwd = 1)
                              }
 )
 
-png(file.path("outputs/summary figures/BiomassChange_RIA_byGCM.png"), width = 10000, height = 3000, res = 300)
+png(file.path("outputs/summary figures/BiomassChange_RIA_byGCM.png"), width = 7000, height = 5000, res = 500, pointsize = )
 print(myRs)
 dev.off()
 

@@ -39,14 +39,7 @@ rm(uniqueRunName, dynamicPaths)
 #generate some mean cumulative burn maps by GCM, SSP
 
 if (FALSE){
-  runFiles <- copy(allRunInfo)
-  runFiles[, gmcsDriverRep := ifelse(gmcsDriver == "LandR", paste("noLandRCS", Replicates, sep = "_"),
-                                     Replicates)]
-  runFiles[, filename := paste(studyArea, GCM, SSP, gmcsDriverRep, sep = "_")]
-  runFiles[, fileLocation := file.path("outputs/sims", studyArea, GCM, SSP, filename)]
-  runFiles[GCM == "historical", filename := paste(studyArea, "historical", "LandR", Replicates, sep = "_")]
-  runFiles[GCM == "historical", fileLocation := file.path("outputs/sims", studyArea, filename)]
-
+  runFiles <- buildResultsTable(allRunInfo = data.table::fread("ClimateRunInfo.csv"))
   for (i in 1:nrow(runFiles)) {
     fileLoc <- runFiles[i, ]$fileLocation
     runFile <- runFiles[i, ]$filename

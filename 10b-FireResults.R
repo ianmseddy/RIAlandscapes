@@ -6,8 +6,10 @@ library(RColorBrewer)
 library(stringr)
 library(sf)
 library(data.table)
+library(SpaDES)
 library(nngeo) #needed for remove holes
 source("10-functions.R")
+
 resultsTable <- buildResultsTable(allRunInfo = allRunInfo)
 resultsTable[is.na(SSP), SSP := ""]
 resultsTable[GCM == "historical", GCM := "reference"]
@@ -21,7 +23,7 @@ SAshp <- nngeo::st_remove_holes(SAshp)
 
 rm(tempSAR)
 #get rid of NA
-burnSummaries <- Cache(lapply, resultsTable$fileLocation, burnSumFun, rt = resultsTable)
+burnSummaries <- Cache(lapply, resultsTable$fileLocation, burnSumFun, rt = resultsTable, userTags = c("burnSummaries"))
 burnSummaries <- rbindlist(burnSummaries)
 burnSummaries[, SSP := as.character(SSP)]
 
@@ -36,19 +38,25 @@ burnSum[GCM == "reference", runName := "reference"]
 
 meanAAB <- burnSum[, .(meanAAB = mean(AAB)), .(studyArea, runName)]
 refAAB <- meanAAB[runName == "reference", .(studyArea, meanAAB)]
+#what is the mean AAB from 2000-2020, not with sim?
+#
+FirePolys <- file.path("outputs", studyAreas, paste0("fSsimDataPrep_fuelClass_", studyAreas, ".qs"))
+
+qs::qread("outputs/SB/fSsimDataPrep_fuelClass_SB.qs")
+
+
+
 
 setnames(refAAB, "meanAAB", "refAAB")
 meanAAB <- refAAB[meanAAB, on = c("studyArea")]
 meanAAB[, changeAAB := round(c(meanAAB - refAAB)/(refAAB) * 100, digits = 1)]
 setkey(meanAAB, studyArea, runName)
 meanAAB <- meanAAB[!runName == "reference"]
-firePlot <- ggplot(data = meanAAB, aes(y = changeAAB, x= runName)) +
+firePlot <- ggplot(data = meanAAB, aes(y = changeAAB, x = runName, fill = studyArea)) +
   geom_bar(position = position_dodge(), stat = 'identity') +
-  ylab("change in mean annual area burned (%)") +
-  xlab ("GCM and SSP") +
-  facet_wrap(nrow = 3, facets = ~studyArea) +
+  labs(y = "change in MAAB (%) - from reference sim", x = "GCM and SSP", fill = "study area") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-ggsave(firePlot, filename = "outputs/summary figures/changeInAAB.png", device = 'png', dpi = 300)
+ggsave(firePlot, filename = "outputs/summary figures/changeInMAAB.png", device = 'png', dpi = 300)
 # burnSum[, rollMeanAAB := frollmean(AAB, n = 10, fill = NA, align = 'right'), .(studyArea, runName, rep, GCM)]
 # burnSum[, rollMeanFires := frollmean(Nfires, n = 10, fill = NA, align = 'right'), .(studyArea, runName, rep, GCM)]
 
@@ -106,7 +114,7 @@ if (FALSE) {
 RIAmaps <- Cache(MosaicMaps, projectedMaps, userTags = c("MosaicMaps"))
 RIAmaps <- raster::stack(RIAmaps)
 if (FALSE) {
-  raster::writeRaster(RIAmaps, filename = "outputs/summary rasters/RIA_cumulativeBurnMap.grd")
+  raster::writeRaster(RIAmaps, filename = "outputs/summary rasters/RIA_cumulativeBurnMap.grd", overwrite = TRUE)
 }
 temp <- RIAmaps
 temp[temp[] == 0] <- NA

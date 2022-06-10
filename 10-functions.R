@@ -143,7 +143,7 @@ makeMeanBiomassRasters <- function(rt, year = 2101, studyAreaReporting) {
     BiomassMaps <- lapply(BiomassRasters, readRDS)
     BiomassMap <- raster::stack(BiomassMaps)
     BiomassMap <- raster::mean(BiomassMap)
-    BiomassMap <- postProcess(BiomassMap, studyArea = sa)
+    BiomassMap <- mask(BiomassMap, studyArea = sa)
     BiomassMap <- BiomassMap/100 #convert to Mg/ha
 
     return(BiomassMap)
